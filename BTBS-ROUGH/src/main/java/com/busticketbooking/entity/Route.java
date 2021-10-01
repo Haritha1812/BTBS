@@ -12,26 +12,24 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name="route_master")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Route {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,9 +49,17 @@ public class Route {
 	
 
 	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "route", orphanRemoval = true,cascade = CascadeType.ALL)
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	private Set<Bus> bus;
-	
+     @JsonIgnore
+	 @OneToMany(mappedBy = "route",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+     @OnDelete(action = OnDeleteAction.CASCADE)
+	 private Set<Bus> bus;
+
+
+
+	@Override
+	public String toString() {
+		return "Route [routeId=" + routeId + ", fromLocation=" + fromLocation + ", toLocation=" + toLocation
+				+ ", routeName=" + routeName + ", distance=" + distance + "]";
+	}
+	 
 }

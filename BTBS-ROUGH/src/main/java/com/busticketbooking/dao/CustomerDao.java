@@ -22,4 +22,7 @@ public boolean isCustomerExists(Long id);
 	public Customer getCustomerByMobileNumber(String mobileNumber);
 	
 	public Customer getCustomerById(Long id);
+
+	public Customer getCustomerByEmailAndPassword(String email,String password);
+	public Customer forgetPassword(String email);
 }

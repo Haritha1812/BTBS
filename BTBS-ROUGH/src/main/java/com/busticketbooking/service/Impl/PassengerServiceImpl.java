@@ -1,10 +1,11 @@
-package com.busticketbooking.serviceImpl;
+package com.busticketbooking.service.Impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.CustomerDao;
 import com.busticketbooking.dao.PassengerDao;
 import com.busticketbooking.dto.PassengerDto;
@@ -14,8 +15,8 @@ import com.busticketbooking.entity.Passenger;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.PassengerService;
-import com.busticketbooking.util.BusMapper;
-import com.busticketbooking.util.PassengerMapper;
+import com.busticketbooking.util.mapper.BusMapper;
+import com.busticketbooking.util.mapper.PassengerMapper;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
@@ -25,6 +26,8 @@ public class PassengerServiceImpl implements PassengerService {
 
 	@Autowired
 	CustomerDao customerDao;
+	@Autowired
+	BusDao busDao;
 	
 
 	/*
@@ -89,5 +92,21 @@ public class PassengerServiceImpl implements PassengerService {
 		if((passengerDao.getAllPassenger()).size()!=0)
 		return passengerDao.getAllPassenger();
 		throw new NullPointerException("No Passenger Data available");
+	}
+
+
+	@Override
+	public List<Passenger> getPassengerByBusIdAndCusId(Long busid, Long cusid) {
+	        Bus bus = busDao.getBusById(busid);
+	        Customer customer = customerDao.getCustomerById(cusid);
+	        return passengerDao.getPassengerByBusIdAndCusId(bus, customer);
+	}
+
+
+	@Override
+	public List<Passenger> getPassengerByCusId(Long cusid) {
+
+		Customer customer = customerDao.getCustomerById(cusid);
+		return passengerDao.getPassengerByCusId(customer);
 	}
 }

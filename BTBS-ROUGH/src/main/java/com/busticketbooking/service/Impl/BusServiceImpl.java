@@ -1,4 +1,4 @@
-package com.busticketbooking.serviceImpl;
+package com.busticketbooking.service.Impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +18,8 @@ import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BusService;
-import com.busticketbooking.util.BusMapper;
-import com.busticketbooking.util.RouteMapper;
+import com.busticketbooking.util.mapper.BusMapper;
+import com.busticketbooking.util.mapper.RouteMapper;
 
 @Service
 public class BusServiceImpl implements BusService {
@@ -53,7 +53,7 @@ public class BusServiceImpl implements BusService {
 	@Override
 	public String addBus(BusDto busDto) {
 		Bus bus = BusMapper.dtoToEntity(busDto);
-Route route = routeDao.getRouteById(bus.getRoute().getRouteId());
+        Route route = routeDao.getRouteById(bus.getRoute().getRouteId());
 		System.out.println("bus service called....");
 		bus.setRoute(route);
 		return busDao.addBus(bus);
@@ -89,6 +89,12 @@ Route route = routeDao.getRouteById(bus.getRoute().getRouteId());
 		System.out.println(route);
 		return busDao.getBusByFromAndToLocation(route,date);
 	
+	}
+
+	@Override
+	public Bus getBusByBusName(String busName) {
+		
+		return busDao.getBusByBusName(busName);
 	}
 
 	

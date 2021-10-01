@@ -1,4 +1,4 @@
-package com.busticketbooking.serviceImpl;
+package com.busticketbooking.service.Impl;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.RouteService;
-import com.busticketbooking.util.RouteMapper;
+import com.busticketbooking.util.mapper.RouteMapper;
 @Service
 public class RouteServiceImpl implements RouteService{
 @Autowired

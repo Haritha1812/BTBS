@@ -25,4 +25,6 @@ public Bus getBusById(Long busId) throws IdNotFoundException;
 	public String updateBus(BusDto busDto)throws IdNotFoundException;
 	
 	public List<Bus> getBusByFromAndToLocation(String fromlocation,String ToLocation,Date date)throws NullPointerException;
+
+    public Bus getBusByBusName(String busName);
 }

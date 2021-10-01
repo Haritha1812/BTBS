@@ -1,4 +1,4 @@
-package com.busticketbooking.Impl;
+package com.busticketbooking.dao.Impl;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.RouteDao;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
@@ -20,6 +21,8 @@ public class RouteDaoImpl implements RouteDao{
 	String result = null;
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private BusDao busDao;
 	@Override
 	public Route getRouteById(Long routeId) {
 		Session session=sessionFactory.getCurrentSession();
@@ -52,16 +55,19 @@ public class RouteDaoImpl implements RouteDao{
 		Session session=sessionFactory.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		
-		Route routeObj;
-		routeObj=session.get(Route.class, id);
-		if(routeObj!=null) {
-			session.delete(routeObj);
-			
-			
+    @SuppressWarnings("unchecked")
+	Query<Route> query = session.createQuery("DELETE FROM Route b where b.routeId=?1 ");
+	query.setParameter(1, id);
+	 
+	int res = query.executeUpdate();
+	transaction.commit();
+	System.out.println(res);
+	if (res == 0) {
+		result="Deletion is not successful for id: "+id;
+		} else {
 			result="Deletion is successful for id: "+id;
 		}
-		transaction.commit();
-		return result;
+	return result;
 	
 	}
 	
@@ -80,12 +86,12 @@ public class RouteDaoImpl implements RouteDao{
 	public String updateRoute(Route route) {
         System.out.println("Updating.");
 
-        Session session=sessionFactory.getCurrentSession();
+        Session session=sessionFactory.openSession();
         Transaction transaction = session.beginTransaction(); 
         session.update(route);
         transaction.commit();
         Long rId = route.getRouteId();
- 
+    
         return route.getRouteName()+" Updated successfully with Route Id: " + rId ;
 	}
 

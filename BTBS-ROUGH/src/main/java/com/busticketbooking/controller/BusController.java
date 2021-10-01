@@ -3,6 +3,8 @@ package com.busticketbooking.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -25,24 +27,32 @@ import com.busticketbooking.entity.Bus;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BusService;
 
-@CrossOrigin(origins = "http://localhost:62918")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("bus")
 public class BusController {
 
+	private static final Logger logger = LogManager.getLogger(BusController.class.getName());
 	@Autowired
 	BusService busService;
 
 	@GetMapping("/{busId}")
-	public ResponseEntity<Bus> getBusById(@PathVariable Long busId) throws IdNotFoundException {
+	public ResponseEntity<Bus> getbyid(@PathVariable Long busId) throws IdNotFoundException {
 
 		return new ResponseEntity<>(busService.getBusById(busId), HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/name/{busName}")
+	public ResponseEntity<Bus> getbyname(@PathVariable String busName) throws IdNotFoundException {
+
+		return new ResponseEntity<>(busService.getBusByBusName(busName), HttpStatus.OK);
+
+	}
 
 	@PutMapping
-	public ResponseEntity<String> updateBus(@RequestBody BusDto busDto) throws IdNotFoundException {
+	public ResponseEntity<String> update(@RequestBody BusDto busDto) throws IdNotFoundException {
 		ResponseEntity<String> responseEntity = null;
 
 		responseEntity = new ResponseEntity<String>(busService.updateBus(busDto), HttpStatus.OK);
@@ -51,26 +61,26 @@ public class BusController {
 	}
 
 	@PostMapping
-	public ResponseEntity<String> addBus(@RequestBody BusDto busDto) throws IdNotFoundException {
+	public ResponseEntity<String> add(@RequestBody BusDto busDto) throws IdNotFoundException {
 		ResponseEntity<String> responseEntity = null;
-System.out.println("bus controller called....");
+        System.out.println("bus controller called....");
 		responseEntity = new ResponseEntity<String>(busService.addBus(busDto), HttpStatus.OK);
 		return responseEntity;
 
 	}
 	@DeleteMapping("/deletebus/{id}")
-	public ResponseEntity<String> deleteBusById(@PathVariable Long id) throws IdNotFoundException {
+	public ResponseEntity<String> delete(@PathVariable Long id) throws IdNotFoundException {
 		return new ResponseEntity<>(busService.deleteBus(id), new HttpHeaders(), HttpStatus.OK);
 
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Bus>> getAllBuses() {
+	public ResponseEntity<List<Bus>> getall() {
 		return new ResponseEntity<>(busService.getAllBuses(), HttpStatus.OK);
 	}
 
 	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}")
-	public ResponseEntity<List<Bus>> getBusDetails(@PathVariable("fromLocation") String fromLocation,
+	public ResponseEntity<List<Bus>> getdetails(@PathVariable("fromLocation") String fromLocation,
 			@PathVariable("toLocation") String toLocation,
 			@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) throws NullPointerException {
              System.out.println("search called...");

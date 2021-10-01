@@ -3,6 +3,8 @@ package com.busticketbooking.dao;
 import java.util.List;
 
 import com.busticketbooking.dto.PassengerDto;
+import com.busticketbooking.entity.Bus;
+import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
 
 public interface PassengerDao {
@@ -10,6 +12,8 @@ public interface PassengerDao {
 	public String deletePassenger(Long id);
 	public boolean isPassengerExists(Long id);
 	public List<Passenger> getAllPassenger();
+	public List<Passenger> getPassengerByCusId(Customer customer);
+	public List<Passenger> getPassengerByBusIdAndCusId(Bus bus,Customer customer);
 	/*
 	 * public boolean isPassengerExists(Long id);
 	 * 

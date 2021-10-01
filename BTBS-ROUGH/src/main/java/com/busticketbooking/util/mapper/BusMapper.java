@@ -1,10 +1,12 @@
-package com.busticketbooking.util;
+package com.busticketbooking.util.mapper;
 
 import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.entity.Bus;
 
 public class BusMapper {
-	
+	private BusMapper() {
+		
+	}
 	public static Bus dtoToEntity(BusDto b) {
 		
 		Bus bus = new Bus();

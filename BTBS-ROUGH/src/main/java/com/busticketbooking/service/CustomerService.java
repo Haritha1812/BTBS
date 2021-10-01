@@ -20,9 +20,12 @@ public interface CustomerService {
 	
 	public String updateCustomer(CustomerDto dto)throws IdNotFoundException;
 	
-	public Customer isCustomerEmailExists(String email) throws DuplicateEmailException;
+	public Customer isCustomerEmailExists(String email);
 	
-	public Customer getCustomerByMobileNumber(String mobileNumber)throws IdNotFoundException;
+	public Customer getCustomerByMobileNumber(String mobileNumber);
+	public Customer getCustomerByEmailAndPassword(String email,String password);
 
 	public Customer getCustomerById(Long id)throws IdNotFoundException;
+	
+	public Customer forgetPassword(String email);
 }

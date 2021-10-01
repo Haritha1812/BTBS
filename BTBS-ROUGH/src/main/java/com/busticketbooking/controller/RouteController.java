@@ -26,7 +26,7 @@ import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BusService;
 import com.busticketbooking.service.RouteService;
 
-@CrossOrigin(origins = "http://localhost:62918")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("route")
@@ -34,39 +34,39 @@ public class RouteController {
 	@Autowired
 	RouteService routeService;
 	@GetMapping("/{routeId}")
-		public ResponseEntity<Route> getRouteById(@PathVariable Long routeId){
+		public ResponseEntity<Route> getid(@PathVariable Long routeId){
 		 return new ResponseEntity<>(routeService.getRouteById(routeId), HttpStatus.OK); 
 		}
 
 	@GetMapping("/routeName/{routeName}")
-	public ResponseEntity<Route> getRouteByRouteName(@PathVariable String routeName){
+	public ResponseEntity<Route> getroutename(@PathVariable String routeName){
 	 return new ResponseEntity<>(routeService.getRouteByName(routeName), HttpStatus.OK); 
 	}
 
 	@PutMapping
-	public ResponseEntity<String> updateRoute(@RequestBody RouteDto routeDto) {
+	public ResponseEntity<String> update(@RequestBody RouteDto routeDto) {
 		System.out.println(routeDto);
 			return	new ResponseEntity<>(routeService.updateRoute(routeDto), new HttpHeaders(), HttpStatus.OK);	
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> addRoute(@RequestBody RouteDto routeDto) {
+	public ResponseEntity<String> add(@RequestBody RouteDto routeDto) {
 		return new ResponseEntity<String>(routeService.addRoute(routeDto), HttpStatus.OK);	
 	}
 
 	@DeleteMapping("/deleteroute/{id}")
-	public ResponseEntity<String> deleteRouteById(@PathVariable Long id){
+	public ResponseEntity<String> delete(@PathVariable Long id){
 		System.out.println("delete called......."+id);
 		MailSend.sendMail("harithaprabha18@gmail.com", "hello", "how are you");
 	return	new ResponseEntity<>(routeService.deleteRoute(id), new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Route>> getAllRoutes() {
+	public ResponseEntity<List<Route>> getall() {
 		 return new ResponseEntity<>(routeService.getAllRoutes(), HttpStatus.OK); 
 	}
 	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}")
-	public ResponseEntity<Route> getBusDetails(@PathVariable("fromLocation") String fromLocation,
+	public ResponseEntity<Route> getdetails(@PathVariable("fromLocation") String fromLocation,
 			@PathVariable("toLocation") String toLocation
 			) throws NullPointerException {
 

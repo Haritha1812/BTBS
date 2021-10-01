@@ -28,7 +28,7 @@ import com.busticketbooking.service.CustomerService;
 import com.busticketbooking.service.PassengerService;
 
 
-@CrossOrigin(origins = "http://localhost:62918")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("Customer")
@@ -38,34 +38,47 @@ public class CustomerController   {
 	
 	@Autowired
 	PassengerService passengerService;
-	
+	@GetMapping("/{id}")
+	public ResponseEntity<Customer> getid(@PathVariable("id") Long id){
+		return new ResponseEntity<Customer>(customerService.getCustomerById(id),HttpStatus.OK);
+		 }
 	@GetMapping("/email/{email}")
-	public ResponseEntity<Customer> getCustomertByEmail(@PathVariable("email") String email)throws DuplicateEmailException{
+	public ResponseEntity<Customer> getemail(@PathVariable("email") String email){
 		return new ResponseEntity<Customer>(customerService.isCustomerEmailExists(email),HttpStatus.OK); 	
+	}
+	@GetMapping("/forget/{email}")
+	public ResponseEntity<Customer> forgetpassword(@PathVariable("email") String email){
+		return new ResponseEntity<>(customerService.forgetPassword(email),HttpStatus.OK); 	
 	}
 	
 	@GetMapping("/mobno/{mobileNumber}")
-	public ResponseEntity<Customer> forgetPassword(@PathVariable("mobileNumber") String mobileNumber)throws IdNotFoundException{
+	public ResponseEntity<Customer> forget(@PathVariable("mobileNumber") String mobileNumber){
 		return new ResponseEntity<Customer>(customerService.getCustomerByMobileNumber(mobileNumber),HttpStatus.OK);
+		 }	
+	@GetMapping("/login/{email}/{password}")
+	public ResponseEntity<Customer> login(@PathVariable("email") String email ,@PathVariable("password") String password){
+		return new ResponseEntity<Customer>(customerService.getCustomerByEmailAndPassword(email,password),HttpStatus.OK);
 		 }
 	
 	@PostMapping
-	public ResponseEntity<String> addCustomer(@RequestBody CustomerDto customerDto) {
+	public ResponseEntity<String> add(@RequestBody CustomerDto customerDto) {
 		return new ResponseEntity<String>(customerService.addCustomer(customerDto), HttpStatus.OK);
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> updateCustomer(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
+	public ResponseEntity<String> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
 		return	new ResponseEntity<>(customerService.updateCustomer(customerDto), new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deletecus/{id}")
-	public ResponseEntity<String> deleteCustomer(@PathVariable Long id)throws IdNotFoundException{	
+	public ResponseEntity<String> delete(@PathVariable Long id)throws IdNotFoundException{	
+
+		MailSend.sendMail("harithaprabha18@gmail.com", "hello", "how are you");
 		return	new ResponseEntity<>(customerService.deleteCustomer(id), new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Customer>> getAllCustomer() throws NullPointerException {	 
+	public ResponseEntity<List<Customer>> getall() throws NullPointerException {	 
 		 return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK); 
 	}
 	

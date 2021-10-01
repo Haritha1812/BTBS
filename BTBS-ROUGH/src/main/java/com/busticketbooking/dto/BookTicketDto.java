@@ -1,5 +1,6 @@
 package com.busticketbooking.dto;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,28 +16,25 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.busticketbooking.entity.Bus;
+import com.busticketbooking.entity.Customer;
+import com.busticketbooking.entity.Route;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookTicketDto {
-/*id
-+Arrival Station}
-+Departure Station
-+Date
-+BusType
-+RouteId
-+Seatno
-+Fare
-+PassengerId
-+BusId
-*
-*/
+
 
 	private long id;
-	private long arrivalLocation;
-	private long departureLocation;
+	private long billAmount;
+	private String bookingStatus;
 	private Date bookingDate;
-	private int NumberOfSeats;
+	private long numberOfTickets;
 	private Bus bus;
+	private Customer customer;
 
 }

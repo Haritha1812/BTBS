@@ -1,4 +1,4 @@
-package com.busticketbooking.util;
+package com.busticketbooking.util.mapper;
 
 import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.dto.RouteDto;
@@ -16,6 +16,7 @@ public static Passenger dtoToEntity(PassengerDto p) {
 		passenger.setGender(p.getGender());
 		passenger.setSeatNumber(p.getSeatNumber());
 		passenger.setCustomer(p.getCustomer());
+		passenger.setBus(p.getBus());
 		return passenger;
 		
 	}

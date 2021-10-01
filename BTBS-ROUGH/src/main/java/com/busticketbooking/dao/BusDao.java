@@ -18,7 +18,12 @@ public interface BusDao {
 	
 	public String deleteBus(Long id);
 	
+	public String deleteBusByRouteId(Route route);
+	
+	
 	public String updateBus(Bus bus);
 	
 	public List<Bus> getBusByFromAndToLocation(Route route,Date date);
+	
+	public Bus getBusByBusName(String busName);
 }

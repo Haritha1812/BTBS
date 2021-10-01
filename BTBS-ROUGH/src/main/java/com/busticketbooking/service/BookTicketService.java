@@ -3,6 +3,7 @@ package com.busticketbooking.service;
 import java.util.Date;
 import java.util.List;
 
+import com.busticketbooking.dto.BookTicketDto;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 
@@ -12,15 +13,18 @@ public interface BookTicketService {
 	
 	public boolean isTicketIdExists(Long id);
 	
-	public boolean isSeatNoExists(long seatNo);
 	
 	public List<BookTicket> getAllTickets();
 	
 	public String deleteTicket(Long id);
 	
-	public String addTicket(Long id);
+	public String addTicket(BookTicketDto bookTicketDto);
 	
-	public Bus getTicketByBusId(long busId);
+	public String updateBookingStatus(long id,long customerId,long busId);
+	
+	public List<BookTicket> getTicketByCusId(long id);
 	
 	public Bus getTicketByCustomerId(long customerId);
+	
+	
 }

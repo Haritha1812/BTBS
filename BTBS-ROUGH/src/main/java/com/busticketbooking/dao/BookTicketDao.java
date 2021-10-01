@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
+import com.busticketbooking.entity.Customer;
 
 public interface BookTicketDao {
 	public BookTicket getTicketById(Long id);
@@ -16,7 +17,9 @@ public interface BookTicketDao {
 	
 	public String addTicket(BookTicket bookTicket);
 
-	public List<Bus> getTicketByBusId(long busId);
+	public List<BookTicket> getTicketByCusId(Customer customer);
 	
 	public Bus getTicketByCustomerId(long customerId);
+
+	public String updateBookingStatus(long id,Bus bus,Customer customer);
 }

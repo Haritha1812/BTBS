@@ -22,7 +22,7 @@ import com.busticketbooking.entity.Passenger;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.PassengerService;
 
-@CrossOrigin(origins = "http://localhost:62918")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("Passenger")
@@ -34,23 +34,32 @@ public class PassengerController {
 	PassengerService passengerService;
 	
 	@PostMapping()
-	public ResponseEntity<String> addPassenger(@RequestBody PassengerDto passengerDto) {
+	public ResponseEntity<String> add(@RequestBody PassengerDto passengerDto) {
 		
 		return new ResponseEntity<String>(passengerService.addPassenger(passengerDto), HttpStatus.OK);
 		
 	}
 	
 	@DeleteMapping("/deletepass/{id}")
-	public ResponseEntity<String> deletePassenger(@PathVariable Long id){
+	public ResponseEntity<String> delete(@PathVariable Long id){
 		return	new ResponseEntity<>(passengerService.deletePassenger(id), new HttpHeaders(), HttpStatus.OK);
 	
 	}
 	@GetMapping
-	public ResponseEntity<List<Passenger>> getAllPassenger() {
+	public ResponseEntity<List<Passenger>> getall() {
 		 
 		 return new ResponseEntity<>(passengerService.getAllPassenger(), HttpStatus.OK); 
 	}
-
+	@GetMapping("/details/{busid}/{cusid}")
+	public ResponseEntity<List<Passenger>> getbybusandcusid(@PathVariable Long busid,@PathVariable Long cusid) {
+		 
+		 return new ResponseEntity<>(passengerService.getPassengerByBusIdAndCusId(busid,cusid), HttpStatus.OK); 
+	}
+	@GetMapping("/cus/{cusid}")
+	public ResponseEntity<List<Passenger>> getbcusid(@PathVariable Long cusid) {
+		 
+		 return new ResponseEntity<>(passengerService.getPassengerByCusId(cusid), HttpStatus.OK); 
+	}
 	@ExceptionHandler(IdNotFoundException.class)
 	public ResponseEntity<String> userNotFound(IdNotFoundException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

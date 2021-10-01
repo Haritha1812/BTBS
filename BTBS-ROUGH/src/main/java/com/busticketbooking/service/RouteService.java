@@ -11,7 +11,7 @@ public interface RouteService {
 
 	public boolean isRouteExists(Long routeId);
 
-	public List<Route> getAllRoutes() throws NullPointerException;
+	public List<Route> getAllRoutes() ;
 
 	public String deleteRoute(Long id)throws IdNotFoundException;
 

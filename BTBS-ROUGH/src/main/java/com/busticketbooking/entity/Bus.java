@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -24,9 +25,12 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 
@@ -38,7 +42,8 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "bus_master")
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Bus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,7 +63,6 @@ public class Bus {
 	
 
 	@Basic
-	@Temporal(TemporalType.DATE)
 	@Column(name="busjourney_date",nullable=false,length=30)
 	private Date date;
 	
@@ -75,9 +79,22 @@ public class Bus {
 	private LocalTime  departureTime;
 
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne()
  	@JoinColumn(name="route_id" , foreignKey = @ForeignKey(name ="FK_BUS_ROUTEID"))
     private Route route;
+
+	
+
+     @JsonIgnore
+	 @OneToMany(mappedBy = "bus",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+     @OnDelete(action = OnDeleteAction.CASCADE)
+	 private List<Seat> seat;
+
+	@Override
+	public String toString() {
+		return "Bus [id=" + id + ", name=" + name + ", busType=" + busType + ", numberOfSeats=" + numberOfSeats
+				+ ", routeName=" + routeName + ", date=" + date + ", fare=" + fare + ", arrivalTime=" + arrivalTime
+				+ ", departureTime=" + departureTime + "]";
+	}
 	
 }
