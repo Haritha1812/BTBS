@@ -109,12 +109,14 @@ public class BookTicketDaoImpl implements BookTicketDao{
 	@Transactional
 	@Override
 	public List<BookTicket> getTicketByCusId(Customer customer) {
+		List<BookTicket> bookTicket =null;
 		try {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "select i from BookTicket i WHERE i.customer=?1";
 
 		Query<BookTicket> query = session.createQuery(hql);
 		query.setParameter(1, customer);
+		
 		return (query.getResultList().isEmpty()?null:query.getResultList());
 	}catch (Exception e) {
 		throw new DatabaseException(ERROR_IN_FETCH);
@@ -144,30 +146,7 @@ public class BookTicketDaoImpl implements BookTicketDao{
 		q.setParameter(3,"Confirmed");
 		int status=q.executeUpdate(); 
 	
-		String email = customer.getEmail();
-		String name = customer.getName();
 		
-		  String message = "Mrs./Mr. " + name +
-		  ", \n Your Booking for HMS Travels on "+bus.getDate()+"is approved " +
-		  "\n Booking Details:- "+
-		  "\n Booking Id: "
-		  + bookTicket.getId() +
-		  "\n Bus Name  : " + bus.getName()+
-
-		  "\n Bus Type  : " + bus.getBusType()+
-		  "\n Arrival Station  : " + bus.getRoute().getFromLocation()+
-		  "\n Departure Station  : " + bus.getRoute().getToLocation()+
-		  "\n Arrival time  : " + bus.getArrivalTime()+
-
-		  "\n Departure time  : " + bus.getDepartureTime()+
-		  "\n Number Of Tickets " +bookTicket.getNumberOfTickets() +
-		  "\n Total Bill Amount: " +bookTicket.getBillAmount()+
-		  "\n For more details download invoice from your account"+
-		  "\n Thanks for your Booking.Continue your journey with us"
-		 ;
-		  System.out.println(email);
-		  
-		  MailSend.sendMail(email, "Account Created Successfully", message);
 		 
 		 return id+" Updated successfully with bus Id: " + bus.getId() ;
 		
