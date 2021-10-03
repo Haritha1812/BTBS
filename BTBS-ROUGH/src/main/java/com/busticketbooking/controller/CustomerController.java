@@ -2,6 +2,8 @@ package com.busticketbooking.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.dto.PassengerDto;
+import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
-
+import com.busticketbooking.exception.BusinessLogicException;
+import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.exception.DuplicateEmailException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.exception.ResourceNotFoundException;
+import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.CustomerService;
 import com.busticketbooking.service.PassengerService;
 
@@ -33,70 +38,162 @@ import com.busticketbooking.service.PassengerService;
 @RestController
 @RequestMapping("Customer")
 public class CustomerController   {
+
+	private static final Logger logger = LogManager.getLogger(CustomerController.class.getName());
 	@Autowired
 	CustomerService customerService;
 	
 	@Autowired
 	PassengerService passengerService;
+	
+	String message;
+	
+	/**
+	 * Get customer by id
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getid(@PathVariable("id") Long id){
-		return new ResponseEntity<Customer>(customerService.getCustomerById(id),HttpStatus.OK);
+	
+	public ResponseEntity<HttpResponseStatus> getid(@PathVariable("id") Long id){
+		 logger.info("Entering Get Customer By Id function");
+		 try {      Customer customer=   customerService.getCustomerById(id);
+				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
 		 }
+	catch(BusinessLogicException e) {
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+	}
+	}
+	/**
+	 * getting customer by id
+	 * @param email
+	 * @return
+	 */
 	@GetMapping("/email/{email}")
-	public ResponseEntity<Customer> getemail(@PathVariable("email") String email){
-		return new ResponseEntity<Customer>(customerService.isCustomerEmailExists(email),HttpStatus.OK); 	
-	}
+	public ResponseEntity<HttpResponseStatus> getemail(@PathVariable("email") String email){
+		 logger.info("Entering Get Customer By Email function");
+		 try {      Customer customer=   customerService.isCustomerEmailExists(email);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	/**
+	 * getting customer by email for sending mail 
+	 * @param email
+	 * @return
+	 */
 	@GetMapping("/forget/{email}")
-	public ResponseEntity<Customer> forgetpassword(@PathVariable("email") String email){
-		return new ResponseEntity<>(customerService.forgetPassword(email),HttpStatus.OK); 	
-	}
-	
+	public ResponseEntity<HttpResponseStatus> forgetpassword(@PathVariable("email") String email){
+		 logger.info("Entering Get Customer By email function");
+		 try {      Customer customer=   customerService.forgetPassword(email);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	/**
+	 * Getting customer by mobile number to check whether the mobile already exists
+	 * @param mobileNumber
+	 * @return
+	 */
 	@GetMapping("/mobno/{mobileNumber}")
-	public ResponseEntity<Customer> forget(@PathVariable("mobileNumber") String mobileNumber){
-		return new ResponseEntity<Customer>(customerService.getCustomerByMobileNumber(mobileNumber),HttpStatus.OK);
-		 }	
+	public ResponseEntity<HttpResponseStatus> forget(@PathVariable("mobileNumber") String mobileNumber){
+		 logger.info("Entering Get Customer By Mobilenumber function");
+		try {     
+			 Customer customer=   customerService.getCustomerByMobileNumber(mobileNumber);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	/**
+	 * getting customer by email and password for login function
+	 * @param email
+	 * @param password
+	 * @return
+	 */
 	@GetMapping("/login/{email}/{password}")
-	public ResponseEntity<Customer> login(@PathVariable("email") String email ,@PathVariable("password") String password){
-		return new ResponseEntity<Customer>(customerService.getCustomerByEmailAndPassword(email,password),HttpStatus.OK);
-		 }
-	
+	public ResponseEntity<HttpResponseStatus> login(@PathVariable("email") String email ,@PathVariable("password") String password){
+		 logger.info("Entering Customer Bus By email and password function");
+		 try {      Customer customer=   customerService.getCustomerByEmailAndPassword(email,password);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	/**
+	 * adding customer
+	 * @param customerDto
+	 * @return
+	 */
 	@PostMapping
-	public ResponseEntity<String> add(@RequestBody CustomerDto customerDto) {
-		return new ResponseEntity<String>(customerService.addCustomer(customerDto), HttpStatus.OK);
-	}
+	public ResponseEntity<HttpResponseStatus> add(@RequestBody CustomerDto customerDto) {
+		 logger.info("Entering Add Customer  function");
+	 try {    message= customerService.addCustomer(customerDto);
 	
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+} catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	/**
+	 * to update customer 
+	 * @param customerDto
+	 * @return
+	 */
 	@PutMapping
-	public ResponseEntity<String> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
-		return	new ResponseEntity<>(customerService.updateCustomer(customerDto), new HttpHeaders(), HttpStatus.OK);
-	}
-	
+	public ResponseEntity<HttpResponseStatus> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
+		 logger.info("Entering Update Customer function"); 
+		try {     customerService.updateCustomer(customerDto);
+			
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
+	/**
+	 * delete customer by id
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/deletecus/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id)throws IdNotFoundException{	
+	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id){	
+		 logger.info("Entering Delete Customer By id function");
+		 try {    message= customerService.deleteCustomer(id);
+			
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
 
-		MailSend.sendMail("harithaprabha18@gmail.com", "hello", "how are you");
-		return	new ResponseEntity<>(customerService.deleteCustomer(id), new HttpHeaders(), HttpStatus.OK);
-	}
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
 	
+	/**
+	 * get all customers
+	 * @return
+	 */
 	@GetMapping
-	public ResponseEntity<List<Customer>> getall() throws NullPointerException {	 
-		 return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK); 
-	}
-	
-	
-	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<String> userNotFound(IdNotFoundException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	}
-	
-	
-	
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<String> userNotFound(NullPointerException e) {
-		return new ResponseEntity<>("No Customer Data found", HttpStatus.NOT_FOUND);
-	}
+	public ResponseEntity<HttpResponseStatus> getall()  {	
+		 logger.info("Entering Get Customers function");
+		 try {      List<Customer> customer=   customerService.getAllCustomer();
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
 
-	@ExceptionHandler(DuplicateEmailException.class)
-	public ResponseEntity<String> duplicateIdFound(DuplicateEmailException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+
 }

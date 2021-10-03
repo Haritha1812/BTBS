@@ -1,8 +1,6 @@
 package com.busticketbooking.dao.Impl;
 
-import static com.busticketbooking.util.LibraryManagementConstants.ERROR_IN_DELETE;
-import static com.busticketbooking.util.LibraryManagementConstants.ERROR_IN_FETCH;
-import static com.busticketbooking.util.LibraryManagementConstants.ERROR_IN_INSERT;
+import static com.busticketbooking.util.BusTicketBookingConstants.*;
 
 import java.util.List;
 
@@ -41,13 +39,14 @@ public class PassengerDaoImpl implements PassengerDao {
 	@Transactional
 	@Override
 	public String addPassenger(Passenger passenger) {
+		logger.info("Entering Add Passenger Function");
+		
 		try {
-			Session session = sessionFactory.openSession();
-			Transaction transaction = session.beginTransaction();
+			Session session = sessionFactory.getCurrentSession();
 			session.save(passenger);
-			transaction.commit();
+		   System.out.println(passenger);
 			result = "Passenger with Passenger number " + passenger.getId() + " added successfully";
-			session.close();
+			
 			return result;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_INSERT);
@@ -65,39 +64,40 @@ public class PassengerDaoImpl implements PassengerDao {
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
+
 	@Transactional
 	@Override
 	public List<Passenger> getAllPassenger() {
 		try {
-		Session session = sessionFactory.openSession();
+			Session session = sessionFactory.openSession();
 
-		@SuppressWarnings("unchecked")
-		String hql = "FROM com.busticketbooking.entity.Passenger";
-		Query<Passenger> query = session.createQuery(hql);
+			@SuppressWarnings("unchecked")
+			String hql = "FROM com.busticketbooking.entity.Passenger";
+			Query<Passenger> query = session.createQuery(hql);
 
-		return (query.getResultList().isEmpty() ? null : query.getResultList());
-	}catch (Exception e) {
-		throw new DatabaseException(ERROR_IN_FETCH);
+			return (query.getResultList().isEmpty() ? null : query.getResultList());
+		} catch (Exception e) {
+			throw new DatabaseException(ERROR_IN_FETCH);
+		}
 	}
-}
+
 	@Transactional
 	@Override
 	public String deletePassenger(Long id) {
 		try {
-		Session session = sessionFactory.openSession();
-		Passenger passenger;
-		passenger = session.get(Passenger.class, id);
-		if (passenger != null) {
-			session.delete(passenger);
-
-			session.flush();
-			result = "Deletion is successful for id: " + id;
+			Session session = sessionFactory.openSession();
+			Passenger passenger;
+			passenger = session.get(Passenger.class, id);
+			if (passenger != null) {
+				session.delete(passenger);
+                 
+				session.flush();
+				result = "Deletion is successful for id: " + id;
+			}
+			return result;
+		} catch (Exception e) {
+			throw new DatabaseException(ERROR_IN_DELETE);
 		}
-		session.close();
-		return result;
-	}catch (Exception e) {
-		throw new DatabaseException(ERROR_IN_DELETE);
-	}
 
 	}
 
@@ -105,29 +105,31 @@ public class PassengerDaoImpl implements PassengerDao {
 	@Override
 	public List<Passenger> getPassengerByBusIdAndCusId(Bus bus, Customer customer) {
 		try {
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Passenger> resultList = session.createQuery("select i from Passenger i where i.bus=?1 AND i.customer=?2")
-				.setParameter(1, bus).setParameter(2, customer).getResultList();
-		System.out.println(resultList);
-		return (resultList.isEmpty() ? null : resultList);
-	}catch (Exception e) {
-		throw new DatabaseException(ERROR_IN_FETCH);
-	}}
-	
+			Session session = sessionFactory.getCurrentSession();
+			@SuppressWarnings("unchecked")
+			List<Passenger> resultList = session
+					.createQuery("select i from Passenger i where i.bus=:id AND i.customer=:customer").setParameter("id", bus)
+					.setParameter("customer", customer).getResultList();
+			System.out.println(resultList);
+			return (resultList.isEmpty() ? null : resultList);
+		} catch (Exception e) {
+			throw new DatabaseException(ERROR_IN_FETCH);
+		}
+	}
+
 	@Transactional
 	@Override
 	public List<Passenger> getPassengerByCusId(Customer customer) {
 		try {
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Passenger> resultList = session.createQuery("select i from Passenger i where i.customer=?1")
-				.setParameter(1, customer).getResultList();
-		System.out.println(resultList);
-		return (resultList.isEmpty() ? null : resultList);
-	}
-		catch (Exception e) {
+			Session session = sessionFactory.getCurrentSession();
+			@SuppressWarnings("unchecked")
+			List<Passenger> resultList = session.createQuery("select i from Passenger i where i.customer=:cus")
+					.setParameter("cus", customer).getResultList();
+			System.out.println(resultList);
+			return (resultList.isEmpty() ? null : resultList);
+		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);
-		}}
+		}
+	}
 
 }

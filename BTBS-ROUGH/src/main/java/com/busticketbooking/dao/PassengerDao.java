@@ -8,25 +8,41 @@ import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
 
 public interface PassengerDao {
-	public  String addPassenger(Passenger passenger);
-	public String deletePassenger(Long id);
-	public boolean isPassengerExists(Long id);
-	public List<Passenger> getAllPassenger();
-	public List<Passenger> getPassengerByCusId(Customer customer);
-	public List<Passenger> getPassengerByBusIdAndCusId(Bus bus,Customer customer);
-	/*
-	 * public boolean isPassengerExists(Long id);
-	 * 
-	 * public List<Passenger> getAllPassenger();
-	 * 
-	 * public String deletePassenger(Long id);
-	 * 
-	 * 
-	 * 
-	 * public String updatePassenger(Passenger passenger);
-	 * 
-	 * public Passenger isPassengerEmailExists(String email);
-	 * 
-	 * public Passenger getPassengerByMobileNumber(String mobileNumber);
+	/**
+	 * add passenger
+	 * @param passenger
+	 * @return
 	 */
+	public  String addPassenger(Passenger passenger);
+	/**
+	 * delete passenger
+	 * @param id
+	 * @return
+	 */
+	public String deletePassenger(Long id);
+	/**
+	 * check if passenger exists
+	 * @param id
+	 * @return
+	 */
+	public boolean isPassengerExists(Long id);
+	/**
+	 * get all passenger
+	 * @return
+	 */
+	public List<Passenger> getAllPassenger();
+	/**
+	 * get passenger by customer id
+	 * @param customer
+	 * @return
+	 */
+	public List<Passenger> getPassengerByCusId(Customer customer);
+	/**
+	 * get all passenger by customer and bus id
+	 * @param bus
+	 * @param customer
+	 * @return
+	 */
+	public List<Passenger> getPassengerByBusIdAndCusId(Bus bus,Customer customer);
+	
 }

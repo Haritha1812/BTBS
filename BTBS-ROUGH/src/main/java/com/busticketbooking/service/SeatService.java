@@ -6,18 +6,19 @@ import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.dto.SeatDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Seat;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 
 public interface SeatService {
 	public String addSeat(SeatDto SeatDto);
 
-	public Seat getSeatById(Long id)throws IdNotFoundException;
+	public Seat getSeatById(Long id);
 
 	public Seat getSeatByName(String seatName);
 	
 	public  List<Seat>  getSeatByStatus(String seatStatus);
 	
-	public String updateSeat(SeatDto SeatDto)throws IdNotFoundException;
+	public String updateSeat(SeatDto SeatDto);
 	
 	public boolean isSeatExists(long seatId);
 	

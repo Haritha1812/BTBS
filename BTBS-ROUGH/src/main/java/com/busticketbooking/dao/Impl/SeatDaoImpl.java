@@ -16,28 +16,29 @@ import com.busticketbooking.entity.Seat;
 
 @Repository
 public class SeatDaoImpl implements SeatDao {
-	String result=null;
+	String result = null;
 
 	@Autowired
 	private SessionFactory sessionFactory;
+
 	@Override
 	public String addSeat(Seat seat) {
 		System.out.println("SeatDao called");
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		session.save(seat);
 		transaction.commit();
-		result ="Seat with Seat number "+seat.getId()+" added successfully";
-     	session.close();
+		result = "Seat with Seat number " + seat.getId() + " added successfully";
+		session.close();
 		return result;
 	}
 
 	@Override
 	public Seat getSeatById(Long id) {
-		Session session=sessionFactory.getCurrentSession();
-		
+		Session session = sessionFactory.getCurrentSession();
+
 		return session.get(Seat.class, id);
-}
+	}
 
 	@Override
 	public Seat getSeatByName(String seatName) {
@@ -46,7 +47,7 @@ public class SeatDaoImpl implements SeatDao {
 
 		Query<Seat> query = session.createQuery(hql);
 		query.setParameter("seat", seatName);
-		
+
 		for (Seat seat : query.list()) {
 
 			System.out.println(seat);
@@ -60,30 +61,30 @@ public class SeatDaoImpl implements SeatDao {
 	public List<Seat> getSeatByStatus(String seatStatus) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Seat> resultList = session.createQuery("select i from Seat i where i.seatStatus=?1")
-				.setParameter(1, seatStatus).getResultList();
+		List<Seat> resultList = session.createQuery("select i from Seat i where i.seatStatus=:status")
+				.setParameter("status", seatStatus).getResultList();
 		System.out.println(resultList);
 		return (resultList.isEmpty() ? null : resultList);
-		
+
 	}
 
 	@Override
 	public String updateSeat(Seat seat) {
-		 System.out.println("updateSeat.. ");
+		System.out.println("updateSeat.. ");
 
-	        Session session=sessionFactory.openSession();
-	        Transaction transaction = session.beginTransaction(); 
-	        session.update(seat);
-	        transaction.commit();
-	        Long sId = seat.getId();
-	    
-	        return seat.getSeatName()+" Updated successfully with  Id: " + sId ;
-		}
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.update(seat);
+		transaction.commit();
+		Long sId = seat.getId();
+
+		return seat.getSeatName() + " Updated successfully with  Id: " + sId;
+	}
 
 	@Override
 	public boolean isSeatExists(long seatId) {
-		Session session=sessionFactory.getCurrentSession();
-	      Seat seat = session.get(Seat.class, seatId);
+		Session session = sessionFactory.getCurrentSession();
+		Seat seat = session.get(Seat.class, seatId);
 		return (seat != null);
 	}
 
@@ -91,8 +92,8 @@ public class SeatDaoImpl implements SeatDao {
 	public List<Seat> getSeatByBusId(Bus bus) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Seat> resultList = session.createQuery("select i from Seat i where i.bus=?1")
-				.setParameter(1, bus).getResultList();
+		List<Seat> resultList = session.createQuery("select i from Seat i where i.bus=:bus").setParameter("bus", bus)
+				.getResultList();
 		System.out.println(resultList);
 		return (resultList.isEmpty() ? null : resultList);
 	}
@@ -100,40 +101,36 @@ public class SeatDaoImpl implements SeatDao {
 	@Override
 	public String updateStatus(String seatName, Bus bus) {
 		Session session = sessionFactory.getCurrentSession();
-		
 
-        Transaction transaction = session.beginTransaction(); 
-		Query q=session.createQuery("update Seat set seatStatus=?3 where bus=?1 AND seatName=?2");  
-		q.setParameter(2,seatName);  
-		q.setParameter(1,bus);  
-		q.setParameter(3,"No");
-		int status=q.executeUpdate(); 
+		Transaction transaction = session.beginTransaction();
+		Query q = session.createQuery("update Seat set seatStatus=:status where bus=:bus AND seatName=:name");
+		q.setParameter("name", seatName);
+		q.setParameter("bus", bus);
+		q.setParameter("status", "No");
+		int status = q.executeUpdate();
 		transaction.commit();
-		 return seatName+" Updated successfully with bus Id: " + bus.getId() ;
-		
+		return seatName + " Updated successfully with bus Id: " + bus.getId();
+
 	}
 
 	@Override
 	public String deleteSeatByBusId(Bus bus) {
-		Session session=sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		
-    @SuppressWarnings("unchecked")
-	Query<Route> query = session.createQuery("DELETE FROM Seat b where b.bus=?1 ");
-	query.setParameter(1, bus);
-	 
-	int res = query.executeUpdate();
-	transaction.commit();
-	System.out.println(res);
-	if(res==0) {
-		result="Deletion is not successful for id: "+bus.getId();
-	}
-	else {
-		result="Deletion is successful for id: "+bus.getId();
-	}
-	return result;
-	
-	}
-	}
 
+		@SuppressWarnings("unchecked")
+		Query<Route> query = session.createQuery("DELETE FROM Seat b where b.bus=:bus ");
+		query.setParameter("bus", bus);
 
+		int res = query.executeUpdate();
+		transaction.commit();
+		System.out.println(res);
+		if (res == 0) {
+			result = "Deletion is not successful for id: " + bus.getId();
+		} else {
+			result = "Deletion is successful for id: " + bus.getId();
+		}
+		return result;
+
+	}
+}
