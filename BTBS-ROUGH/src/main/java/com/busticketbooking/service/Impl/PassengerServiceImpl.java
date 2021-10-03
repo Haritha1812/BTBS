@@ -13,6 +13,7 @@ import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
 import com.busticketbooking.entity.Route;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.PassengerService;
 import com.busticketbooking.util.mapper.BusMapper;
@@ -67,7 +68,10 @@ public class PassengerServiceImpl implements PassengerService {
 	      
 		 Passenger passenger = PassengerMapper.dtoToEntity(dto); 
 		 Customer customer = customerDao.getCustomerById(passenger.getCustomer().getId());
+		 Bus bus = busDao.getBusById(passenger.getBus().getId());
+		 passenger.setBus(bus);
 		 passenger.setCustomer(customer);
+		 System.out.println(passenger);
          return passengerDao.addPassenger(passenger);
 
 }
@@ -77,7 +81,7 @@ public class PassengerServiceImpl implements PassengerService {
 	public String deletePassenger(Long id) {
 		if(passengerDao.isPassengerExists(id))
 		return passengerDao.deletePassenger(id); 
-		throw new IdNotFoundException("Passenger with Passenger Id:"+id+" Not Found!");
+		throw new BusinessLogicException("Passenger with Passenger Id:"+id+" Not Found!");
 	}
 
 
@@ -91,7 +95,7 @@ public class PassengerServiceImpl implements PassengerService {
 	public List<Passenger> getAllPassenger() {
 		if((passengerDao.getAllPassenger()).size()!=0)
 		return passengerDao.getAllPassenger();
-		throw new NullPointerException("No Passenger Data available");
+		throw new BusinessLogicException("No Passenger Data available");
 	}
 
 

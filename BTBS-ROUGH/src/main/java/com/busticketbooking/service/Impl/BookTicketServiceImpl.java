@@ -13,6 +13,7 @@ import com.busticketbooking.dto.BookTicketDto;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BookTicketService;
 import com.busticketbooking.util.mapper.BookTicketMapper;
@@ -35,7 +36,7 @@ public class BookTicketServiceImpl implements BookTicketService {
 		if (bookTicketDao.isTicketIdExists(id)) {
 			return bookTicketDao.getTicketById(id);
 		} else {
-			throw new IdNotFoundException("Ticket with ticket Id : " + id + " Not found");
+			throw new BusinessLogicException("Ticket with ticket Id : " + id + " Not found");
 		}
 	}
 

@@ -3,6 +3,8 @@ package com.busticketbooking.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busticketbooking.dto.RouteDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
+import com.busticketbooking.exception.BusinessLogicException;
+import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.exception.IdNotFoundException;
+import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.BusService;
 import com.busticketbooking.service.RouteService;
 
@@ -31,56 +36,105 @@ import com.busticketbooking.service.RouteService;
 @RestController
 @RequestMapping("route")
 public class RouteController {
+
+	private static final Logger logger = LogManager.getLogger(RouteController.class.getName());
+	
 	@Autowired
 	RouteService routeService;
+	
+	String message;
 	@GetMapping("/{routeId}")
-		public ResponseEntity<Route> getid(@PathVariable Long routeId){
-		 return new ResponseEntity<>(routeService.getRouteById(routeId), HttpStatus.OK); 
-		}
+		public ResponseEntity<HttpResponseStatus> getid(@PathVariable Long routeId){
+		
+		 try {      
+			 Route route = routeService.getRouteById(routeId);
+				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",route),HttpStatus.OK);
 
+			} catch(BusinessLogicException e) {
+				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+			}
+			}
 	@GetMapping("/routeName/{routeName}")
-	public ResponseEntity<Route> getroutename(@PathVariable String routeName){
-	 return new ResponseEntity<>(routeService.getRouteByName(routeName), HttpStatus.OK); 
-	}
+	public ResponseEntity<HttpResponseStatus> getroutename(@PathVariable String routeName){
+	 
+	 try {      
+		 Route route =routeService.getRouteByName(routeName);
+		
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",route),HttpStatus.OK);
 
+	} catch(BusinessLogicException e) {
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+	}
+	}
 	@PutMapping
-	public ResponseEntity<String> update(@RequestBody RouteDto routeDto) {
-		System.out.println(routeDto);
-			return	new ResponseEntity<>(routeService.updateRoute(routeDto), new HttpHeaders(), HttpStatus.OK);	
+	public ResponseEntity<HttpResponseStatus> update(@RequestBody RouteDto routeDto) {
+		
+	 try {    
+		 message = routeService.updateRoute(routeDto);
+		
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+	} catch(BusinessLogicException e) {
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+	}
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> add(@RequestBody RouteDto routeDto) {
-		return new ResponseEntity<String>(routeService.addRoute(routeDto), HttpStatus.OK);	
-	}
+	public ResponseEntity<HttpResponseStatus> add(@RequestBody RouteDto routeDto) {
+	 try {      message = routeService.addRoute(routeDto);
+	
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+} catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
 
 	@DeleteMapping("/deleteroute/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id){
-		System.out.println("delete called......."+id);
-		MailSend.sendMail("harithaprabha18@gmail.com", "hello", "how are you");
-	return	new ResponseEntity<>(routeService.deleteRoute(id), new HttpHeaders(), HttpStatus.OK);
-	}
+	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id){
+		 try {      message = routeService.deleteRoute(id);
+			
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
 	
 	@GetMapping
-	public ResponseEntity<List<Route>> getall() {
-		 return new ResponseEntity<>(routeService.getAllRoutes(), HttpStatus.OK); 
-	}
+	public ResponseEntity<HttpResponseStatus> getall() {
+		try {
+		List<Route> routes=routeService.getAllRoutes();
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",routes),HttpStatus.OK);
+
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
+
 	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}")
-	public ResponseEntity<Route> getdetails(@PathVariable("fromLocation") String fromLocation,
+	public ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation") String fromLocation,
 			@PathVariable("toLocation") String toLocation
-			) throws NullPointerException {
+			) {
+try {
+	Route routes=routeService.getRouteByFromAndToLocation(fromLocation, toLocation);
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",routes),HttpStatus.OK);
 
-		return new ResponseEntity<Route>(routeService.getRouteByFromAndToLocation(fromLocation, toLocation),HttpStatus.OK);
+} catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	
+	// EXCEPTION HANDLER FOR BUSSINESSLOGICEXCEPTION.
+	@ExceptionHandler(BusinessLogicException.class)
+	public ResponseEntity<HttpResponseStatus> bussinessException (BusinessLogicException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+		
+	// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<HttpResponseStatus> dataBaseException (DatabaseException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
+	}
 
-	}
-	
-	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<String> userNotFound(IdNotFoundException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	}
-	
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<String> userNotFound(NullPointerException e) {
-		return new ResponseEntity<>("No Customer Data found", HttpStatus.NOT_FOUND);
-	}
 }

@@ -19,54 +19,99 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
+import com.busticketbooking.exception.BusinessLogicException;
+import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.exception.IdNotFoundException;
+import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.PassengerService;
+
+import static com.busticketbooking.util.BusTicketBookingConstants.RETRIVE;;
 
 @CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("Passenger")
 public class PassengerController {
-
-	
+	String message;
 
 	@Autowired
 	PassengerService passengerService;
-	
+
 	@PostMapping()
-	public ResponseEntity<String> add(@RequestBody PassengerDto passengerDto) {
-		
-		return new ResponseEntity<String>(passengerService.addPassenger(passengerDto), HttpStatus.OK);
-		
-	}
-	
-	@DeleteMapping("/deletepass/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id){
-		return	new ResponseEntity<>(passengerService.deletePassenger(id), new HttpHeaders(), HttpStatus.OK);
-	
-	}
-	@GetMapping
-	public ResponseEntity<List<Passenger>> getall() {
-		 
-		 return new ResponseEntity<>(passengerService.getAllPassenger(), HttpStatus.OK); 
-	}
-	@GetMapping("/details/{busid}/{cusid}")
-	public ResponseEntity<List<Passenger>> getbybusandcusid(@PathVariable Long busid,@PathVariable Long cusid) {
-		 
-		 return new ResponseEntity<>(passengerService.getPassengerByBusIdAndCusId(busid,cusid), HttpStatus.OK); 
-	}
-	@GetMapping("/cus/{cusid}")
-	public ResponseEntity<List<Passenger>> getbcusid(@PathVariable Long cusid) {
-		 
-		 return new ResponseEntity<>(passengerService.getPassengerByCusId(cusid), HttpStatus.OK); 
-	}
-	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<String> userNotFound(IdNotFoundException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+	public ResponseEntity<HttpResponseStatus> add(@RequestBody PassengerDto passengerDto) {
+
+		try {
+			System.out.println(passengerDto);
+			message = passengerService.addPassenger(passengerDto);
+
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(), message),
+					HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
 	}
 
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<String> userNotFound(NullPointerException e) {
-		return new ResponseEntity<>("No Passenger Data found", HttpStatus.NOT_FOUND);
-}
+	@DeleteMapping("/deletepass/{id}")
+	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id) {
+		try {
+			message = passengerService.deletePassenger(id);
+
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(), message),
+					HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Passenger>> getall() {
+
+		return new ResponseEntity<>(passengerService.getAllPassenger(), HttpStatus.OK);
+	}
+
+	@GetMapping("/details/{busid}/{cusid}")
+	public ResponseEntity<HttpResponseStatus> getbybusandcusid(@PathVariable Long busid, @PathVariable Long cusid) {
+
+		try {
+			List<Passenger> passengers = passengerService.getPassengerByBusIdAndCusId(busid, cusid);
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.OK.value(), RETRIVE, passengers), HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("/cus/{cusid}")
+	public ResponseEntity<HttpResponseStatus> getbcusid(@PathVariable Long cusid) {
+
+		try {
+			List<Passenger> passengers = passengerService.getPassengerByCusId(cusid);
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.OK.value(), RETRIVE, passengers), HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	// EXCEPTION HANDLER FOR BUSSINESSLOGICEXCEPTION.
+	@ExceptionHandler(BusinessLogicException.class)
+	public ResponseEntity<HttpResponseStatus> bussinessException(BusinessLogicException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<HttpResponseStatus> dataBaseException(DatabaseException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
 }

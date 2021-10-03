@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.dto.PassengerDto;
+import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
-
+import com.busticketbooking.exception.BusinessLogicException;
+import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.exception.DuplicateEmailException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.exception.ResourceNotFoundException;
+import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.CustomerService;
 import com.busticketbooking.service.PassengerService;
 
@@ -38,65 +41,119 @@ public class CustomerController   {
 	
 	@Autowired
 	PassengerService passengerService;
+	
+	String message;
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getid(@PathVariable("id") Long id){
-		return new ResponseEntity<Customer>(customerService.getCustomerById(id),HttpStatus.OK);
+	public ResponseEntity<HttpResponseStatus> getid(@PathVariable("id") Long id){
+		
+		 try {      Customer customer=   customerService.getCustomerById(id);
+				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
 		 }
+	catch(BusinessLogicException e) {
+		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+	}
+	}
 	@GetMapping("/email/{email}")
-	public ResponseEntity<Customer> getemail(@PathVariable("email") String email){
-		return new ResponseEntity<Customer>(customerService.isCustomerEmailExists(email),HttpStatus.OK); 	
-	}
+	public ResponseEntity<HttpResponseStatus> getemail(@PathVariable("email") String email){
+		
+		 try {      Customer customer=   customerService.isCustomerEmailExists(email);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	
 	@GetMapping("/forget/{email}")
-	public ResponseEntity<Customer> forgetpassword(@PathVariable("email") String email){
-		return new ResponseEntity<>(customerService.forgetPassword(email),HttpStatus.OK); 	
-	}
+	public ResponseEntity<HttpResponseStatus> forgetpassword(@PathVariable("email") String email){
+	
+		 try {      Customer customer=   customerService.forgetPassword(email);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
 	
 	@GetMapping("/mobno/{mobileNumber}")
-	public ResponseEntity<Customer> forget(@PathVariable("mobileNumber") String mobileNumber){
-		return new ResponseEntity<Customer>(customerService.getCustomerByMobileNumber(mobileNumber),HttpStatus.OK);
-		 }	
+	public ResponseEntity<HttpResponseStatus> forget(@PathVariable("mobileNumber") String mobileNumber){
+		 try {      Customer customer=   customerService.getCustomerByMobileNumber(mobileNumber);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	
 	@GetMapping("/login/{email}/{password}")
-	public ResponseEntity<Customer> login(@PathVariable("email") String email ,@PathVariable("password") String password){
-		return new ResponseEntity<Customer>(customerService.getCustomerByEmailAndPassword(email,password),HttpStatus.OK);
-		 }
+	public ResponseEntity<HttpResponseStatus> login(@PathVariable("email") String email ,@PathVariable("password") String password){
+	
+		 try {      Customer customer=   customerService.getCustomerByEmailAndPassword(email,password);
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
+
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
 	
 	@PostMapping
-	public ResponseEntity<String> add(@RequestBody CustomerDto customerDto) {
-		return new ResponseEntity<String>(customerService.addCustomer(customerDto), HttpStatus.OK);
-	}
+	public ResponseEntity<HttpResponseStatus> add(@RequestBody CustomerDto customerDto) {
+	 try {    message= customerService.addCustomer(customerDto);
+	
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+} catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
 	
 	@PutMapping
-	public ResponseEntity<String> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
-		return	new ResponseEntity<>(customerService.updateCustomer(customerDto), new HttpHeaders(), HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/deletecus/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id)throws IdNotFoundException{	
+	public ResponseEntity<HttpResponseStatus> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException{
+		 try {     customerService.updateCustomer(customerDto);
+			
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
 
-		MailSend.sendMail("harithaprabha18@gmail.com", "hello", "how are you");
-		return	new ResponseEntity<>(customerService.deleteCustomer(id), new HttpHeaders(), HttpStatus.OK);
-	}
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
+	@DeleteMapping("/deletecus/{id}")
+	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id)throws IdNotFoundException{	
+
+		 try {    message= customerService.deleteCustomer(id);
+			
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
+
+		} catch(BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+		}
 	
 	@GetMapping
-	public ResponseEntity<List<Customer>> getall() throws NullPointerException {	 
-		 return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK); 
-	}
-	
-	
-	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<String> userNotFound(IdNotFoundException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	}
-	
-	
-	
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<String> userNotFound(NullPointerException e) {
-		return new ResponseEntity<>("No Customer Data found", HttpStatus.NOT_FOUND);
-	}
+	public ResponseEntity<HttpResponseStatus> getall() throws NullPointerException {	 
+		 try {      List<Customer> customer=   customerService.getAllCustomer();
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",customer),HttpStatus.OK);
 
-	@ExceptionHandler(DuplicateEmailException.class)
-	public ResponseEntity<String> duplicateIdFound(DuplicateEmailException e) {
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	}
+	 }
+catch(BusinessLogicException e) {
+	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+}
+}
+	        // EXCEPTION HANDLER FOR BUSSINESSLOGICEXCEPTION.
+			@ExceptionHandler(BusinessLogicException.class)
+			public ResponseEntity<HttpResponseStatus> bussinessException (BusinessLogicException e) {
+				return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
+			}
+				
+			// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
+			@ExceptionHandler(DatabaseException.class)
+			public ResponseEntity<HttpResponseStatus> dataBaseException (DatabaseException e) {
+				return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
+			}
+
 }

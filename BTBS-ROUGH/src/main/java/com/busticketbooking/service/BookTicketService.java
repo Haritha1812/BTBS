@@ -6,10 +6,11 @@ import java.util.List;
 import com.busticketbooking.dto.BookTicketDto;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
+import com.busticketbooking.exception.BusinessLogicException;
 
 public interface BookTicketService {
 
-	public BookTicket getTicketById(Long id);
+	public BookTicket getTicketById(Long id) throws BusinessLogicException;
 	
 	public boolean isTicketIdExists(Long id);
 	

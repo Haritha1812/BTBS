@@ -16,6 +16,7 @@ import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.dto.RouteDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BusService;
 import com.busticketbooking.util.mapper.BusMapper;
@@ -32,15 +33,17 @@ public class BusServiceImpl implements BusService {
 
 	@Override
 	public Bus getBusById(Long busId) {
+		
 		if (busDao.isBusExists(busId)) {
 			return busDao.getBusById(busId);
 		} else {
-			throw new IdNotFoundException("Bus with bus Id : " + busId + " Not found");
+			throw new BusinessLogicException("Bus with bus Id : " + busId + " Not found");
 		}
 	}
 
 	@Override
 	public boolean isBusExists(Long busId) {
+		
 		return busDao.isBusExists(busId);
 	}
 
@@ -54,7 +57,7 @@ public class BusServiceImpl implements BusService {
 	public String addBus(BusDto busDto) {
 		Bus bus = BusMapper.dtoToEntity(busDto);
         Route route = routeDao.getRouteById(bus.getRoute().getRouteId());
-		System.out.println("bus service called....");
+	
 		bus.setRoute(route);
 		return busDao.addBus(bus);
 	}
@@ -64,7 +67,7 @@ public class BusServiceImpl implements BusService {
 		if (busDao.isBusExists(id))
 			return busDao.deleteBus(id);
 		else
-			throw new IdNotFoundException("Bus with bus Id : " + id + " Not found");
+			throw new BusinessLogicException("Bus with bus Id : " + id + " Not found");
 
 	}
 
@@ -77,7 +80,7 @@ public class BusServiceImpl implements BusService {
 			bus.setRoute(route);
 			return busDao.updateBus(bus);
 		} else {
-			throw new IdNotFoundException("Bus with bus Id : " + busId + " Not found");
+			throw new BusinessLogicException("Bus with bus Id : " + busId + " Not found");
 		}
 	}
 

@@ -9,6 +9,7 @@ import com.busticketbooking.controller.MailSend;
 import com.busticketbooking.dao.CustomerDao;
 import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.entity.Customer;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DuplicateEmailException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.CustomerService;
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> getAllCustomer() {
 		if((customerDao.getAllCustomer()).size()==0)
-			throw new NullPointerException("No Customer Data available");
+			throw new BusinessLogicException("No Customer Data available");
 		return customerDao.getAllCustomer();
 	}
 
@@ -36,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService{
 	public String deleteCustomer(Long id) {
 		 if(customerDao.isCustomerExists(id)) 
 		return customerDao.deleteCustomer(id);
-				throw new IdNotFoundException("Customer with Customer Id:"+id+" Not Found!");
+				throw new BusinessLogicException("Customer with Customer Id:"+id+" Not Found!");
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService{
 		  long id = customer.getId();
 		  if(customerDao.isCustomerExists(id))
 			  return customerDao.updateCustomer(customer);
-					throw new IdNotFoundException("Customer with Customer Id:"+id+" Not Found!");
+					throw new BusinessLogicException("Customer with Customer Id:"+id+" Not Found!");
 		 
 	}
 
@@ -70,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer getCustomerByMobileNumber(String mobileNumber) {
-//		
+		
 		return customerDao.getCustomerByMobileNumber(mobileNumber);
 	}
 
@@ -79,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService{
 		if(customerDao.isCustomerExists(id))
 		return customerDao.getCustomerById(id);
 	
-			throw new IdNotFoundException("Customer with Customer Id:"+id+" Not Found!");
+			throw new BusinessLogicException("Customer with Customer Id:"+id+" Not Found!");
 }
 
 	@Override

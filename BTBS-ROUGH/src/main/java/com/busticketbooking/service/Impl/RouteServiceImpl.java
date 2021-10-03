@@ -9,6 +9,7 @@ import com.busticketbooking.dao.RouteDao;
 import com.busticketbooking.dto.RouteDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
+import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.RouteService;
 import com.busticketbooking.util.mapper.RouteMapper;
@@ -28,14 +29,14 @@ public class RouteServiceImpl implements RouteService{
 	public List<Route> getAllRoutes() {
 		if((routeDao.getAllRoutes()).size()!=0)
 		return routeDao.getAllRoutes();
-		throw new NullPointerException();
+		throw new BusinessLogicException("No routes found");
 	}
 
 	@Override
 	public String deleteRoute(Long id) {
 		if(routeDao.isRouteExists(id))
 		return routeDao.deleteRoute(id);
-		throw new IdNotFoundException("Route with route Id:"+id+" Not Found");
+		throw new BusinessLogicException("Route with route Id:"+id+" Not Found");
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class RouteServiceImpl implements RouteService{
 	public Route getRouteById(Long routeId) {
 		if(routeDao.isRouteExists(routeId))
 		return routeDao.getRouteById(routeId);
-		throw new IdNotFoundException("Route with route Id:"+routeId+" Not Found");
+		throw new BusinessLogicException("Route with route Id:"+routeId+" Not Found");
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class RouteServiceImpl implements RouteService{
 		long id = routeDto.getRouteId();
 		if(routeDao.isRouteExists(id))
 		return routeDao.updateRoute(route);
-		throw new IdNotFoundException("Route with route Id:"+id+" Not Found");
+		throw new BusinessLogicException("Route with route Id:"+id+" Not Found");
 	}
 
 	@Override
