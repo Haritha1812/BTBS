@@ -19,3 +19,6 @@
 [branch "Btbs-2"]
 	remote = origin
 	merge = refs/heads/Btbs-2
+[branch "Btbs-3"]
+	remote = origin
+	merge = refs/heads/Btbs-3
