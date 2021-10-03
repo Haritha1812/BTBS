@@ -15,9 +15,9 @@ public interface PassengerService {
 
 	
 	public String addPassenger(PassengerDto dto);
-	public String deletePassenger(Long id) throws BusinessLogicException;
+	public String deletePassenger(Long id) ;
 	public boolean isPassengerExists(Long id);
 	public List<Passenger> getPassengerByBusIdAndCusId(Long busid,Long cusid);
 	public List<Passenger> getPassengerByCusId(Long cusid);
-	public List<Passenger> getAllPassenger() throws BusinessLogicException;
+	public List<Passenger> getAllPassenger() ;
 }

@@ -117,10 +117,10 @@ public class BookTicketDaoImpl implements BookTicketDao {
 		List<BookTicket> bookTicket = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "select i from BookTicket i WHERE i.customer=?1";
+			String hql = "select i from BookTicket i WHERE i.customer=:cus";
 
 			Query<BookTicket> query = session.createQuery(hql);
-			query.setParameter(1, customer);
+			query.setParameter("cus", customer);
 
 			return (query.getResultList().isEmpty() ? null : query.getResultList());
 		} catch (Exception e) {
@@ -147,12 +147,12 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			System.out.println(bookTicket);
 
 			Query q = session
-					.createQuery("update BookTicket set bookingStatus=?3 where bus=?1 AND customer=?2 AND id=?4");
+					.createQuery("update BookTicket set bookingStatus=:status where bus=:bus AND customer=:customer AND id=:id");
 
-			q.setParameter(4, id);
-			q.setParameter(2, customer);
-			q.setParameter(1, bus);
-			q.setParameter(3, "Confirmed");
+			q.setParameter("id", id);
+			q.setParameter("customer", customer);
+			q.setParameter("bus", bus);
+			q.setParameter("status", "Confirmed");
 			int status = q.executeUpdate();
 
 			return id + " Updated successfully with bus Id: " + bus.getId();

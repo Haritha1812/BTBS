@@ -12,13 +12,13 @@ import com.busticketbooking.exception.IdNotFoundException;
 public interface SeatService {
 	public String addSeat(SeatDto SeatDto);
 
-	public Seat getSeatById(Long id)throws BusinessLogicException;
+	public Seat getSeatById(Long id);
 
 	public Seat getSeatByName(String seatName);
 	
 	public  List<Seat>  getSeatByStatus(String seatStatus);
 	
-	public String updateSeat(SeatDto SeatDto)throws BusinessLogicException;
+	public String updateSeat(SeatDto SeatDto);
 	
 	public boolean isSeatExists(long seatId);
 	

@@ -116,8 +116,8 @@ private static final Logger logger = LogManager.getLogger(RouteServiceImpl.class
 		try {
 		if(routeDao.getRouteByFromAndToLocation(fromLocation, toLocation)!=null)
 		return routeDao.getRouteByFromAndToLocation(fromLocation, toLocation);
-
 		return null;
+
 	}catch(DatabaseException e) {
 		throw new BusinessLogicException(e.getMessage());
 	}

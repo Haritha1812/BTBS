@@ -75,8 +75,8 @@ public class RouteDaoImpl implements RouteDao {
 			Transaction transaction = session.beginTransaction();
 
 			@SuppressWarnings("unchecked")
-			Query<Route> query = session.createQuery("DELETE FROM Route b where b.routeId=?1 ");
-			query.setParameter(1, id);
+			Query<Route> query = session.createQuery("DELETE FROM Route b where b.routeId=:id ");
+			query.setParameter("id", id);
 
 			int res = query.executeUpdate();
 			transaction.commit();

@@ -105,8 +105,8 @@ public class BusDaoImpl implements BusDao {
 	try {
 		Session session = sessionFactory.openSession();
            session.beginTransaction();
-			Query<Bus> query = session.createQuery("DELETE FROM Bus b where b.id=?1 ");
-			query.setParameter(1, id);
+			Query<Bus> query = session.createQuery("DELETE FROM Bus b where b.id=:id ");
+			query.setParameter("id", id);
 
 			int res = query.executeUpdate();
 		    session.getTransaction().commit();
@@ -146,8 +146,8 @@ public class BusDaoImpl implements BusDao {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			@SuppressWarnings("unchecked")
-			List<Bus> resultList = session.createQuery("select i from Bus i where i.route=?1 and i.date=?2")
-					.setParameter(2, date).setParameter(1, route).getResultList();
+			List<Bus> resultList = session.createQuery("select i from Bus i where i.route=:route and i.date=:date")
+					.setParameter("date", date).setParameter("route", route).getResultList();
 			System.out.println(resultList);
 			return (resultList.isEmpty() ? null : resultList);
 
@@ -161,10 +161,10 @@ public class BusDaoImpl implements BusDao {
 	public Bus getBusByBusName(String busName) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "select i from Bus i WHERE i.name=?1";
+			String hql = "select i from Bus i WHERE i.name=:name";
 
 			Query<Bus> query = session.createQuery(hql);
-			query.setParameter(1, busName);
+			query.setParameter("name", busName);
 
 			return (query.getResultList().isEmpty() ? null : query.getResultList().get(0));
 
@@ -182,8 +182,8 @@ public class BusDaoImpl implements BusDao {
 			Session session = sessionFactory.getCurrentSession();
 
 			@SuppressWarnings("unchecked")
-			Query<Route> query = session.createQuery("DELETE FROM Bus b where b.route=?1 ");
-			query.setParameter(1, route);
+			Query<Route> query = session.createQuery("DELETE FROM Bus b where b.route=:route ");
+			query.setParameter("route", route);
 
 			int res = query.executeUpdate();
 

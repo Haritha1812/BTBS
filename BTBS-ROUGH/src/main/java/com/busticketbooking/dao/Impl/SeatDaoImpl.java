@@ -61,8 +61,8 @@ public class SeatDaoImpl implements SeatDao {
 	public List<Seat> getSeatByStatus(String seatStatus) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Seat> resultList = session.createQuery("select i from Seat i where i.seatStatus=?1")
-				.setParameter(1, seatStatus).getResultList();
+		List<Seat> resultList = session.createQuery("select i from Seat i where i.seatStatus=:status")
+				.setParameter("status", seatStatus).getResultList();
 		System.out.println(resultList);
 		return (resultList.isEmpty() ? null : resultList);
 
@@ -92,7 +92,7 @@ public class SeatDaoImpl implements SeatDao {
 	public List<Seat> getSeatByBusId(Bus bus) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Seat> resultList = session.createQuery("select i from Seat i where i.bus=?1").setParameter(1, bus)
+		List<Seat> resultList = session.createQuery("select i from Seat i where i.bus=:bus").setParameter("bus", bus)
 				.getResultList();
 		System.out.println(resultList);
 		return (resultList.isEmpty() ? null : resultList);
@@ -103,10 +103,10 @@ public class SeatDaoImpl implements SeatDao {
 		Session session = sessionFactory.getCurrentSession();
 
 		Transaction transaction = session.beginTransaction();
-		Query q = session.createQuery("update Seat set seatStatus=?3 where bus=?1 AND seatName=?2");
-		q.setParameter(2, seatName);
-		q.setParameter(1, bus);
-		q.setParameter(3, "No");
+		Query q = session.createQuery("update Seat set seatStatus=:status where bus=:bus AND seatName=:name");
+		q.setParameter("name", seatName);
+		q.setParameter("bus", bus);
+		q.setParameter("status", "No");
 		int status = q.executeUpdate();
 		transaction.commit();
 		return seatName + " Updated successfully with bus Id: " + bus.getId();
@@ -119,8 +119,8 @@ public class SeatDaoImpl implements SeatDao {
 		Transaction transaction = session.beginTransaction();
 
 		@SuppressWarnings("unchecked")
-		Query<Route> query = session.createQuery("DELETE FROM Seat b where b.bus=?1 ");
-		query.setParameter(1, bus);
+		Query<Route> query = session.createQuery("DELETE FROM Seat b where b.bus=:bus ");
+		query.setParameter("bus", bus);
 
 		int res = query.executeUpdate();
 		transaction.commit();

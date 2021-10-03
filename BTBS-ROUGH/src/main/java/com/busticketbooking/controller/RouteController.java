@@ -43,9 +43,14 @@ public class RouteController {
 	RouteService routeService;
 	
 	String message;
+	/**
+	 * get route by id
+	 * @param routeId
+	 * @return
+	 */
 	@GetMapping("/{routeId}")
 		public ResponseEntity<HttpResponseStatus> getid(@PathVariable Long routeId){
-		
+		 logger.info("Entering Get routes by id function");
 		 try {      
 			 Route route = routeService.getRouteById(routeId);
 				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",route),HttpStatus.OK);
@@ -54,9 +59,14 @@ public class RouteController {
 				return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 			}
 			}
+	/**
+	 * get route by name
+	 * @param routeName
+	 * @return
+	 */
 	@GetMapping("/routeName/{routeName}")
 	public ResponseEntity<HttpResponseStatus> getroutename(@PathVariable String routeName){
-	 
+		logger.info("Entering Get routes by name function");
 	 try {      
 		 Route route =routeService.getRouteByName(routeName);
 		
@@ -66,10 +76,15 @@ public class RouteController {
 		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 	}
 	}
+	/**
+	 * updates route
+	 * @param routeDto
+	 * @return
+	 */
 	@PutMapping
 	public ResponseEntity<HttpResponseStatus> update(@RequestBody RouteDto routeDto) {
-		
-	 try {    
+		logger.info("Entering Update route  function");
+	 try {   
 		 message = routeService.updateRoute(routeDto);
 		
 		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
@@ -78,9 +93,14 @@ public class RouteController {
 		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 	}
 	}
-	
+	/**
+	 * add route
+	 * @param routeDto
+	 * @return
+	 */
 	@PostMapping
 	public ResponseEntity<HttpResponseStatus> add(@RequestBody RouteDto routeDto) {
+		logger.info("Entering Add route function");
 	 try {      message = routeService.addRoute(routeDto);
 	
 	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
@@ -89,9 +109,14 @@ public class RouteController {
 	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 }
 }
-
+/**
+ * delete route by id
+ * @param id
+ * @return
+ */
 	@DeleteMapping("/deleteroute/{id}")
 	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id){
+		logger.info("Entering delete route function");
 		 try {      message = routeService.deleteRoute(id);
 			
 			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),message),HttpStatus.OK);
@@ -100,10 +125,14 @@ public class RouteController {
 			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 		}
-	
+	/**
+	 * get all routes
+	 * @return
+	 */
 	@GetMapping
 	public ResponseEntity<HttpResponseStatus> getall() {
 		try {
+			logger.info("Entering Get routes  function");
 		List<Route> routes=routeService.getAllRoutes();
 		return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",routes),HttpStatus.OK);
 
@@ -111,11 +140,17 @@ public class RouteController {
 			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 		}
-
+/**
+ * get details by from and to location
+ * @param fromLocation
+ * @param toLocation
+ * @return
+ */
 	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}")
 	public ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation") String fromLocation,
 			@PathVariable("toLocation") String toLocation
 			) {
+		logger.info("Entering Get routes by from and to location function");
 try {
 	Route routes=routeService.getRouteByFromAndToLocation(fromLocation, toLocation);
 	return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(),"Data retrieved successfully",routes),HttpStatus.OK);
@@ -125,16 +160,5 @@ try {
 }
 }
 	
-	// EXCEPTION HANDLER FOR BUSSINESSLOGICEXCEPTION.
-	@ExceptionHandler(BusinessLogicException.class)
-	public ResponseEntity<HttpResponseStatus> bussinessException (BusinessLogicException e) {
-		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
-	}
-		
-	// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
-	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<HttpResponseStatus> dataBaseException (DatabaseException e) {
-		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
-	}
 
 }

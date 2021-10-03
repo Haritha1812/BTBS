@@ -108,8 +108,8 @@ public class PassengerDaoImpl implements PassengerDao {
 			Session session = sessionFactory.getCurrentSession();
 			@SuppressWarnings("unchecked")
 			List<Passenger> resultList = session
-					.createQuery("select i from Passenger i where i.bus=?1 AND i.customer=?2").setParameter(1, bus)
-					.setParameter(2, customer).getResultList();
+					.createQuery("select i from Passenger i where i.bus=:id AND i.customer=:customer").setParameter("id", bus)
+					.setParameter("customer", customer).getResultList();
 			System.out.println(resultList);
 			return (resultList.isEmpty() ? null : resultList);
 		} catch (Exception e) {
@@ -123,8 +123,8 @@ public class PassengerDaoImpl implements PassengerDao {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			@SuppressWarnings("unchecked")
-			List<Passenger> resultList = session.createQuery("select i from Passenger i where i.customer=?1")
-					.setParameter(1, customer).getResultList();
+			List<Passenger> resultList = session.createQuery("select i from Passenger i where i.customer=:cus")
+					.setParameter("cus", customer).getResultList();
 			System.out.println(resultList);
 			return (resultList.isEmpty() ? null : resultList);
 		} catch (Exception e) {

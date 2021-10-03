@@ -14,15 +14,15 @@ public interface RouteService {
 
 	public List<Route> getAllRoutes() ;
 
-	public String deleteRoute(Long id)throws BusinessLogicException;
+	public String deleteRoute(Long id);
 
 	public String addRoute(RouteDto routeDto);
 
-	public Route getRouteById(Long busId)throws BusinessLogicException;
+	public Route getRouteById(Long busId);
 
 	public Route getRouteByName(String routeName);
 	
-	public String updateRoute(RouteDto routeDto)throws BusinessLogicException;
+	public String updateRoute(RouteDto routeDto);
 	
 	public Route getRouteByFromAndToLocation(String fromLocation,String toLocation);
 }
