@@ -25,7 +25,6 @@ public interface BookTicketService {
 	
 	public List<BookTicket> getTicketByCusId(long id);
 	
-	public Bus getTicketByCustomerId(long customerId);
 	
 	
 }

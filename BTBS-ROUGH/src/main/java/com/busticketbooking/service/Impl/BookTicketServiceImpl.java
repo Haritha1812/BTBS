@@ -2,6 +2,8 @@ package com.busticketbooking.service.Impl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,14 @@ import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.exception.BusinessLogicException;
+import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BookTicketService;
 import com.busticketbooking.util.mapper.BookTicketMapper;
 
 @Service
 public class BookTicketServiceImpl implements BookTicketService {
+	private static final Logger logger = LogManager.getLogger(BookTicketServiceImpl.class.getName());
 
 	@Autowired
 	private BusDao busDao;
@@ -33,21 +37,47 @@ public class BookTicketServiceImpl implements BookTicketService {
 	
 	@Override
 	public BookTicket getTicketById(Long id) {
+		  logger.info("Entering Get Ticket by id function in service layer");
+			
+		try {
 		if (bookTicketDao.isTicketIdExists(id)) {
 			return bookTicketDao.getTicketById(id);
 		} else {
 			throw new BusinessLogicException("Ticket with ticket Id : " + id + " Not found");
 		}
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
+	}
 	}
 
 	@Override
 	public boolean isTicketIdExists(Long id) {
-		return  bookTicketDao.isTicketIdExists(id);
+		
+		try {
+		if(bookTicketDao.isTicketIdExists(id))
+			return bookTicketDao.isTicketIdExists(id);
+		else
+			throw new BusinessLogicException("Ticket with ticket Id : " + id + " Not found");
+		
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
 	}
-
+	}
 	@Override
 	public List<BookTicket> getAllTickets() {
+		  logger.info("Entering Get Tickets function in service layer");
+			
+		try {
+			if(bookTicketDao.getAllTickets()!=null)
+		
 		return bookTicketDao.getAllTickets();
+			else
+				throw new BusinessLogicException("Tickets not found");
+
+				
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
+	}
 	}
 
 	@Override
@@ -58,28 +88,44 @@ public class BookTicketServiceImpl implements BookTicketService {
 
 	@Override
 	public String addTicket(BookTicketDto bookTicketDto) {
+
+		  logger.info("Entering Add Tickets function in service layer");
+		try {
 		BookTicket bookTicket = BookTicketMapper.dtoToEntity(bookTicketDto);
 		Customer customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
 		Bus bus = busDao.getBusById(bookTicket.getBus().getId());
 		bookTicket.setBus(bus);
 		bookTicket.setCustomer(customer);
 		return bookTicketDao.addTicket(bookTicket);
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
+	}
 	}
 
 	@Override
 	public List<BookTicket> getTicketByCusId(long id) {
+
+		  logger.info("Entering Get Tickets by customer id function in service layer");
+		try {
 		Customer customer = customerDao.getCustomerById(id);
+		if(customer!=null)
 		return bookTicketDao.getTicketByCusId(customer);
+		else
+			throw new BusinessLogicException("Tickets not found");
+
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
+	}
 	}
 
-	@Override
-	public Bus getTicketByCustomerId(long customerId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+	
 
 	@Override
 	public String updateBookingStatus(long id,long busId,long customerId ) {
+
+		  logger.info("Entering Update Tickets function in service layer");
+		try {
 		Customer customer = customerDao.getCustomerById(customerId);
 		Bus bus =  busDao.getBusById(busId);
 		String email = customer.getEmail();
@@ -107,6 +153,9 @@ public class BookTicketServiceImpl implements BookTicketService {
 		  
 		  MailSend.sendMail(email, "Account Created Successfully", message);
 		return bookTicketDao.updateBookingStatus(id,bus, customer);
+	}catch(DatabaseException e) {
+		throw new BusinessLogicException(e.getMessage());
+	}
 	}
 
 }
