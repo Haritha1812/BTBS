@@ -2,7 +2,6 @@ package com.busticketbooking.dao;
 
 import java.util.List;
 
-import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;

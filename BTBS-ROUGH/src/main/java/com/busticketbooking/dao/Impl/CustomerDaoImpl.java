@@ -1,33 +1,24 @@
 package com.busticketbooking.dao.Impl;
 
-import static com.busticketbooking.util.BusTicketBookingConstants.*;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_DELETE;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_FETCH;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_INSERT;
 
 import java.util.List;
 
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.busticketbooking.controller.MailSend;
-import com.busticketbooking.dao.CustomerDao;
 import com.busticketbooking.dao.CustomerDao;
 import com.busticketbooking.entity.Customer;
-import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.DuplicateEmailException;
 
 @Repository
 public class CustomerDaoImpl implements CustomerDao {

@@ -1,30 +1,22 @@
 package com.busticketbooking.service.Impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.busticketbooking.controller.BookTicketController;
 import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.RouteDao;
 import com.busticketbooking.dto.BusDto;
-import com.busticketbooking.dto.RouteDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.BusService;
 import com.busticketbooking.util.mapper.BusMapper;
-import com.busticketbooking.util.mapper.RouteMapper;
 
 @Service
 public class BusServiceImpl implements BusService {

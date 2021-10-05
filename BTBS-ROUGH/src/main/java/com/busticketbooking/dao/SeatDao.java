@@ -2,10 +2,8 @@ package com.busticketbooking.dao;
 
 import java.util.List;
 
-import com.busticketbooking.dto.SeatDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Seat;
-import com.busticketbooking.exception.IdNotFoundException;
 
 public interface SeatDao {
 

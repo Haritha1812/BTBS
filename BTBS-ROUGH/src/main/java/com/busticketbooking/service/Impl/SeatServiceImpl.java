@@ -9,17 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.SeatDao;
-import com.busticketbooking.dao.Impl.BusDaoImpl;
-import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.dto.SeatDto;
 import com.busticketbooking.entity.Bus;
-import com.busticketbooking.entity.Route;
 import com.busticketbooking.entity.Seat;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.SeatService;
-import com.busticketbooking.util.mapper.BusMapper;
 import com.busticketbooking.util.mapper.SeatMapper;
 
 @Service

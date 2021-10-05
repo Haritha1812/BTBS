@@ -1,7 +1,5 @@
 package com.busticketbooking.dto;
 
-import javax.persistence.Id;
-
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 

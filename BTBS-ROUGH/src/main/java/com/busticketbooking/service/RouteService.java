@@ -3,10 +3,7 @@ package com.busticketbooking.service;
 import java.util.List;
 
 import com.busticketbooking.dto.RouteDto;
-import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
-import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.IdNotFoundException;
 
 public interface RouteService {
 	/**

@@ -1,7 +1,5 @@
 package com.busticketbooking.dto;
 
-import com.busticketbooking.entity.BookTicket;
-
 import lombok.Data;
 
 @Data

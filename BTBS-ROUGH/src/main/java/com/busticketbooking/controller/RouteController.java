@@ -1,18 +1,14 @@
 package com.busticketbooking.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busticketbooking.dto.RouteDto;
-import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.response.HttpResponseStatus;
-import com.busticketbooking.service.BusService;
 import com.busticketbooking.service.RouteService;
 
 @CrossOrigin(origins = "http://localhost:4200")

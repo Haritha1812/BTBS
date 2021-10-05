@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.entity.Customer;
-import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.DuplicateEmailException;
-import com.busticketbooking.exception.IdNotFoundException;
 
 public interface CustomerService {
 

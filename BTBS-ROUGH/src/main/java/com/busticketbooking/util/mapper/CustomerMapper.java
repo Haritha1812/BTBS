@@ -1,9 +1,7 @@
 package com.busticketbooking.util.mapper;
 
 import com.busticketbooking.dto.CustomerDto;
-import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.entity.Customer;
-import com.busticketbooking.entity.Passenger;
 
 public class CustomerMapper {
 

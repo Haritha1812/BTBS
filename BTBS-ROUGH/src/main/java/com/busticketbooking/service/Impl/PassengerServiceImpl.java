@@ -14,12 +14,9 @@ import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
-import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.PassengerService;
-import com.busticketbooking.util.mapper.BusMapper;
 import com.busticketbooking.util.mapper.PassengerMapper;
 
 @Service

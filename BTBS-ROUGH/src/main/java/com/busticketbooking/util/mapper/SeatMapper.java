@@ -1,8 +1,6 @@
 package com.busticketbooking.util.mapper;
 
-import com.busticketbooking.dto.RouteDto;
 import com.busticketbooking.dto.SeatDto;
-import com.busticketbooking.entity.Route;
 import com.busticketbooking.entity.Seat;
 
 public class SeatMapper {

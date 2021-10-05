@@ -1,6 +1,8 @@
 package com.busticketbooking.dao.Impl;
 
-import static com.busticketbooking.util.BusTicketBookingConstants.*;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_DELETE;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_FETCH;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_INSERT;
 
 import java.util.List;
 
@@ -10,22 +12,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.busticketbooking.dao.PassengerDao;
-import com.busticketbooking.dto.PassengerDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Passenger;
-import com.busticketbooking.entity.Seat;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.DuplicateEmailException;
 
 @Repository
 public class PassengerDaoImpl implements PassengerDao {

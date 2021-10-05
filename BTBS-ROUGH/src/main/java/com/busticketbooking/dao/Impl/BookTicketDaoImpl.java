@@ -1,9 +1,12 @@
 package com.busticketbooking.dao.Impl;
 
-import static com.busticketbooking.util.BusTicketBookingConstants.*;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_DELETE;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_FETCH;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_INSERT;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_UPDATE;
+
 import java.util.List;
 
-import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +18,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.busticketbooking.controller.MailSend;
 import com.busticketbooking.dao.BookTicketDao;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;

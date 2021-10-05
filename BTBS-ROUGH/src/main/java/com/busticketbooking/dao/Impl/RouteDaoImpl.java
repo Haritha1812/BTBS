@@ -1,6 +1,9 @@
 package com.busticketbooking.dao.Impl;
 
-import static com.busticketbooking.util.BusTicketBookingConstants.*;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_DELETE;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_FETCH;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_INSERT;
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_UPDATE;
 
 import java.util.List;
 

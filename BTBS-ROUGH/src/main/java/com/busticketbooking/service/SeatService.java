@@ -2,12 +2,8 @@ package com.busticketbooking.service;
 
 import java.util.List;
 
-import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.dto.SeatDto;
-import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Seat;
-import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.IdNotFoundException;
 
 public interface SeatService {
 	/**

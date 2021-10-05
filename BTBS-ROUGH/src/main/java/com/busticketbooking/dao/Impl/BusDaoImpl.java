@@ -8,22 +8,20 @@ import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_UPDAT
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 
-import org.hibernate.query.Query;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.SeatDao;
 import com.busticketbooking.entity.Bus;
-import com.busticketbooking.entity.Customer;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.DatabaseException;
 

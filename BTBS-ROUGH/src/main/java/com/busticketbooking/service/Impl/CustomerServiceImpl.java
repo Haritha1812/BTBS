@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
-import org.bouncycastle.jcajce.provider.asymmetric.ec.GMSignatureSpi.sha256WithSM2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,6 @@ import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DatabaseException;
-import com.busticketbooking.exception.DuplicateEmailException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.service.CustomerService;
 import com.busticketbooking.util.mapper.CustomerMapper;
 
