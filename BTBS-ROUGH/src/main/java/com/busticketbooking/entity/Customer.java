@@ -38,10 +38,10 @@ public class Customer {
 	@Column(name = "customer_password", nullable = false)
 	private String password;
 
-	@Column(name = "customer_mobileNumber", nullable = false, unique = true)
+	@Column(name = "customer_mobileNumber", nullable = false)
 	private String mobileNumber;
 
-	@Column(name = "customer_email", nullable = false, unique = true)
+	@Column(name = "customer_email", nullable = false,unique = false)
 	private String email;
 
 }

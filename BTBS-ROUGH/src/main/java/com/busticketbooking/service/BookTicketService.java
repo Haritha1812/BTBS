@@ -30,13 +30,6 @@ public interface BookTicketService {
 	 */
 	List<BookTicket> getAllTickets();
 
-	/**
-	 * delete ticket by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	String deleteTicket(Long id);
 
 	/**
 	 * add ticket

@@ -5,6 +5,7 @@ import static com.busticketbooking.util.BusTicketBookingConstants.*;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -137,22 +139,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
-	@Transactional
-	@Override
-	public Customer getCustomerByMobileNumber(String mobileNumber) {
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			String hql = "FROM com.busticketbooking.entity.Customer c WHERE c.mobileNumber = :mobno";
 
-			Query<Customer> query = session.createQuery(hql);
-			query.setParameter("mobno", mobileNumber);
-
-			return (query.getResultList().isEmpty() ? null : query.getResultList().get(0));
-
-		} catch (Exception e) {
-			throw new DatabaseException(ERROR_IN_FETCH);
-		}
-	}
 
 	@Override
 	public Customer getCustomerById(Long id) {
@@ -170,13 +157,13 @@ public class CustomerDaoImpl implements CustomerDao {
 	public Customer getCustomerByEmailAndPassword(String email, String password) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "FROM com.busticketbooking.entity.Customer c WHERE c.email = :email AND c.password = :pass";
+			String hql = "FROM com.busticketbooking.entity.Customer c WHERE c.email=:email";
 
 			Query<Customer> query = session.createQuery(hql);
 			query.setParameter("email", email);
-			query.setParameter("pass", password);
-
-			return (query.getResultList().isEmpty() ? null : query.getResultList().get(0));
+            Customer customer = query.getResultList().get(0);
+            System.out.println(customer);
+			return customer;
 
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);

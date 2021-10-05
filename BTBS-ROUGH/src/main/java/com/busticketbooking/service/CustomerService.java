@@ -57,13 +57,6 @@ public interface CustomerService {
 	 */
 	Customer isCustomerEmailExists(String email);
 
-	/**
-	 * get customer by mobile number
-	 * 
-	 * @param mobileNumber
-	 * @return
-	 */
-	Customer getCustomerByMobileNumber(String mobileNumber);
 
 	/**
 	 * getting customer by email and password for login

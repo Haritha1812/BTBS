@@ -79,23 +79,31 @@ public class BookTicketServiceImpl implements BookTicketService {
 		}
 	}
 
-	@Override
-	public String deleteTicket(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String addTicket(BookTicketDto bookTicketDto) {
 
 		logger.info("Entering Add Tickets function in service layer");
 		try {
+			if(bookTicketDto!=null) {
 			BookTicket bookTicket = BookTicketMapper.dtoToEntity(bookTicketDto);
+			if(bookTicketDto.getCustomer()!=null) {
 			Customer customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
+			if(bookTicketDto.getBus()!=null ) {
 			Bus bus = busDao.getBusById(bookTicket.getBus().getId());
 			bookTicket.setBus(bus);
 			bookTicket.setCustomer(customer);
 			return bookTicketDao.addTicket(bookTicket);
+			}else{
+
+				throw new BusinessLogicException("No bus data found");
+			}}else {
+				throw new BusinessLogicException("No Customer data found");
+			}}else {
+				throw new BusinessLogicException("No bookticket data found");
+			}
+			
+		
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}

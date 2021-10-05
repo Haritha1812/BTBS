@@ -53,13 +53,6 @@ public interface CustomerDao {
 	 */
 	Customer isCustomerEmailExists(String email);
 
-	/**
-	 * get customer by mobile number
-	 * 
-	 * @param mobileNumber
-	 * @return
-	 */
-	Customer getCustomerByMobileNumber(String mobileNumber);
 
 	/**
 	 * get customer by id

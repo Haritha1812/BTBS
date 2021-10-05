@@ -86,12 +86,22 @@ public class BusServiceImpl implements BusService {
 
 		logger.info("Entering Add bus in service layer");
 		try {
+			if(busDto!=null) {
 			Bus bus = BusMapper.dtoToEntity(busDto);
+		if(bus.getRoute()!=null) {
 			Route route = routeDao.getRouteById(bus.getRoute().getRouteId());
 
 			bus.setRoute(route);
 			return busDao.addBus(bus);
-		} catch (DatabaseException e) {
+		}else {
+			throw new BusinessLogicException("No bus data found");	
+		}} else{
+
+			throw new BusinessLogicException("No Route data found");		
+		}
+		}
+		catch (DatabaseException e) {
+		
 			throw new BusinessLogicException(e.getMessage());
 		}
 	}
@@ -116,6 +126,7 @@ public class BusServiceImpl implements BusService {
 
 		logger.info("Entering Update bus in service layer");
 		try {
+			if(busDto!=null) {
 			long busId = busDto.getId();
 			if (busDao.isBusExists(busId)) {
 				Bus bus = BusMapper.dtoToEntity(busDto);
@@ -124,6 +135,10 @@ public class BusServiceImpl implements BusService {
 				return busDao.updateBus(bus);
 			} else {
 				throw new BusinessLogicException("Bus with bus Id : " + busId + " Not found");
+			}}
+			else {
+
+				throw new BusinessLogicException("Bus data Not found");
 			}
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());

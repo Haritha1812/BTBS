@@ -46,20 +46,20 @@ public class Bus {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "bus_name", length = 30)
+	@Column(name = "bus_name", length = 30 ,nullable = false,unique=true)
 	private String name;
 
-	@Column(name = "bus_type", nullable = false, length = 30)
+	@Column(name = "bus_type", nullable = false)
 	private String busType;
 
 	@Column(name = "seats", nullable = false)
 	private int numberOfSeats;
 
-	@Column(name = "route_name", nullable = false, length = 30)
+	@Column(name = "route_name", nullable = false)
 	private String routeName;
 
 	@Basic
-	@Column(name = "busjourney_date", nullable = false, length = 30)
+	@Column(name = "busjourney_date", nullable = false)
 	private Date date;
 
 	@Column(name = "fare", nullable = false)
