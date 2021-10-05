@@ -17,5 +17,5 @@ public class PassengerDto {
 	private String seatNumber;
 	private Customer customer;
 	private Bus bus;
-	
+
 }

@@ -25,17 +25,18 @@ public class BusDto {
 	private String routeName;
 
 	private Route route;
-	
+
 	private Date date;
-	
+
 	private String fromLocation;
-	
+
 	private String toLocation;
-	
+
 	private LocalTime departureTime;
-	
+
 	private LocalTime arrivalTime;
 	private int fare;
+
 	@Override
 	public String toString() {
 		return "BusDto [id=" + id + ", name=" + name + ", busType=" + busType + ", numberOfSeats=" + numberOfSeats

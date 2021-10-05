@@ -80,7 +80,7 @@ public class CustomerDaoImpl implements CustomerDao {
 				session.flush();
 				result = "Deletion is successful for id: " + id;
 			}
-			session.close();
+
 			return result;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_DELETE);
@@ -97,7 +97,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			Session session = sessionFactory.getCurrentSession();
 			session.save(customer);
 			result = "Customer with Customer number " + customer.getId() + " added successfully";
-		
+
 			return result;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_INSERT);
@@ -114,7 +114,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			session.update(customer);
 			session.getTransaction().commit();
 			Long CustomerId = customer.getId();
-     
+
 			return customer.getName() + " Updated successfully with  Id: " + CustomerId;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);
@@ -159,7 +159,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		try {
 
 			Session session = sessionFactory.getCurrentSession();
-	
+
 			return session.get(Customer.class, id);
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);

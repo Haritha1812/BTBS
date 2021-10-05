@@ -13,7 +13,7 @@ public interface BusDao {
 	 * @param busId
 	 * @return
 	 */
-	public Bus getBusById(Long busId);
+	Bus getBusById(Long busId);
 
 	/**
 	 * check whether the bus id exists
@@ -21,14 +21,14 @@ public interface BusDao {
 	 * @param busId
 	 * @return
 	 */
-	public boolean isBusExists(Long busId);
+	boolean isBusExists(Long busId);
 
 	/**
 	 * get all buses
 	 * 
 	 * @return
 	 */
-	public List<Bus> getAllBuses();
+	List<Bus> getAllBuses();
 
 	/**
 	 * adding bus
@@ -36,7 +36,7 @@ public interface BusDao {
 	 * @param bus
 	 * @return
 	 */
-	public String addBus(Bus bus);
+	String addBus(Bus bus);
 
 	/**
 	 * deleting bus
@@ -44,7 +44,7 @@ public interface BusDao {
 	 * @param id
 	 * @return
 	 */
-	public String deleteBus(Long id);
+	String deleteBus(Long id);
 
 	/**
 	 * delete bus by route id
@@ -52,7 +52,7 @@ public interface BusDao {
 	 * @param route
 	 * @return
 	 */
-	public String deleteBusByRouteId(Route route);
+	String deleteBusByRouteId(Route route);
 
 	/**
 	 * updating bus
@@ -60,7 +60,7 @@ public interface BusDao {
 	 * @param bus
 	 * @return
 	 */
-	public String updateBus(Bus bus);
+	String updateBus(Bus bus);
 
 	/**
 	 * get bus by from and to location
@@ -69,7 +69,7 @@ public interface BusDao {
 	 * @param date
 	 * @return
 	 */
-	public List<Bus> getBusByFromAndToLocation(Route route, Date date);
+	List<Bus> getBusByFromAndToLocation(Route route, Date date);
 
 	/**
 	 * get bus by busname
@@ -77,5 +77,5 @@ public interface BusDao {
 	 * @param busName
 	 * @return
 	 */
-	public Bus getBusByBusName(String busName);
+	Bus getBusByBusName(String busName);
 }

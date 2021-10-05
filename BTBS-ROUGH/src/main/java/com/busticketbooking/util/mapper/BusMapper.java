@@ -5,10 +5,11 @@ import com.busticketbooking.entity.Bus;
 
 public class BusMapper {
 	private BusMapper() {
-		
+
 	}
+
 	public static Bus dtoToEntity(BusDto b) {
-		
+
 		Bus bus = new Bus();
 		bus.setId(b.getId());
 		bus.setName(b.getName());
@@ -21,17 +22,8 @@ public class BusMapper {
 		bus.setDepartureTime(b.getDepartureTime());
 		bus.setFare(b.getFare());
 		return bus;
-		
+
 	}
-	
-	public static BusDto entityToDto(Bus b) {
-		
-		BusDto busDto = new BusDto();
-		busDto.setId(b.getId());
-		busDto.setName(b.getName());
-		busDto.setBusType(b.getBusType());
-		busDto.setNumberOfSeats(b.getNumberOfSeats());
-		busDto.setRouteName(b.getRouteName());
-		return busDto;
-	}
+
+
 }

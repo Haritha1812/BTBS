@@ -44,7 +44,7 @@ public class BusDaoImpl implements BusDao {
 	public Bus getBusById(Long busId) {
 
 		logger.info("Entering Get Bus by Id  Function in dao");
-		try { 
+		try {
 			Session session = sessionFactory.getCurrentSession();
 
 			return session.get(Bus.class, busId);
@@ -102,14 +102,14 @@ public class BusDaoImpl implements BusDao {
 	public String deleteBus(Long id) {
 
 		logger.info("Entering Delete bus Function in dao");
-	try {
-		Session session = sessionFactory.openSession();
-           session.beginTransaction();
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
 			Query<Bus> query = session.createQuery("DELETE FROM Bus b where b.id=:id ");
 			query.setParameter("id", id);
 
 			int res = query.executeUpdate();
-		    session.getTransaction().commit();
+			session.getTransaction().commit();
 			System.out.println(res);
 			if (res == 0) {
 				result = "Deletion is not successful for id: " + id;
@@ -120,7 +120,7 @@ public class BusDaoImpl implements BusDao {
 
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_DELETE);
-	}
+		}
 
 	}
 
@@ -133,7 +133,7 @@ public class BusDaoImpl implements BusDao {
 			Transaction transaction = session.beginTransaction();
 			session.update(bus);
 			Long bId = bus.getId();
-			   transaction.commit();
+			transaction.commit();
 			return bus.getName() + " Updated successfully with  Id: " + bId;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_UPDATE);

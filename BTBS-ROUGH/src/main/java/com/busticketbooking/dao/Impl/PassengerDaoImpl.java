@@ -40,13 +40,13 @@ public class PassengerDaoImpl implements PassengerDao {
 	@Override
 	public String addPassenger(Passenger passenger) {
 		logger.info("Entering Add Passenger Function");
-		
+
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			session.save(passenger);
-		   System.out.println(passenger);
+			System.out.println(passenger);
 			result = "Passenger with Passenger number " + passenger.getId() + " added successfully";
-			
+
 			return result;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_INSERT);
@@ -90,7 +90,7 @@ public class PassengerDaoImpl implements PassengerDao {
 			passenger = session.get(Passenger.class, id);
 			if (passenger != null) {
 				session.delete(passenger);
-                 
+
 				session.flush();
 				result = "Deletion is successful for id: " + id;
 			}
@@ -108,8 +108,8 @@ public class PassengerDaoImpl implements PassengerDao {
 			Session session = sessionFactory.getCurrentSession();
 			@SuppressWarnings("unchecked")
 			List<Passenger> resultList = session
-					.createQuery("select i from Passenger i where i.bus=:id AND i.customer=:customer").setParameter("id", bus)
-					.setParameter("customer", customer).getResultList();
+					.createQuery("select i from Passenger i where i.bus=:id AND i.customer=:customer")
+					.setParameter("id", bus).setParameter("customer", customer).getResultList();
 			System.out.println(resultList);
 			return (resultList.isEmpty() ? null : resultList);
 		} catch (Exception e) {

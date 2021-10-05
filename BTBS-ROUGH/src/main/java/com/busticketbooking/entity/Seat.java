@@ -30,20 +30,19 @@ public class Seat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name="seat_name")
+	@Column(name = "seat_name")
 	private String seatName;
-	
 
-	@Column(name ="seat_status" ,nullable=false)
+	@Column(name = "seat_status", nullable = false)
 	private String seatStatus;
-	
-    @ManyToOne()
- 	@JoinColumn(name="bus_id" , foreignKey = @ForeignKey(name ="FK_BUS_SEATID"))
-    private Bus bus;
+
+	@ManyToOne()
+	@JoinColumn(name = "bus_id", foreignKey = @ForeignKey(name = "FK_BUS_SEATID"))
+	private Bus bus;
 
 	@Override
 	public String toString() {
 		return "Seat [id=" + id + ", seatName=" + seatName + ", seatStatus=" + seatStatus + "]";
 	}
-	
+
 }

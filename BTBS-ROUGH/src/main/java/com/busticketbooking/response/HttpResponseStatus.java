@@ -5,7 +5,7 @@ public class HttpResponseStatus {
 	private int statusCode;
 	private String message;
 	private Object data;
-	
+
 	public HttpResponseStatus(int statusCode, String message, Object data) {
 		this.statusCode = statusCode;
 		this.message = message;

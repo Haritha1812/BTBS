@@ -39,15 +39,17 @@ public class PassengerController {
 	private static final Logger logger = LogManager.getLogger(PassengerController.class.getName());
 	@Autowired
 	PassengerService passengerService;
-/**
- * add passenger
- * @param passengerDto
- * @return
- */
+
+	/**
+	 * add passenger
+	 * 
+	 * @param passengerDto
+	 * @return
+	 */
 	@PostMapping()
 	public ResponseEntity<HttpResponseStatus> add(@RequestBody PassengerDto passengerDto) {
-		 logger.info("Entering Add Passeger function");
-			
+		logger.info("Entering Add Passeger function");
+
 		try {
 			System.out.println(passengerDto);
 			message = passengerService.addPassenger(passengerDto);
@@ -60,15 +62,17 @@ public class PassengerController {
 					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
-/**
- * delete passener by id function
- * @param id
- * @return
- */
+
+	/**
+	 * delete passener by id function
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/deletepass/{id}")
 	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id) {
-		 logger.info("Entering Delete Passenger function");
-			
+		logger.info("Entering Delete Passenger function");
+
 		try {
 			message = passengerService.deletePassenger(id);
 
@@ -83,31 +87,33 @@ public class PassengerController {
 
 	/**
 	 * get all passengers
+	 * 
 	 * @return
 	 */
 	@GetMapping
 	public ResponseEntity<HttpResponseStatus> getall() {
-		 logger.info("Entering Get Passengers function");
+		logger.info("Entering Get Passengers function");
 		try {
-		List<Passenger> passengers =passengerService.getAllPassenger();
-		return new ResponseEntity<HttpResponseStatus>(
-				new HttpResponseStatus(HttpStatus.OK.value(), RETRIVE, passengers), HttpStatus.OK);
+			List<Passenger> passengers = passengerService.getAllPassenger();
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.OK.value(), RETRIVE, passengers), HttpStatus.OK);
 
-	} catch (BusinessLogicException e) {
-		return new ResponseEntity<HttpResponseStatus>(
-				new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
 	}
-}
 
-/**
- * get passenger details by bus and customer id
- * @param busid
- * @param cusid
- * @return
- */
+	/**
+	 * get passenger details by bus and customer id
+	 * 
+	 * @param busid
+	 * @param cusid
+	 * @return
+	 */
 	@GetMapping("/details/{busid}/{cusid}")
 	public ResponseEntity<HttpResponseStatus> getbybusandcusid(@PathVariable Long busid, @PathVariable Long cusid) {
-		 logger.info("Entering Get Passenger by customer,bus id function");
+		logger.info("Entering Get Passenger by customer,bus id function");
 		try {
 			List<Passenger> passengers = passengerService.getPassengerByBusIdAndCusId(busid, cusid);
 			return new ResponseEntity<HttpResponseStatus>(
@@ -121,12 +127,13 @@ public class PassengerController {
 
 	/**
 	 * get passenger by customer is
+	 * 
 	 * @param cusid
 	 * @return
 	 */
 	@GetMapping("/cus/{cusid}")
 	public ResponseEntity<HttpResponseStatus> getbycusid(@PathVariable Long cusid) {
-		 logger.info("Entering get Passenger by customer id function");
+		logger.info("Entering get Passenger by customer id function");
 		try {
 			List<Passenger> passengers = passengerService.getPassengerByCusId(cusid);
 			return new ResponseEntity<HttpResponseStatus>(
@@ -138,5 +145,4 @@ public class PassengerController {
 		}
 	}
 
-	
 }

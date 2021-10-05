@@ -7,8 +7,8 @@ import com.busticketbooking.entity.Route;
 
 public class PassengerMapper {
 
-public static Passenger dtoToEntity(PassengerDto p) {
-		
+	public static Passenger dtoToEntity(PassengerDto p) {
+
 		Passenger passenger = new Passenger();
 		passenger.setId(p.getId());
 		passenger.setName(p.getName());
@@ -18,7 +18,7 @@ public static Passenger dtoToEntity(PassengerDto p) {
 		passenger.setCustomer(p.getCustomer());
 		passenger.setBus(p.getBus());
 		return passenger;
-		
+
 	}
-	
+
 }

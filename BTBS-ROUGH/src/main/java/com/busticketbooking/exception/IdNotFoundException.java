@@ -1,6 +1,6 @@
 package com.busticketbooking.exception;
 
-public class IdNotFoundException extends RuntimeException{
+public class IdNotFoundException extends RuntimeException {
 	public IdNotFoundException(String msg) {
 		super(msg);
 	}

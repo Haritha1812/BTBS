@@ -10,7 +10,6 @@ import com.busticketbooking.exception.DuplicateEmailException;
 import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.exception.NullValueException;
 
-
 @ControllerAdvice
 public class ExceptionHandlerUtil {
 	// exception for Duplicate Id insertion..
@@ -27,16 +26,16 @@ public class ExceptionHandlerUtil {
 
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
-	
-	//database Exception
+
+	// database Exception
 	@ExceptionHandler(DatabaseException.class)
 
 	public ResponseEntity<String> databaseException(DatabaseException e) {
 
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
-	
-	//Null value exception
+
+	// Null value exception
 	@ExceptionHandler(NullValueException.class)
 
 	public ResponseEntity<String> nullValueException(NullValueException e) {
