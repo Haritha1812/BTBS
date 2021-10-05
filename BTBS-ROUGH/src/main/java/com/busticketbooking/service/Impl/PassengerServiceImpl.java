@@ -39,13 +39,27 @@ public class PassengerServiceImpl implements PassengerService {
 
 		logger.info("Entering Add Passenger in service layer");
 		try {
+			if(dto!=null) {
 			Passenger passenger = PassengerMapper.dtoToEntity(dto);
+			if(passenger.getCustomer()!=null) {
 			Customer customer = customerDao.getCustomerById(passenger.getCustomer().getId());
+			if(passenger.getBus()!=null) {
 			Bus bus = busDao.getBusById(passenger.getBus().getId());
 			passenger.setBus(bus);
 			passenger.setCustomer(customer);
 
-			return passengerDao.addPassenger(passenger);
+			return passengerDao.addPassenger(passenger);}
+			else {
+
+				throw new BusinessLogicException("Bus data not found");
+			}}
+			else {
+
+				throw new BusinessLogicException("Customer data not found");
+			}}
+			else {
+				throw new BusinessLogicException("Passenger data not found");
+			}
 
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
@@ -97,9 +111,13 @@ public class PassengerServiceImpl implements PassengerService {
 		logger.info("Entering Get Passenger by customer and bus id in service layer");
 
 		try {
+			
 			Bus bus = busDao.getBusById(busid);
 			Customer customer = customerDao.getCustomerById(cusid);
+			if(bus!=null&&customer!=null)
 			return passengerDao.getPassengerByBusIdAndCusId(bus, customer);
+			else
+				throw new BusinessLogicException("No Data available");
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}

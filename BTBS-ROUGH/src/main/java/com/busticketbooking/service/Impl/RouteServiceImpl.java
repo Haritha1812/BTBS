@@ -69,13 +69,13 @@ public class RouteServiceImpl implements RouteService {
 
 		logger.info("Entering Add Route in service layer");
 		try {
+			if(routeDto!=null) {
 			Route route = RouteMapper.dtoToEntity(routeDto);
-			long id = route.getRouteId();
-			String fromLocation = route.getFromLocation();
-			String toLocation = route.getToLocation();
-
 			return routeDao.addRoute(route);
+			}else {
 
+				throw new BusinessLogicException("Route data Not Found");
+			}
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}
@@ -116,8 +116,9 @@ public class RouteServiceImpl implements RouteService {
 		try {
 			if (routeDao.getRouteByFromAndToLocation(fromLocation, toLocation) != null)
 				return routeDao.getRouteByFromAndToLocation(fromLocation, toLocation);
-			return null;
-
+			else
+				
+				throw new BusinessLogicException("Route with location Not Found");
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}

@@ -34,11 +34,17 @@ public class SeatServiceImpl implements SeatService {
 	public String addSeat(SeatDto seatDto) {
 		logger.info("Entering add seat  Function in service");
 		try {
+			if(seatDto!=null) {
 			Seat seat = SeatMapper.dtoToEntity(seatDto);
-
+            if(seat.getBus()!=null) {
 			Bus bus = busDao.getBusById(seat.getBus().getId());
 			seat.setBus(bus);
-			return seatDao.addSeat(seat);
+			return seatDao.addSeat(seat);}
+            else {
+            	throw new BusinessLogicException("Bus data Not found");}}
+			else {
+				throw new BusinessLogicException("Seat data Not found");
+			}
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}

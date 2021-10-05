@@ -139,8 +139,6 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
-
-
 	@Override
 	public Customer getCustomerById(Long id) {
 		try {
@@ -161,8 +159,8 @@ public class CustomerDaoImpl implements CustomerDao {
 
 			Query<Customer> query = session.createQuery(hql);
 			query.setParameter("email", email);
-            Customer customer = query.getResultList().get(0);
-            System.out.println(customer);
+			Customer customer = query.getResultList().get(0);
+			System.out.println(customer);
 			return customer;
 
 		} catch (Exception e) {
@@ -172,16 +170,13 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public Customer forgetPassword(String email) {
-
-		Customer customer = isCustomerEmailExists(email);
-		if (customer != null) {
+		try {
+			Customer customer = isCustomerEmailExists(email);
 
 			return customer;
-		}
 
-		else {
-			return null;
+		} catch (Exception e) {
+			throw new DatabaseException(ERROR_IN_FETCH);
 		}
-
 	}
 }
