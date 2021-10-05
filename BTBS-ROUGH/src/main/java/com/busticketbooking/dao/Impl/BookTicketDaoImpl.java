@@ -146,8 +146,8 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			System.out.println("booking status called...");
 			System.out.println(bookTicket);
 
-			Query q = session
-					.createQuery("update BookTicket set bookingStatus=:status where bus=:bus AND customer=:customer AND id=:id");
+			Query q = session.createQuery(
+					"update BookTicket set bookingStatus=:status where bus=:bus AND customer=:customer AND id=:id");
 
 			q.setParameter("id", id);
 			q.setParameter("customer", customer);

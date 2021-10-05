@@ -35,19 +35,18 @@ public class BookTicket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name ="bill_amount" ,nullable=false)
+	@Column(name = "bill_amount", nullable = false)
 	private long billAmount;
-	
-	@Column(name ="booking_status" ,nullable=false)
+
+	@Column(name = "booking_status", nullable = false)
 	private String bookingStatus;
-	
-	
-	@Column(name="booking_date",nullable=false,length=30)
+
+	@Column(name = "booking_date", nullable = false, length = 30)
 	private Date bookingDate;
-	
-	@Column(name="no_of_tickets",nullable=false,length=30)
+
+	@Column(name = "no_of_tickets", nullable = false, length = 30)
 	private long numberOfTickets;
-	
+
 	@ManyToOne()
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "bus_id", foreignKey = @ForeignKey(name = "FK_Book_busId"))

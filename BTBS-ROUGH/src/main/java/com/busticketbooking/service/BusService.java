@@ -18,7 +18,7 @@ public interface BusService {
 	 * @param busId
 	 * @return
 	 */
-	public Bus getBusById(Long busId);
+	Bus getBusById(Long busId);
 
 	/**
 	 * check whether the bus id exists
@@ -26,14 +26,14 @@ public interface BusService {
 	 * @param busId
 	 * @return
 	 */
-	public boolean isBusExists(Long busId);
+	boolean isBusExists(Long busId);
 
 	/**
 	 * get all buses
 	 * 
 	 * @return
 	 */
-	public List<Bus> getAllBuses();
+	List<Bus> getAllBuses();
 
 	/**
 	 * deleting bus
@@ -41,7 +41,7 @@ public interface BusService {
 	 * @param id
 	 * @return
 	 */
-	public String deleteBus(Long id);
+	String deleteBus(Long id);
 
 	/**
 	 * adding bus
@@ -49,7 +49,7 @@ public interface BusService {
 	 * @param bus
 	 * @return
 	 */
-	public String addBus(BusDto busDto);
+	String addBus(BusDto busDto);
 
 	/**
 	 * updating bus
@@ -57,7 +57,7 @@ public interface BusService {
 	 * @param busDto
 	 * @return
 	 */
-	public String updateBus(BusDto busDto);
+	String updateBus(BusDto busDto);
 
 	/**
 	 * get bus by from and to location
@@ -67,7 +67,7 @@ public interface BusService {
 	 * @param date
 	 * @return
 	 */
-	public List<Bus> getBusByFromAndToLocation(String fromlocation, String ToLocation, Date date);
+	List<Bus> getBusByFromAndToLocation(String fromlocation, String ToLocation, Date date);
 
 	/**
 	 * get bus by busname
@@ -75,5 +75,5 @@ public interface BusService {
 	 * @param busName
 	 * @return
 	 */
-	public Bus getBusByBusName(String busName);
+	Bus getBusByBusName(String busName);
 }

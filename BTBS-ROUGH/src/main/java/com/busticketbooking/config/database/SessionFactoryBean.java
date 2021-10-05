@@ -1,6 +1,5 @@
 package com.busticketbooking.config.database;
 
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.hibernate.SessionFactory;
@@ -18,39 +17,36 @@ import java.util.Properties;
  *
 */
 
-
 @Configuration
 @ComponentScan("com")
 @EnableTransactionManagement
 public class SessionFactoryBean {
 
-    private DataSource dataSource;
-    private Environment environment;
+	private DataSource dataSource;
+	private Environment environment;
 
-    public SessionFactoryBean(DataSource dataSource, Environment environment) {
-        this.dataSource = dataSource;
-        this.environment = environment;
-    }
+	public SessionFactoryBean(DataSource dataSource, Environment environment) {
+		this.dataSource = dataSource;
+		this.environment = environment;
+	}
 
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory() {
-        LocalSessionFactoryBuilder sessionFactoryBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionFactoryBuilder.scanPackages("com");
-        sessionFactoryBuilder.addProperties(getHibernateProperties());
-        return sessionFactoryBuilder.buildSessionFactory();
-    }
+	@Bean(name = "sessionFactory")
+	public SessionFactory getSessionFactory() {
+		LocalSessionFactoryBuilder sessionFactoryBuilder = new LocalSessionFactoryBuilder(dataSource);
+		sessionFactoryBuilder.scanPackages("com");
+		sessionFactoryBuilder.addProperties(getHibernateProperties());
+		return sessionFactoryBuilder.buildSessionFactory();
+	}
 
-    /*  Get Properties from Application.properties File and config into Hibernate */
-    private Properties getHibernateProperties() {
-        Properties properties = new Properties();
-        properties.put("hibernate.dialect",
-                environment.getProperty("spring.jpa.properties.hibernate.dialect"));
-        properties.put("hibernate.connection.autocommit",
-                environment.getProperty("spring.jpa.properties.hibernate.autocommit"));
-        properties.put("hibernate.hbm2ddl.auto",
-        		environment.getProperty("spring.jpa.hibernate.ddl-auto"));
-        properties.put("hibernate.show_sql", environment.getProperty("spring.jpa.show-sql"));
+	/* Get Properties from Application.properties File and config into Hibernate */
+	private Properties getHibernateProperties() {
+		Properties properties = new Properties();
+		properties.put("hibernate.dialect", environment.getProperty("spring.jpa.properties.hibernate.dialect"));
+		properties.put("hibernate.connection.autocommit",
+				environment.getProperty("spring.jpa.properties.hibernate.autocommit"));
+		properties.put("hibernate.hbm2ddl.auto", environment.getProperty("spring.jpa.hibernate.ddl-auto"));
+		properties.put("hibernate.show_sql", environment.getProperty("spring.jpa.show-sql"));
 
-        return properties;
-    }
+		return properties;
+	}
 }

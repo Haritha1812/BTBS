@@ -38,12 +38,14 @@ public class SeatController {
 	String message;
 
 	private static final Logger logger = LogManager.getLogger(RouteController.class.getName());
-/**
- * get seat by id
- * @param seatId
- * @return
- * @throws IdNotFoundException
- */
+
+	/**
+	 * get seat by id
+	 * 
+	 * @param seatId
+	 * @return
+	 * @throws IdNotFoundException
+	 */
 	@GetMapping("/{seatId}")
 	public ResponseEntity<HttpResponseStatus> getid(@PathVariable Long seatId) throws IdNotFoundException {
 		logger.info("Entering Get Seats by id function");
@@ -61,6 +63,7 @@ public class SeatController {
 
 	/**
 	 * get seat by name
+	 * 
 	 * @param seatName
 	 * @return
 	 * @throws IdNotFoundException
@@ -78,12 +81,14 @@ public class SeatController {
 					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
-/**
- * get seat by status
- * @param seatStatus
- * @return
- * @throws IdNotFoundException
- */
+
+	/**
+	 * get seat by status
+	 * 
+	 * @param seatStatus
+	 * @return
+	 * @throws IdNotFoundException
+	 */
 	@GetMapping("/status/{seatStatus}")
 	public ResponseEntity<List<Seat>> getstatus(@PathVariable String seatStatus) throws IdNotFoundException {
 		logger.info("Entering Get Seats by status function");
@@ -93,6 +98,7 @@ public class SeatController {
 
 	/**
 	 * get seats by id
+	 * 
 	 * @param id
 	 * @return
 	 * @throws IdNotFoundException

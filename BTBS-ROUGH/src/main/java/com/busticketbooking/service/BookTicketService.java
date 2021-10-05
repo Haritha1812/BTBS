@@ -9,51 +9,59 @@ public interface BookTicketService {
 
 	/**
 	 * get ticket by id
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public BookTicket getTicketById(Long id) ;
-	
+	BookTicket getTicketById(Long id);
+
 	/**
 	 * check ticket exists
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public boolean isTicketIdExists(Long id);
-	
+	boolean isTicketIdExists(Long id);
+
 	/**
-	 * get all tickets 
+	 * get all tickets
+	 * 
 	 * @return
 	 */
-	public List<BookTicket> getAllTickets();
+	List<BookTicket> getAllTickets();
+
 	/**
 	 * delete ticket by id
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public String deleteTicket(Long id);
+	String deleteTicket(Long id);
 
 	/**
 	 * add ticket
+	 * 
 	 * @param bookTicketDto
 	 * @return
 	 */
-	public String addTicket(BookTicketDto bookTicketDto);
+	String addTicket(BookTicketDto bookTicketDto);
+
 	/**
 	 * update booking status by bus,customer and booking id
+	 * 
 	 * @param id
 	 * @param busId
 	 * @param customerId
 	 * @return
 	 */
-	public String updateBookingStatus(long id,long customerId,long busId);
+	String updateBookingStatus(long id, long customerId, long busId);
+
 	/**
 	 * get ticket by customer id
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public List<BookTicket> getTicketByCusId(long id);
-	
-	
-	
+	List<BookTicket> getTicketByCusId(long id);
+
 }

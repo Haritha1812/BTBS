@@ -22,7 +22,6 @@ public class SeatDto {
 	private long id;
 
 	private String seatName;
-	
 
 	private String seatStatus;
 
@@ -32,6 +31,5 @@ public class SeatDto {
 	public String toString() {
 		return "SeatDto [id=" + id + ", seatName=" + seatName + ", seatStatus=" + seatStatus + "]";
 	}
-	
-   
+
 }

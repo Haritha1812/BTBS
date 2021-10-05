@@ -9,20 +9,67 @@ import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 
 public interface RouteService {
+	/**
+	 * check if route already exists
+	 * 
+	 * @param routeId
+	 * @return
+	 */
+	boolean isRouteExists(Long routeId);
 
-	public boolean isRouteExists(Long routeId);
+	/**
+	 * get all routes
+	 * 
+	 * @return
+	 */
+	List<Route> getAllRoutes();
 
-	public List<Route> getAllRoutes() ;
+	/**
+	 * delete route by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	String deleteRoute(Long id);
 
-	public String deleteRoute(Long id);
+	/**
+	 * add route
+	 * 
+	 * @param routeDto
+	 * @return
+	 */
+	String addRoute(RouteDto routeDto);
 
-	public String addRoute(RouteDto routeDto);
+	/**
+	 * get route by id
+	 * 
+	 * @param busId
+	 * @return
+	 */
+	Route getRouteById(Long busId);
 
-	public Route getRouteById(Long busId);
+	/**
+	 * get route by name
+	 * 
+	 * @param routeName
+	 * @return
+	 */
+	Route getRouteByName(String routeName);
 
-	public Route getRouteByName(String routeName);
-	
-	public String updateRoute(RouteDto routeDto);
-	
-	public Route getRouteByFromAndToLocation(String fromLocation,String toLocation);
+	/**
+	 * update route
+	 * 
+	 * @param routeDto
+	 * @return
+	 */
+	String updateRoute(RouteDto routeDto);
+
+	/**
+	 * get route by from and to location
+	 * 
+	 * @param fromLocation
+	 * @param toLocation
+	 * @return
+	 */
+	Route getRouteByFromAndToLocation(String fromLocation, String toLocation);
 }

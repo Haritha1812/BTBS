@@ -12,14 +12,16 @@ import com.busticketbooking.response.HttpResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-		@ExceptionHandler(BusinessLogicException.class)
-		public ResponseEntity<HttpResponseStatus> bussinessException (BusinessLogicException e) {
-			return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
-			
-		// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
-		@ExceptionHandler(DatabaseException.class)
-		public ResponseEntity<HttpResponseStatus> dataBaseException (DatabaseException e) {
-			return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value() ,e.getMessage()), HttpStatus.BAD_REQUEST);
-		}
+	@ExceptionHandler(BusinessLogicException.class)
+	public ResponseEntity<HttpResponseStatus> bussinessException(BusinessLogicException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	// EXCEPTION HANDLER FOR DATABASEEXCEPTION.
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<HttpResponseStatus> dataBaseException(DatabaseException e) {
+		return new ResponseEntity<>(new HttpResponseStatus(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
 }

@@ -34,97 +34,89 @@ public class PassengerServiceImpl implements PassengerService {
 	BusDao busDao;
 	private static final Logger logger = LogManager.getLogger(PassengerServiceImpl.class.getName());
 
+	@Override
+	public String addPassenger(PassengerDto dto) {
 
-	
-	@Override public String addPassenger(PassengerDto dto) {
-
-		 logger.info("Entering Add Passenger in service layer");
+		logger.info("Entering Add Passenger in service layer");
 		try {
-		 Passenger passenger = PassengerMapper.dtoToEntity(dto); 
-		 Customer customer = customerDao.getCustomerById(passenger.getCustomer().getId());
-		 Bus bus = busDao.getBusById(passenger.getBus().getId());
-		 passenger.setBus(bus);
-		 passenger.setCustomer(customer);
-		
-         return passengerDao.addPassenger(passenger);
+			Passenger passenger = PassengerMapper.dtoToEntity(dto);
+			Customer customer = customerDao.getCustomerById(passenger.getCustomer().getId());
+			Bus bus = busDao.getBusById(passenger.getBus().getId());
+			passenger.setBus(bus);
+			passenger.setCustomer(customer);
 
-}catch(DatabaseException e) {
-	throw new BusinessLogicException(e.getMessage());
-}
-}
+			return passengerDao.addPassenger(passenger);
 
-
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
+	}
 
 	@Override
 	public String deletePassenger(Long id) {
-		 logger.info("Entering Delete Passenger in service layer");
+		logger.info("Entering Delete Passenger in service layer");
 
 		try {
-		if(passengerDao.isPassengerExists(id))
-		return passengerDao.deletePassenger(id); 
-		throw new BusinessLogicException("Passenger with Passenger Id:"+id+" Not Found!");
-	}catch(DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
+			if (passengerDao.isPassengerExists(id))
+				return passengerDao.deletePassenger(id);
+			throw new BusinessLogicException("Passenger with Passenger Id:" + id + " Not Found!");
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
-	}
-
-
 
 	@Override
 	public boolean isPassengerExists(Long id) {
-		
+
 		try {
-			if( passengerDao.isPassengerExists(id))
-		 return passengerDao.isPassengerExists(id); 
+			if (passengerDao.isPassengerExists(id))
+				return passengerDao.isPassengerExists(id);
 			else
 				throw new BusinessLogicException("Passenger with passenger Id : " + id + " Not found");
 
-	}catch(DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
-	}
-
-
 
 	@Override
 	public List<Passenger> getAllPassenger() {
-		 logger.info("Entering Get Passengers in service layer");
+		logger.info("Entering Get Passengers in service layer");
 
 		try {
-		if((passengerDao.getAllPassenger()).size()!=0)
-		return passengerDao.getAllPassenger();
-		throw new BusinessLogicException("No Passenger Data available");
-	}catch(DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
-	}
+			if ((passengerDao.getAllPassenger()).size() != 0)
+				return passengerDao.getAllPassenger();
+			throw new BusinessLogicException("No Passenger Data available");
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
 
 	@Override
 	public List<Passenger> getPassengerByBusIdAndCusId(Long busid, Long cusid) {
-		 logger.info("Entering Get Passenger by customer and bus id in service layer");
+		logger.info("Entering Get Passenger by customer and bus id in service layer");
 
-		try {   
-		Bus bus = busDao.getBusById(busid);
-	        Customer customer = customerDao.getCustomerById(cusid);
-	        return passengerDao.getPassengerByBusIdAndCusId(bus, customer);
-	}catch(DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
+		try {
+			Bus bus = busDao.getBusById(busid);
+			Customer customer = customerDao.getCustomerById(cusid);
+			return passengerDao.getPassengerByBusIdAndCusId(bus, customer);
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
-	}
-
 
 	@Override
 	public List<Passenger> getPassengerByCusId(Long cusid) {
-		 logger.info("Entering Get Passenger by customer id in service layer");
+		logger.info("Entering Get Passenger by customer id in service layer");
 
-         try {
-		Customer customer = customerDao.getCustomerById(cusid);
-		if(customer!=null)
-		    return passengerDao.getPassengerByCusId(customer);
-		throw new BusinessLogicException("No Cutomer Data available");
+		try {
+			Customer customer = customerDao.getCustomerById(cusid);
+			if (customer != null)
+				return passengerDao.getPassengerByCusId(customer);
+			throw new BusinessLogicException("No Cutomer Data available");
 
-         }catch(DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
-	}
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
 }

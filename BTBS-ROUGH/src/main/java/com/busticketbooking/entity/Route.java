@@ -24,9 +24,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name="route_master")
+@Table(name = "route_master")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,32 +33,28 @@ public class Route {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long routeId;
-	
-	@Column(name="from_location" ,nullable = false)
+
+	@Column(name = "from_location", nullable = false)
 	private String fromLocation;
-	
-	@Column(name="to_location" ,nullable = false)
+
+	@Column(name = "to_location", nullable = false)
 	private String toLocation;
-	
-	@Column(name="route_name" ,nullable = false)
+
+	@Column(name = "route_name", nullable = false)
 	private String routeName;
-	
-	@Column(name="distance" ,nullable = false)
+
+	@Column(name = "distance", nullable = false)
 	private int distance;
-	
 
-	
-     @JsonIgnore
-	 @OneToMany(mappedBy = "route",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-     @OnDelete(action = OnDeleteAction.CASCADE)
-	 private Set<Bus> bus;
-
-
+	@JsonIgnore
+	@OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Set<Bus> bus;
 
 	@Override
 	public String toString() {
 		return "Route [routeId=" + routeId + ", fromLocation=" + fromLocation + ", toLocation=" + toLocation
 				+ ", routeName=" + routeName + ", distance=" + distance + "]";
 	}
-	 
+
 }

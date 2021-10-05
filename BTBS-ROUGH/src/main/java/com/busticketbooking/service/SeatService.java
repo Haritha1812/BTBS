@@ -10,20 +10,69 @@ import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.IdNotFoundException;
 
 public interface SeatService {
-	public String addSeat(SeatDto SeatDto);
+	/**
+	 * add seat
+	 * 
+	 * @param SeatDto
+	 * @return
+	 */
+	String addSeat(SeatDto SeatDto);
 
-	public Seat getSeatById(Long id);
+	/**
+	 * get seat by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Seat getSeatById(Long id);
 
-	public Seat getSeatByName(String seatName);
+	/**
+	 * get seat by name
+	 * 
+	 * @param seatName
+	 * @return
+	 */
+	Seat getSeatByName(String seatName);
 	
-	public  List<Seat>  getSeatByStatus(String seatStatus);
-	
-	public String updateSeat(SeatDto SeatDto);
-	
-	public boolean isSeatExists(long seatId);
-	
-	public List<Seat> getSeatByBusId(long busId);
-	
-	public String updateStatus(String seatName,long busId);
-	
+	/**
+	 * get all seat details
+	 * 
+	 * @param seatStatus
+	 * @return
+	 */
+	List<Seat> getSeatByStatus(String seatStatus);
+
+	/**
+	 * update seat
+	 * 
+	 * @param SeatDto
+	 * @return
+	 */
+	String updateSeat(SeatDto SeatDto);
+
+	/**
+	 * check if seat exists
+	 * 
+	 * @param seatId
+	 * @return
+	 */
+	boolean isSeatExists(long seatId);
+
+	/**
+	 * get seat by bus id
+	 * 
+	 * @param busId
+	 * @return
+	 */
+	List<Seat> getSeatByBusId(long busId);
+
+	/**
+	 * update status of seat once booked
+	 * 
+	 * @param seatName
+	 * @param busId
+	 * @return
+	 */
+	String updateStatus(String seatName, long busId);
+
 }

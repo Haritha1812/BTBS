@@ -28,7 +28,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookTicketDto {
 
-
 	private long id;
 	private long billAmount;
 	private String bookingStatus;
