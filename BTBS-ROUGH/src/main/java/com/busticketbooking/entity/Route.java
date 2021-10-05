@@ -34,7 +34,7 @@ public class Route {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long routeId;
 
-	@Column(name = "from_location", nullable = false)
+	@Column(name = "from_location", nullable = false,unique =true)
 	private String fromLocation;
 
 	@Column(name = "to_location", nullable = false ,unique =true)

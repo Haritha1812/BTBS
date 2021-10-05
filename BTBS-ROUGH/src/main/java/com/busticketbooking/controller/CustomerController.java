@@ -111,50 +111,8 @@ public class CustomerController {
 		}
 	}
 
-	/**
-	 * Getting customer by mobile number to check whether the mobile already exists
-	 * 
-	 * @param mobileNumber
-	 * @return
-	 */
-	@GetMapping("/mobno/{mobileNumber}")
-	public ResponseEntity<HttpResponseStatus> forget(@PathVariable("mobileNumber") String mobileNumber) {
-		logger.info("Entering Get Customer By Mobilenumber function");
-		try {
-			Customer customer = customerService.getCustomerByMobileNumber(mobileNumber);
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", customer),
-					HttpStatus.OK);
-
-		} catch (BusinessLogicException e) {
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
-		}
-	}
-
-	/**
-	 * getting customer by email and password for login function
-	 * 
-	 * @param email
-	 * @param password
-	 * @return
-	 */
-	@GetMapping("/login/{email}/{password}")
-	public ResponseEntity<HttpResponseStatus> login(@PathVariable("email") String email,
-			@PathVariable("password") String password) {
-		logger.info("Entering Customer Bus By email and password function");
-		try {
-			Customer customer = customerService.getCustomerByEmailAndPassword(email, password);
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", customer),
-					HttpStatus.OK);
-
-		} catch (BusinessLogicException e) {
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
-		}
-	}
-
+	
+	
 	/**
 	 * adding customer
 	 * 

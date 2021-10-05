@@ -16,7 +16,7 @@ public class BusTicketBookingAppApplication {
 	public PasswordEncoder encoder() {
 	    return new BCryptPasswordEncoder();
 	}
-
+	
 	private static final Logger logger = LogManager.getLogger(BusTicketBookingAppApplication.class.getName());
 
 	public static void main(String[] args) {

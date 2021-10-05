@@ -34,13 +34,13 @@ import com.busticketbooking.service.BookTicketService;
 @RequestMapping("bookTicket")
 public class BookTicketController {
 
-	private static final Logger logger = LogManager.getLogger(BookTicketController.class.getName());
+	private static final Logger logger = LogManager.getLogger(BookTicketController.class);
 	@Autowired
 	BookTicketService bookTicketService;
 	String message;
 
 	/**
-	 * 
+	 * add the booking data while booking the bus
 	 * @param bookTicketDto
 	 * @return string as response entity with status code
 	 * 
@@ -64,7 +64,7 @@ public class BookTicketController {
 	}
 
 	/**
-	 * 
+	 * get all booked tickets
 	 * @return list as response entity with status code
 	 */
 
@@ -84,7 +84,7 @@ public class BookTicketController {
 	}
 
 	/**
-	 * 
+	 * get bookticket by id
 	 * @param id
 	 * @return BookTicket object as response entity
 	 */
@@ -105,7 +105,7 @@ public class BookTicketController {
 	}
 
 	/**
-	 * 
+	 * get the booking details by customer id
 	 * @param id
 	 * @return BookTicket list as response entity
 	 */
@@ -127,7 +127,7 @@ public class BookTicketController {
 	}
 
 	/**
-	 * 
+	 * get the booking details by customer and bus id
 	 * @param id
 	 * @param bid
 	 * @param cid

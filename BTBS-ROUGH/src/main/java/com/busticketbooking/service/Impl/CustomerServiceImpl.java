@@ -65,56 +65,54 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public String addCustomer(CustomerDto dto) {
 		try {
-			if(dto!=null) {
-			Customer customer = CustomerMapper.dtoToEntity(dto);
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-			return customerDao.addCustomer(customer);
+			if (dto != null) {
+				Customer customer = CustomerMapper.dtoToEntity(dto);
+				customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+				return customerDao.addCustomer(customer);
 
-		} else{
+			} else {
 
-			throw new BusinessLogicException("Customer data Not Found!");
-		}
-		}catch(ConstraintViolationException e) {
-
-				throw new BusinessLogicException("Customer Email already exists!!");
+				throw new BusinessLogicException("Customer data Not Found!");
 			}
-		catch (DatabaseException e) {
+		}  catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
+		}catch (ConstraintViolationException e) {
+
+			throw new BusinessLogicException("Customer Email already exists!!");
 		}
 	}
-	
 
 	@Override
 	public String updateCustomer(CustomerDto dto) {
 		try {
-			if(dto!=null) {
-			Customer customer = CustomerMapper.dtoToEntity(dto);
-			long id = customer.getId();
-			if (customerDao.isCustomerExists(id))
-				return customerDao.updateCustomer(customer);
-			throw new BusinessLogicException("Customer with Customer Id:" + id + " Not Found!");
+			if (dto != null) {
+				Customer customer = CustomerMapper.dtoToEntity(dto);
+				long id = customer.getId();
+				if (customerDao.isCustomerExists(id))
+					return customerDao.updateCustomer(customer);
+				throw new BusinessLogicException("Customer with Customer Id:" + id + " Not Found!");
 
-		} else{
+			} else {
 
-			throw new BusinessLogicException("Customer data Not Found!");
-		}} catch (DatabaseException e) {
+				throw new BusinessLogicException("Customer data Not Found!");
+			}
+		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}
 	}
 
 	@Override
 	public Customer isCustomerEmailExists(String email) {
-       try {
-		if(customerDao.isCustomerEmailExists(email)!=null)
-		return customerDao.isCustomerEmailExists(email);
-       else
+		try {
+			if (customerDao.isCustomerEmailExists(email) != null)
+				return customerDao.isCustomerEmailExists(email);
+			else
 
-   		throw new BusinessLogicException("Email not exists");
-	}catch (DatabaseException e) {
-		throw new BusinessLogicException(e.getMessage());
+				throw new BusinessLogicException("Email not exists");
+		} catch (DatabaseException e) {
+			throw new BusinessLogicException(e.getMessage());
+		}
 	}
-	}
-	
 
 	@Override
 	public Customer getCustomerById(Long id) {
@@ -131,26 +129,18 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer getCustomerByEmailAndPassword(String email, String password) {
 
-	
-	String pass = passwordEncoder.encode(password);
-	System.out.println(pass);
+//
+//		Customer customer = customerDao.getCustomerByEmailAndPassword(email, password);
+//		System.out.println(customer);
+		if (customerDao.getCustomerByEmailAndPassword(email, password) != null ) {
 
-	Customer customer = customerDao.getCustomerByEmailAndPassword(email, password);
-	System.out.println(customer);
-	boolean check = passwordEncoder.matches( pass,customer.getPassword());
-	System.out.println(customer.getPassword());
+			return customerDao.getCustomerByEmailAndPassword(email, password);
+		} else
 
-	System.out.println(check);
-  if(customerDao.getCustomerByEmailAndPassword(email, password)!=null&&check) {
+			throw new BusinessLogicException("Customer with Customer email and password Not Found!");
 
-          
-         
-		return customerDao.getCustomerByEmailAndPassword(email, password);}
-  else
+	}
 
-		throw new BusinessLogicException("Customer with Customer email and password Not Found!");
-	
-}
 	@Override
 	public Customer forgetPassword(String email) {
 		try {

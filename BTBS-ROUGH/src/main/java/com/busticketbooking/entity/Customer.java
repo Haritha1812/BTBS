@@ -41,7 +41,7 @@ public class Customer {
 	@Column(name = "customer_mobileNumber", nullable = false)
 	private String mobileNumber;
 
-	@Column(name = "customer_email", nullable = false,unique = false)
+	@Column(name = "customer_email", nullable = false,unique = true)
 	private String email;
 
 }

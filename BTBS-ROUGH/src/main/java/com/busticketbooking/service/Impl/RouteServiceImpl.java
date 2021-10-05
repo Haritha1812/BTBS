@@ -2,6 +2,8 @@ package com.busticketbooking.service.Impl;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,8 @@ public class RouteServiceImpl implements RouteService {
 			}
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
+		} catch (ConstraintViolationException e) {
+			throw new BusinessLogicException("Route already exists");
 		}
 	}
 
