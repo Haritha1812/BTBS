@@ -42,7 +42,7 @@ public class BookTicketController {
 	 */
 
 	@PostMapping
-	public ResponseEntity<HttpResponseStatus> add(@RequestBody BookTicketDto bookTicketDto) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> add(@RequestBody BookTicketDto bookTicketDto)   {
 
 		logger.info("Entering Booking Ticket Add function");
 
@@ -65,7 +65,7 @@ public class BookTicketController {
 
 	@GetMapping
 	public ResponseEntity<HttpResponseStatus> getall() {
-
+		logger.info("Entering Booking Ticket Get all bookings function");
 		try {
 			List<BookTicket> bookTicket = bookTicketService.getAllTickets();
 			return new ResponseEntity<HttpResponseStatus>(
@@ -132,7 +132,7 @@ public class BookTicketController {
 
 	@PutMapping("/status/{id}/{bid}/{cid}")
 	public ResponseEntity<HttpResponseStatus> update(@PathVariable long id, @PathVariable long bid,
-			@PathVariable long cid) throws IdNotFoundException {
+			@PathVariable long cid)   {
 
 		logger.info("Entering Booking Ticket Update bookings by Booking status function");
 

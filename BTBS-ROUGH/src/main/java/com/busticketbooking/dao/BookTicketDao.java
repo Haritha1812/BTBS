@@ -5,6 +5,7 @@ import java.util.List;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
+import com.busticketbooking.exception.DatabaseException;
 
 public interface BookTicketDao {
 	/**
@@ -30,13 +31,6 @@ public interface BookTicketDao {
 	 */
 	List<BookTicket> getAllTickets();
 
-	/**
-	 * delete ticket by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	String deleteTicket(Long id);
 
 	/**
 	 * add ticket
@@ -44,7 +38,7 @@ public interface BookTicketDao {
 	 * @param bookTicket
 	 * @return
 	 */
-	String addTicket(BookTicket bookTicket);
+	String addTicket(BookTicket bookTicket)throws DatabaseException;
 
 	/**
 	 * get ticket by customer id
@@ -54,13 +48,6 @@ public interface BookTicketDao {
 	 */
 	List<BookTicket> getTicketByCusId(Customer customer);
 
-	/**
-	 * get ticket by customer id
-	 * 
-	 * @param customerId
-	 * @return
-	 */
-	Bus getTicketByCustomerId(long customerId);
 
 	/**
 	 * update booking status by bus,customer and booking id

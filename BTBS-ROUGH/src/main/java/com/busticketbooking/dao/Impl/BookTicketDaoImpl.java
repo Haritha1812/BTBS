@@ -33,20 +33,20 @@ public class BookTicketDaoImpl implements BookTicketDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
 	@Override
 	public BookTicket getTicketById(Long id) {
-		logger.info("Entering Get Ticket By Id Function");
+		logger.info("Entering Get Ticket By Id Function in dao for id"+id);
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
 			return session.get(BookTicket.class, id);
 		} catch (Exception e) {
+			//errorlog
+			logger.error("Error while fetching details in get ticket by id function in dao for id"+id);
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
 
-	@Transactional
 	@Override
 	public boolean isTicketIdExists(Long id) {
 		try {
@@ -54,47 +54,27 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			BookTicket bookTicket = session.get(BookTicket.class, id);
 			return (bookTicket != null);
 		} catch (Exception e) {
+
+			logger.error("Error while fetching details is ticket id exists function in dao for id"+id);
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<BookTicket> getAllTickets() {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			@SuppressWarnings("unchecked")
-			Query<BookTicket> query = session.createQuery("From com.busticketbooking.entity.BookTicket");
+		
+			Query<BookTicket> query = session.createQuery("From BookTicket");
 
-			return (query.getResultList().isEmpty() ? null : query.getResultList());
+			return (query.getResultList());
 		} catch (Exception e) {
+
+			logger.error("Error while fetching details in get tickets");
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
 
-	@Transactional
-	@Override
-	public String deleteTicket(Long id) {
-
-		logger.info("Entering Delete Ticket Function");
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			Transaction transaction = session.beginTransaction();
-
-			BookTicket bookticket;
-			bookticket = session.get(BookTicket.class, id);
-			if (bookticket != null) {
-				session.delete(bookticket);
-
-				session.flush();
-				result = "Deletion is successful for id: " + id;
-			}
-			return result;
-		} catch (Exception e) {
-			throw new DatabaseException(ERROR_IN_DELETE);
-		}
-
-	}
 
 	@Transactional
 	@Override
@@ -109,44 +89,41 @@ public class BookTicketDaoImpl implements BookTicketDao {
 
 			return result;
 		} catch (Exception e) {
+
+			logger.error("Error while  Adding ticket  function in dao ");
 			throw new DatabaseException(ERROR_IN_INSERT);
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<BookTicket> getTicketByCusId(Customer customer) {
 		List<BookTicket> bookTicket = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "select i from BookTicket i WHERE i.customer=:cus";
+			String hql = "select i from BookTicket i WHERE i.custor=:cus";
 
 			Query<BookTicket> query = session.createQuery(hql);
 			query.setParameter("cus", customer);
 
-			return (query.getResultList().isEmpty() ? null : query.getResultList());
+			return (query.getResultList());
 		} catch (Exception e) {
+
+			logger.error("Error while fetching details in get ticket by customer id function in dao for id"+customer.getId());
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
 
-	@Transactional
-	@Override
-	public Bus getTicketByCustomerId(long customerId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Transactional
 	@Override
 	public String updateBookingStatus(long id, Bus bus, Customer customer) {
 
-		logger.info("Entering Update Ticket  Function");
+		logger.info("Entering Update Ticket Function in dao for id"+id);
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			BookTicket bookTicket = getTicketById(id);
-			System.out.println("booking status called...");
-			System.out.println(bookTicket);
+			
 
 			Query q = session.createQuery(
 					"update BookTicket set bookingStatus=:status where bus=:bus AND customer=:customer AND id=:id");
@@ -157,9 +134,11 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			q.setParameter("status", "Confirmed");
 			int status = q.executeUpdate();
 
-			return id + " Updated successfully with bus Id: " + bus.getId();
+			return "Book ticket id "+id + " Updated successfully for bus Id: " + bus.getId();
 
 		} catch (Exception e) {
+
+			logger.error("Error while updating ticket by id function in dao for id"+id);
 			throw new DatabaseException(ERROR_IN_UPDATE);
 		}
 	}

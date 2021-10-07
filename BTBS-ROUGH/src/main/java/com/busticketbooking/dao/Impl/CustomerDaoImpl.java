@@ -4,6 +4,7 @@ import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_DELET
 import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_FETCH;
 import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_INSERT;
 
+import static com.busticketbooking.util.BusTicketBookingConstants.ERROR_IN_UPDATE;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,7 +32,6 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
 	@Override
 	public boolean isCustomerExists(Long id) {
 		try {
@@ -42,7 +43,6 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<Customer> getAllCustomer() {
 		try {
@@ -97,24 +97,26 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public String updateCustomer(Customer customer) {
 
 		logger.info("Entering Update Customer Function");
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			session.update(customer);
-			session.getTransaction().commit();
-			Long CustomerId = customer.getId();
-
+			Session session = sessionFactory.openSession();
+			  System.out.println(customer);
+			  Transaction transaction = session.beginTransaction();
+			  session.update(customer);
+				Long CustomerId = customer.getId();
+				transaction.commit();
+			
+		
+             
 			return customer.getName() + " Updated successfully with  Id: " + CustomerId;
 		} catch (Exception e) {
-			throw new DatabaseException(ERROR_IN_FETCH);
+			throw new DatabaseException(ERROR_IN_UPDATE);
 		}
 	}
 
-	@Transactional
 	@Override
 	public Customer isCustomerEmailExists(String email) {
 

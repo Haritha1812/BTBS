@@ -37,10 +37,10 @@ public class BookTicket {
 	@Column(name = "booking_status", nullable = false)
 	private String bookingStatus;
 
-	@Column(name = "booking_date", nullable = false, length = 30)
+	@Column(name = "booking_date", nullable = false)
 	private Date bookingDate;
 
-	@Column(name = "no_of_tickets", nullable = false, length = 30)
+	@Column(name = "no_of_tickets", nullable = false)
 	private long numberOfTickets;
 
 	@ManyToOne()
@@ -58,6 +58,15 @@ public class BookTicket {
 	@Override
 	public String toString() {
 		return "BookTicket [id=" + id + ", billAmount=" + billAmount + "]";
+	}
+
+	public BookTicket(long id, long billAmount, String bookingStatus, Date bookingDate, long numberOfTickets) {
+		super();
+		this.id = id;
+		this.billAmount = billAmount;
+		this.bookingStatus = bookingStatus;
+		this.bookingDate = bookingDate;
+		this.numberOfTickets = numberOfTickets;
 	}
 
 }

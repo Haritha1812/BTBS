@@ -37,7 +37,6 @@ public class BusDaoImpl implements BusDao {
 	@Autowired
 	SeatDao seatDao;
 
-	@Transactional
 	@Override
 	public Bus getBusById(Long busId) {
 
@@ -51,7 +50,6 @@ public class BusDaoImpl implements BusDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public boolean isBusExists(Long busId) {
 		logger.info("Entering  Busexists  Function in dao");
@@ -64,13 +62,12 @@ public class BusDaoImpl implements BusDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<Bus> getAllBuses() {
 		logger.info("Entering Get All Bus  Function in dao");
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			@SuppressWarnings("unchecked")
+		
 			Query<Bus> query = session.createQuery("From com.busticketbooking.entity.Bus");
 
 			return (query.getResultList().isEmpty() ? null : query.getResultList());
@@ -138,12 +135,10 @@ public class BusDaoImpl implements BusDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public List<Bus> getBusByFromAndToLocation(Route route, Date date) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			@SuppressWarnings("unchecked")
 			List<Bus> resultList = session.createQuery("select i from Bus i where i.route=:route and i.date=:date")
 					.setParameter("date", date).setParameter("route", route).getResultList();
 			System.out.println(resultList);
@@ -154,7 +149,6 @@ public class BusDaoImpl implements BusDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public Bus getBusByBusName(String busName) {
 		try {
@@ -179,7 +173,6 @@ public class BusDaoImpl implements BusDao {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
-			@SuppressWarnings("unchecked")
 			Query<Route> query = session.createQuery("DELETE FROM Bus b where b.route=:route ");
 			query.setParameter("route", route);
 

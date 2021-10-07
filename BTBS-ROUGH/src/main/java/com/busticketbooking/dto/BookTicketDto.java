@@ -21,5 +21,13 @@ public class BookTicketDto {
 	private long numberOfTickets;
 	private Bus bus;
 	private Customer customer;
+	public BookTicketDto(long id, long billAmount, String bookingStatus, Date bookingDate, long numberOfTickets) {
+		super();
+		this.id = id;
+		this.billAmount = billAmount;
+		this.bookingStatus = bookingStatus;
+		this.bookingDate = bookingDate;
+		this.numberOfTickets = numberOfTickets;
+	}
 
 }
