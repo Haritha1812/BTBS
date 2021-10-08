@@ -15,6 +15,7 @@ import com.busticketbooking.entity.Customer;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.CustomerService;
+import com.busticketbooking.service.LoginService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 
@@ -22,7 +23,7 @@ import com.busticketbooking.service.CustomerService;
 @RequestMapping("login")
 public class LoginController {
 	@Autowired
-	CustomerService customerService;
+	LoginService loginService;
 
 
 	private static final Logger logger = LogManager.getLogger(LoginController.class.getName());
@@ -39,7 +40,7 @@ public class LoginController {
 			@PathVariable("password") String password) {
 		logger.info("Entering Customer Bus By email and password function");
 		try {
-			Customer customer = customerService.getCustomerByEmailAndPassword(email, password);
+			Customer customer = loginService.getCustomerByEmailAndPassword(email, password);
 			return new ResponseEntity<HttpResponseStatus>(
 					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", customer),
 					HttpStatus.OK);
