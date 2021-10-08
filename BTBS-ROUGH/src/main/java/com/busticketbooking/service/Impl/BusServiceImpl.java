@@ -143,6 +143,7 @@ public class BusServiceImpl implements BusService {
 		logger.info("Entering Get bus by from and to location in service layer");
 		try {
 			Route route = routeDao.getRouteByFromAndToLocation(fromLocation, toLocation);
+			System.out.println(route);
 			if (route != null)
 				return busDao.getBusByFromAndToLocation(route, date);
 			else

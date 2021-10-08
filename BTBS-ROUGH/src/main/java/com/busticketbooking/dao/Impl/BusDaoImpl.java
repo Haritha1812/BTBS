@@ -135,6 +135,18 @@ public class BusDaoImpl implements BusDao {
 		}
 	}
 
+	/*
+	 * @Override public List<Bus> getBusByFromAndToLocation(Route route, Date date)
+	 * { try { Session session = sessionFactory.getCurrentSession(); List<Bus>
+	 * resultList = session.
+	 * createQuery("select i from Bus i where i.route=:route and i.date=:date")
+	 * .setParameter("date", date).setParameter("route", route).getResultList();
+	 * System.out.println(resultList); return (resultList.isEmpty() ? null :
+	 * resultList);
+	 * 
+	 * } catch (Exception e) { throw new DatabaseException(ERROR_IN_FETCH); } }
+	 */
+
 	@Override
 	public List<Bus> getBusByFromAndToLocation(Route route, Date date) {
 		try {
@@ -148,7 +160,7 @@ public class BusDaoImpl implements BusDao {
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
-
+	
 	@Override
 	public Bus getBusByBusName(String busName) {
 		try {

@@ -42,9 +42,9 @@ public class RouteServiceImpl implements RouteService {
 		logger.info("Entering Get Routes in service layer");
 
 		try {
-			if ((routeDao.getAllRoutes()).size() != 0)
-				return routeDao.getAllRoutes();
-			throw new BusinessLogicException("No routes found");
+			if ((routeDao.getAllRoutes()).isEmpty())
+				throw new BusinessLogicException("No routes found");
+			return routeDao.getAllRoutes();
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
 		}

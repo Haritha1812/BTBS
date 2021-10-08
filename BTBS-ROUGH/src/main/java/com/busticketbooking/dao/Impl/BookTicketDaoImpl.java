@@ -100,7 +100,7 @@ public class BookTicketDaoImpl implements BookTicketDao {
 		List<BookTicket> bookTicket = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "select i from BookTicket i WHERE i.custor=:cus";
+			String hql = "select i from BookTicket i WHERE i.customer=:cus";
 
 			Query<BookTicket> query = session.createQuery(hql);
 			query.setParameter("cus", customer);

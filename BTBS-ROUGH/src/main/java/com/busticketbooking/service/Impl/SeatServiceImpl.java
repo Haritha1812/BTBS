@@ -129,11 +129,11 @@ public class SeatServiceImpl implements SeatService {
 	}
 
 	@Override
-	public String updateStatus(String seatName, long busId) {
+	public String updateStatus(int seatNumber, long busId) {
 		try {
 			Bus bus = busDao.getBusById(busId);
 			if (bus != null)
-				return seatDao.updateStatus(seatName, bus);
+				return seatDao.updateStatus(seatNumber, bus);
 			throw new BusinessLogicException("Bus data Not found");
 
 		} catch (DatabaseException e) {

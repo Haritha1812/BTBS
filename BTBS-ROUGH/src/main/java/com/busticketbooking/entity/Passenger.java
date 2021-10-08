@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "passenger_master")
+@Table(name = "passenger")
 public class Passenger {
 
 	@Id
@@ -40,7 +40,7 @@ public class Passenger {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name = "cus_id", foreignKey = @ForeignKey(name = "FK_CUS_PASId"))
+	@JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "FK_CUS_PASId"))
 	private Customer customer;
 
 	@ManyToOne(cascade = CascadeType.ALL)

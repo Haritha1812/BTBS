@@ -13,7 +13,7 @@ public class SeatMapper {
 
 		Seat seat = new Seat();
 		seat.setId(s.getId());
-		seat.setSeatName(s.getSeatName());
+		seat.setSeatNumber(s.getSeatNumber());
 		seat.setSeatStatus(s.getSeatStatus());
 		seat.setBus(s.getBus());
 		return seat;

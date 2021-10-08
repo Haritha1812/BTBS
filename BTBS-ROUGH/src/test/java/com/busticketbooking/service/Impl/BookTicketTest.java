@@ -27,7 +27,8 @@ import com.busticketbooking.service.BookTicketService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class BookTicketTest {
-@Autowired
+	
+@MockBean
 BookTicketService bookticketService;
 	
 @MockBean
@@ -43,16 +44,16 @@ static final List<BookTicket> bookticket_data = Stream.of(new BookTicket(1,550,"
     
     @Test
     void getTicketbyId() {
-    	BookTicket bookTicket = new BookTicket(Long.valueOf(1), 450, "Confirmed", new Date(), 5);
-    	when(bookTicketDao.getTicketById(Long.valueOf(1))).thenReturn(bookTicket);
-    	assertEquals(bookTicket, bookTicketDao.getTicketById(Long.valueOf(1)));
+    	BookTicket bookTicket = new BookTicket(1L, 450, "Confirmed", new Date(), 5);
+    	when(bookticketService.getTicketById(1L)).thenReturn(bookTicket);
+    	assertEquals(bookTicket, bookticketService.getTicketById(Long.valueOf(1)));
     }
     
     @Test
     void addTicket() {
-    	BookTicket bookTicket = new BookTicket(Long.valueOf(1), 450, "Confirmed", new Date(), 5);
-    	bookTicketDao.addTicket(bookTicket);
-          verify(bookTicketDao,times(1)).addTicket(bookTicket);
+    	BookTicketDto bookTicket = new BookTicketDto(Long.valueOf(1), 450, "Confirmed", new Date(), 5);
+    	bookticketService.addTicket(bookTicket);
+          verify(bookticketService,times(1)).addTicket(bookTicket);
     	
     }
   

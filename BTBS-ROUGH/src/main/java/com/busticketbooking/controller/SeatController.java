@@ -131,13 +131,13 @@ public class SeatController {
 		}
 	}
 
-	@PutMapping("/status/{seatName}/{id}")
-	public ResponseEntity<HttpResponseStatus> update(@PathVariable String seatName, @PathVariable long id)
+	@PutMapping("/status/{seatNumber}/{id}")
+	public ResponseEntity<HttpResponseStatus> update(@PathVariable int seatNumber, @PathVariable long id)
 			throws IdNotFoundException {
 
 		logger.info("Entering Get Seats by status function");
 		try {
-			message = seatService.updateStatus(seatName, id);
+			message = seatService.updateStatus(seatNumber, id);
 
 			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(), message),
 					HttpStatus.OK);

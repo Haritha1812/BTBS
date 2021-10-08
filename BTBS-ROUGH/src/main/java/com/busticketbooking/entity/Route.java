@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "route_master")
+@Table(name = "route")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,13 +31,13 @@ public class Route {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long routeId;
 
-	@Column(name = "from_location", nullable = false,unique =true)
+	@Column(name = "from_location", nullable = false)
 	private String fromLocation;
 
-	@Column(name = "to_location", nullable = false ,unique =true)
+	@Column(name = "to_location", nullable = false)
 	private String toLocation;
 
-	@Column(name = "route_name", nullable = false)
+	@Column(name = "route_name", nullable = false,unique = true)
 	private String routeName;
 
 	@Column(name = "distance", nullable = false)

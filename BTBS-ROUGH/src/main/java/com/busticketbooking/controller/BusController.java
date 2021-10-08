@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -170,20 +171,45 @@ public class BusController {
 	 * @param date
 	 * @return
 	 */
-	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}")
-	public ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation") String fromLocation,
-			@PathVariable("toLocation") String toLocation,
-			@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-		logger.info("Entering Get Bus By route and date function");
-		try {
-			List<Bus> buses = busService.getBusByFromAndToLocation(fromLocation, toLocation, date);
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", buses), HttpStatus.OK);
+	
+	  @GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}") public
+	  ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation")
+	  String fromLocation,
+	  
+	  @PathVariable("toLocation") String toLocation,
+	  
+	  @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
+	  logger.info("Entering Get Bus By route and date function"); try {
+	  System.out.println(date); List<Bus> buses =
+	  busService.getBusByFromAndToLocation(fromLocation, toLocation, date); return
+	  new ResponseEntity<HttpResponseStatus>( new
+	  HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully",
+	  buses), HttpStatus.OK);
+	  
+	  } catch (BusinessLogicException e) { return new
+	  ResponseEntity<HttpResponseStatus>( new
+	  HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()),
+	  HttpStatus.NOT_FOUND); } }
+	 
 
-		} catch (BusinessLogicException e) {
-			return new ResponseEntity<HttpResponseStatus>(
-					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
-		}
-	}
+	/*
+	 * @GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}") public
+	 * ResponseEntity<List<Bus>> getdetails(@PathVariable("fromLocation") String
+	 * fromLocation,
+	 * 
+	 * @PathVariable("toLocation") String toLocation,
+	 * 
+	 * @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date)
+	 * throws NullPointerException { System.out.println("search called...");
+	 * System.out.println(date); ResponseEntity<Bus> responseEntity = null; return
+	 * new ResponseEntity<>(busService.getBusByFromAndToLocation(fromLocation,
+	 * toLocation, date), HttpStatus.OK);
+	 * 
+	 * }
+	 * 
+	 * @ExceptionHandler(NullPointerException.class) public ResponseEntity<String>
+	 * userNotFound(NullPointerException e) { return new
+	 * ResponseEntity<>("No location found", HttpStatus.NOT_FOUND); }
+	 */
 
 }

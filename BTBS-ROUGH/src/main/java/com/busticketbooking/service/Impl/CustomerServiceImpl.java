@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
 		try {
 			if (dto != null) {
 				Customer customer = CustomerMapper.dtoToEntity(dto);
-//				customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 				return customerDao.addCustomer(customer);
 
 			} else {

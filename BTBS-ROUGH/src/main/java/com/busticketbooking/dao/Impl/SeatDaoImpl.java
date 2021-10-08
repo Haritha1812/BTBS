@@ -78,7 +78,7 @@ public class SeatDaoImpl implements SeatDao {
 		transaction.commit();
 		Long sId = seat.getId();
 
-		return seat.getSeatName() + " Updated successfully with  Id: " + sId;
+		return seat.getSeatNumber() + " Updated successfully with  Id: " + sId;
 	}
 
 	@Override
@@ -99,17 +99,17 @@ public class SeatDaoImpl implements SeatDao {
 	}
 
 	@Override
-	public String updateStatus(String seatName, Bus bus) {
+	public String updateStatus(int seatNumber, Bus bus) {
 		Session session = sessionFactory.getCurrentSession();
 
 		Transaction transaction = session.beginTransaction();
-		Query q = session.createQuery("update Seat set seatStatus=:status where bus=:bus AND seatName=:name");
-		q.setParameter("name", seatName);
+		Query q = session.createQuery("update Seat set seatStatus=:status where bus=:bus AND seatNumber=:name");
+		q.setParameter("name", seatNumber);
 		q.setParameter("bus", bus);
 		q.setParameter("status", "No");
 		int status = q.executeUpdate();
 		transaction.commit();
-		return seatName + " Updated successfully with bus Id: " + bus.getId();
+		return seatNumber + " Updated successfully with bus Id: " + bus.getId();
 
 	}
 

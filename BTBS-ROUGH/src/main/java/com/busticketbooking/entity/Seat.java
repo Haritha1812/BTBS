@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "seat_master")
+@Table(name = "seat")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Seat {
@@ -25,7 +25,7 @@ public class Seat {
 	private long id;
 
 	@Column(name = "seat_name",nullable = false)
-	private String seatName;
+	private int seatNumber;
 
 	@Column(name = "seat_status", nullable = false)
 	private String seatStatus;
@@ -36,7 +36,9 @@ public class Seat {
 
 	@Override
 	public String toString() {
-		return "Seat [id=" + id + ", seatName=" + seatName + ", seatStatus=" + seatStatus + "]";
+		return "Seat [id=" + id + ", seatNumber=" + seatNumber + ", seatStatus=" + seatStatus + "]";
 	}
+
+
 
 }

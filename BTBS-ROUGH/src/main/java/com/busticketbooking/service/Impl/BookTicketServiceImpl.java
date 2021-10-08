@@ -54,7 +54,7 @@ public class BookTicketServiceImpl implements BookTicketService {
 	@Override
 	public boolean isTicketIdExists(Long id) {
 
-		 try {
+		try {
 			if (bookTicketDao.isTicketIdExists(id))
 				return bookTicketDao.isTicketIdExists(id);
 			else
@@ -87,31 +87,27 @@ public class BookTicketServiceImpl implements BookTicketService {
 
 		logger.info("Entering Add Tickets function in service layer");
 		try {
-			if (bookTicketDto != null) {
-				BookTicket bookTicket = BookTicketMapper.dtoToEntity(bookTicketDto);
-				if (bookTicketDto.getCustomer() != null) {
-					Customer customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
-					if (bookTicketDto.getBus() != null) {
-						Bus bus = busDao.getBusById(bookTicket.getBus().getId());
-						if(customer!=null&&bus!=null) {
-						bookTicket.setBus(bus);
-						bookTicket.setCustomer(customer);
-						return bookTicketDao.addTicket(bookTicket);
-					}else {
-						throw new BusinessLogicException("No data found for the id");
-					}}
-					
-						else {
-					
-
-						throw new BusinessLogicException("No bus data found");
-					}
-				} else {
-					throw new BusinessLogicException("No Customer data found");
-				}
-			} else {
-				throw new BusinessLogicException("No bookticket data found");
+			 
+			
+			
+			if(bookTicketDto==null||bookTicketDto.getCustomer()==null||bookTicketDto.getBus()==null) {
+				throw new BusinessLogicException("No Required data found");
+			} 
+			BookTicket bookTicket = BookTicketMapper.dtoToEntity(bookTicketDto);
+			Customer customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
+			if (customer ==null) {
+				throw new BusinessLogicException("No Customer data found");
 			}
+			Bus bus = busDao.getBusById(bookTicket.getBus().getId());
+				if(bus==null){
+					throw new BusinessLogicException("No Bus data found");
+				}
+				
+				bookTicket.setBus(bus); 
+				bookTicket.setCustomer(customer);
+				return bookTicketDao.addTicket(bookTicket);
+			
+			
 
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
@@ -141,39 +137,44 @@ public class BookTicketServiceImpl implements BookTicketService {
 
 		logger.info("Entering Update Tickets function in service layer");
 		try {
+			BookTicket bookTicket = bookTicketDao.getTicketById(id);
+			if (bookTicket != null) {
+				Customer customer = customerDao.getCustomerById(customerId);
+				if (customer != null) {
+					Bus bus = busDao.getBusById(busId);
+					if (bus != null) {
+						String email = customer.getEmail();
+						String name = customer.getName();
 
-			Customer customer = customerDao.getCustomerById(customerId);
-			if (customer != null) {
-				Bus bus = busDao.getBusById(busId);
-				if (bus != null) {
-					String email = customer.getEmail();
-					String name = customer.getName();
-					BookTicket bookTicket = bookTicketDao.getTicketById(id);
-					//use string format
-					String message = "Mrs./Mr. " + name + ", \n Your Booking for HMS Travels on " + bus.getDate()
-							+ "is approved " + "\n Booking Details:- " + "\n Booking Id: " + bookTicket.getId()
-							+ "\n Bus Name  : " + bus.getName() +
+						// use string format
+						String message = "Mrs./Mr. " + name + ", \n Your Booking for HMS Travels on " + bus.getDate()
+								+ "is approved " + "\n Booking Details:- " + "\n Booking Id: " + bookTicket.getId()
+								+ "\n Bus Name  : " + bus.getName() +
 
-							"\n Bus Type  : " + bus.getBusType() + "\n Arrival Station  : "
-							+ bus.getRoute().getFromLocation() + "\n Departure Station  : "
-							+ bus.getRoute().getToLocation() + "\n Arrival time  : " + bus.getArrivalTime() +
+								"\n Bus Type  : " + bus.getBusType() + "\n Arrival Station  : "
+								+ bus.getRoute().getFromLocation() + "\n Departure Station  : "
+								+ bus.getRoute().getToLocation() + "\n Arrival time  : " + bus.getArrivalTime() +
 
-							"\n Departure time  : " + bus.getDepartureTime() + "\n Number Of Tickets "
-							+ bookTicket.getNumberOfTickets() + "\n Total Bill Amount: " + bookTicket.getBillAmount()
-							+ "\n For more details download invoice from your account"
-							+ "\n Thanks for your Booking.Continue your journey with us";
+								"\n Departure time  : " + bus.getDepartureTime() + "\n Number Of Tickets "
+								+ bookTicket.getNumberOfTickets() + "\n Total Bill Amount: "
+								+ bookTicket.getBillAmount() + "\n For more details download invoice from your account"
+								+ "\n Thanks for your Booking.Continue your journey with us";
 
-					MailSend.sendMail(email, "Booking Details", message);
-					return bookTicketDao.updateBookingStatus(id, bus, customer);
+						MailSend.sendMail(email, "Booking Details", message);
+						return bookTicketDao.updateBookingStatus(id, bus, customer);
+					} else {
+						throw new BusinessLogicException("Bus data not found for id " + busId);
+					}
 				} else {
-					throw new BusinessLogicException("Bus data not found");
+					throw new BusinessLogicException("Customer data not found for id " + customerId);
 				}
 			} else {
-				throw new BusinessLogicException("Customer data not found");
+				throw new BusinessLogicException("No ticket data not found for id " + id);
 			}
+
 		} catch (DatabaseException e) {
 
-			logger.error("Error in update ticket for id"+id);
+			logger.error("Error in update ticket for id" + id);
 			throw new BusinessLogicException(e.getMessage());
 		}
 	}

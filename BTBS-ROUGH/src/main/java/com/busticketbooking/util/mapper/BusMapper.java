@@ -15,7 +15,6 @@ public class BusMapper {
 		bus.setName(b.getName());
 		bus.setNumberOfSeats(b.getNumberOfSeats());
 		bus.setBusType(b.getBusType());
-		bus.setRouteName(b.getRouteName());
 		bus.setRoute(b.getRoute());
 		bus.setDate(b.getDate());
 		bus.setArrivalTime(b.getArrivalTime());

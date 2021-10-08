@@ -67,7 +67,7 @@ public class RouteDaoImpl implements RouteDao {
 
 		@SuppressWarnings("unchecked")
 		Query<Route> query = session.createQuery(" FROM com.busticketbooking.entity.Route ");
-		return (query.getResultList().isEmpty() ? null : query.getResultList());
+		return (query.getResultList());
 	}
 
 	@Override

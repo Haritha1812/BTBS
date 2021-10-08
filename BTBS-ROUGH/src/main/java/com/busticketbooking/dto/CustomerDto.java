@@ -12,6 +12,4 @@ public class CustomerDto {
 
 	private String mobileNumber;
 	private String email;
-//   
-//    private BookTicket bookTicket;
 }

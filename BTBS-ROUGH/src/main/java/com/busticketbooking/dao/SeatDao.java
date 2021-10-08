@@ -78,6 +78,6 @@ public interface SeatDao {
 	 * @param bus
 	 * @return
 	 */
-	String updateStatus(String seatName, Bus bus);
+	String updateStatus(int seatNumber, Bus bus);
 
 }

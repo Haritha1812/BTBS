@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Data
-@Table(name = "bus_master")
+@Table(name = "bus")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bus {
@@ -49,9 +49,6 @@ public class Bus {
 
 	@Column(name = "seats", nullable = false)
 	private int numberOfSeats;
-
-	@Column(name = "route_name", nullable = false)
-	private String routeName;
 
 	@Basic
 	@Column(name = "busjourney_date", nullable = false)
@@ -78,8 +75,12 @@ public class Bus {
 	@Override
 	public String toString() {
 		return "Bus [id=" + id + ", name=" + name + ", busType=" + busType + ", numberOfSeats=" + numberOfSeats
-				+ ", routeName=" + routeName + ", date=" + date + ", fare=" + fare + ", arrivalTime=" + arrivalTime
-				+ ", departureTime=" + departureTime + "]";
+				+ ", date=" + date + ", fare=" + fare + ", arrivalTime=" + arrivalTime + ", departureTime="
+				+ departureTime + "]";
 	}
+
+	
+
+	
 
 }

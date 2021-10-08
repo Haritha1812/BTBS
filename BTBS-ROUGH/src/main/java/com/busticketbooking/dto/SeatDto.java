@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class SeatDto {
 	private long id;
 
-	private String seatName;
+	private int seatNumber;
 
 	private String seatStatus;
 
@@ -20,7 +20,9 @@ public class SeatDto {
 
 	@Override
 	public String toString() {
-		return "SeatDto [id=" + id + ", seatName=" + seatName + ", seatStatus=" + seatStatus + "]";
+		return "SeatDto [id=" + id + ", seatNumber=" + seatNumber + ", seatStatus=" + seatStatus + "]";
 	}
+
+
 
 }

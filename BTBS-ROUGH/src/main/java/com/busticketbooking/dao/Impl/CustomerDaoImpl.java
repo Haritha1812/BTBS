@@ -148,7 +148,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	public Customer getCustomerByEmailAndPassword(String email, String password) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			String hql = "FROM com.busticketbooking.entity.Customer c WHERE c.email=:email";
+			String hql = "FROM Customer c WHERE c.email=:email";
 
 			Query<Customer> query = session.createQuery(hql);
 			query.setParameter("email", email);

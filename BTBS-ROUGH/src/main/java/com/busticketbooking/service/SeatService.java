@@ -69,6 +69,6 @@ public interface SeatService {
 	 * @param busId
 	 * @return
 	 */
-	String updateStatus(String seatName, long busId);
+	String updateStatus(int seatNumber, long busId);
 
 }
