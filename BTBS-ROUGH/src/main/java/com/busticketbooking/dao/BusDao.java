@@ -3,6 +3,7 @@ package com.busticketbooking.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 
@@ -78,4 +79,15 @@ public interface BusDao {
 	 * @return
 	 */
 	Bus getBusByBusName(String busName);
+	/**
+	 * get all bustypes
+	 * @return
+	 */
+	List<String> getbustypes();
+/**
+ * update the timings of the bus
+ * @param bus
+ * @return
+ */
+	String updateBusTimings(Bus bus);
 }

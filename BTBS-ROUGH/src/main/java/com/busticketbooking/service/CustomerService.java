@@ -54,7 +54,6 @@ public interface CustomerService {
 	 */
 	Customer isCustomerEmailExists(String email);
 
-
 	/**
 	 * getting customer by email and password for login
 	 * 
@@ -78,4 +77,5 @@ public interface CustomerService {
 	 * @return
 	 */
 	Customer forgetPassword(String email);
+	
 }

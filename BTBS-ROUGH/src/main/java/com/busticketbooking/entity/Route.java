@@ -37,7 +37,7 @@ public class Route {
 	@Column(name = "to_location", nullable = false)
 	private String toLocation;
 
-	@Column(name = "route_name", nullable = false,unique = true)
+	@Column(name = "route_name", nullable = false, unique = true)
 	private String routeName;
 
 	@Column(name = "distance", nullable = false)

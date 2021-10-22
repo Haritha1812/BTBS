@@ -2,6 +2,8 @@ package com.busticketbooking.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busticketbooking.dto.CustomerDto;
 import com.busticketbooking.entity.Customer;
 import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.CustomerService;
 import com.busticketbooking.service.PassengerService;
@@ -104,8 +105,6 @@ public class CustomerController {
 		}
 	}
 
-	
-	
 	/**
 	 * adding customer
 	 * 
@@ -113,7 +112,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<HttpResponseStatus> add(@RequestBody CustomerDto customerDto) {
+	public ResponseEntity<HttpResponseStatus> add(@Valid @RequestBody CustomerDto customerDto) {
 		logger.info("Entering Add Customer  function");
 		try {
 			message = customerService.addCustomer(customerDto);
@@ -134,7 +133,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@PutMapping
-	public ResponseEntity<HttpResponseStatus> update(@RequestBody CustomerDto customerDto) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> update(@RequestBody CustomerDto customerDto)  {
 		logger.info("Entering Update Customer function");
 		try {
 			customerService.updateCustomer(customerDto);
@@ -188,5 +187,6 @@ public class CustomerController {
 					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
+
 
 }

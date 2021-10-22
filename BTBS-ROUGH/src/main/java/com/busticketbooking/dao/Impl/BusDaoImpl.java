@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.SeatDao;
+import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Route;
 import com.busticketbooking.exception.DatabaseException;
@@ -67,8 +68,8 @@ public class BusDaoImpl implements BusDao {
 		logger.info("Entering Get All Bus  Function in dao");
 		try {
 			Session session = sessionFactory.getCurrentSession();
-		
-			Query<Bus> query = session.createQuery("From com.busticketbooking.entity.Bus");
+
+			Query<Bus> query = session.createQuery("From Bus order by name");
 
 			return (query.getResultList().isEmpty() ? null : query.getResultList());
 		} catch (Exception e) {
@@ -114,6 +115,7 @@ public class BusDaoImpl implements BusDao {
 			return result;
 
 		} catch (Exception e) {
+
 			throw new DatabaseException(ERROR_IN_DELETE);
 		}
 
@@ -129,23 +131,16 @@ public class BusDaoImpl implements BusDao {
 			session.update(bus);
 			Long bId = bus.getId();
 			transaction.commit();
+			session.close();
 			return bus.getName() + " Updated successfully with  Id: " + bId;
 		} catch (Exception e) {
+
+			logger.error("Error in update bus Function in dao");
 			throw new DatabaseException(ERROR_IN_UPDATE);
 		}
 	}
 
-	/*
-	 * @Override public List<Bus> getBusByFromAndToLocation(Route route, Date date)
-	 * { try { Session session = sessionFactory.getCurrentSession(); List<Bus>
-	 * resultList = session.
-	 * createQuery("select i from Bus i where i.route=:route and i.date=:date")
-	 * .setParameter("date", date).setParameter("route", route).getResultList();
-	 * System.out.println(resultList); return (resultList.isEmpty() ? null :
-	 * resultList);
-	 * 
-	 * } catch (Exception e) { throw new DatabaseException(ERROR_IN_FETCH); } }
-	 */
+
 
 	@Override
 	public List<Bus> getBusByFromAndToLocation(Route route, Date date) {
@@ -153,14 +148,14 @@ public class BusDaoImpl implements BusDao {
 			Session session = sessionFactory.getCurrentSession();
 			List<Bus> resultList = session.createQuery("select i from Bus i where i.route=:route and i.date=:date")
 					.setParameter("date", date).setParameter("route", route).getResultList();
-			System.out.println(resultList);
-			return (resultList.isEmpty() ? null : resultList);
+
+			return (resultList);
 
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
-	
+
 	@Override
 	public Bus getBusByBusName(String busName) {
 		try {
@@ -204,4 +199,38 @@ public class BusDaoImpl implements BusDao {
 
 	}
 
-}
+	@Override
+	public List<String> getbustypes() {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+
+			Query<String> query = session.createNativeQuery("select * from public.bustype");
+
+			return (query.getResultList());
+			}
+			 catch (Exception e) {
+					throw new DatabaseException(ERROR_IN_FETCH);
+				}
+			}
+
+	@Override
+	public String updateBusTimings(Bus bus) {
+		logger.info("Entering Update bus timings Function in dao");
+		try {
+			Session session = sessionFactory.openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.update(bus);
+			Long bId = bus.getId();
+			transaction.commit();
+			session.close();
+			return bus.getName() + " Updated successfully with  Id: " + bId;
+		} catch (Exception e) {
+
+			logger.error("Error in update bus timings Function in dao");
+			throw new DatabaseException(ERROR_IN_UPDATE);
+		}
+	}
+
+	}
+

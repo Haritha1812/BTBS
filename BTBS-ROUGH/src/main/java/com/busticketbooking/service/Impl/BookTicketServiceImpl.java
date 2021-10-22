@@ -13,10 +13,13 @@ import com.busticketbooking.controller.MailSend;
 import com.busticketbooking.dao.BookTicketDao;
 import com.busticketbooking.dao.BusDao;
 import com.busticketbooking.dao.CustomerDao;
+import com.busticketbooking.dao.PassengerDao;
+import com.busticketbooking.dao.SeatDao;
 import com.busticketbooking.dto.BookTicketDto;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
+import com.busticketbooking.entity.Passenger;
 import com.busticketbooking.exception.BusinessLogicException;
 import com.busticketbooking.exception.DatabaseException;
 import com.busticketbooking.service.BookTicketService;
@@ -34,6 +37,17 @@ public class BookTicketServiceImpl implements BookTicketService {
 
 	@Autowired
 	private CustomerDao customerDao;
+	
+	@Autowired
+	private PassengerDao passengerDao;
+	
+
+	@Autowired
+	private SeatDao seatDao;
+
+	private Customer customer;
+
+	private Bus bus;
 
 	@Override
 	public BookTicket getTicketById(Long id) {
@@ -70,11 +84,11 @@ public class BookTicketServiceImpl implements BookTicketService {
 		logger.info("Entering Get Tickets function in service layer");
 
 		try {
-			if (bookTicketDao.getAllTickets() != null)
+			if (bookTicketDao.getAllTickets().isEmpty()) {
 
-				return bookTicketDao.getAllTickets();
-			else
 				throw new BusinessLogicException("Tickets not found");
+			}
+			return bookTicketDao.getAllTickets();
 
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
@@ -87,27 +101,23 @@ public class BookTicketServiceImpl implements BookTicketService {
 
 		logger.info("Entering Add Tickets function in service layer");
 		try {
-			 
-			
-			
-			if(bookTicketDto==null||bookTicketDto.getCustomer()==null||bookTicketDto.getBus()==null) {
+
+			if (bookTicketDto == null || bookTicketDto.getCustomer() == null || bookTicketDto.getBus() == null) {
 				throw new BusinessLogicException("No Required data found");
-			} 
+			}
 			BookTicket bookTicket = BookTicketMapper.dtoToEntity(bookTicketDto);
 			Customer customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
-			if (customer ==null) {
+			if (customer == null) {
 				throw new BusinessLogicException("No Customer data found");
 			}
 			Bus bus = busDao.getBusById(bookTicket.getBus().getId());
-				if(bus==null){
-					throw new BusinessLogicException("No Bus data found");
-				}
-				
-				bookTicket.setBus(bus); 
-				bookTicket.setCustomer(customer);
-				return bookTicketDao.addTicket(bookTicket);
-			
-			
+			if (bus == null) {
+				throw new BusinessLogicException("No Bus data found");
+			}
+
+			bookTicket.setBus(bus);
+			bookTicket.setCustomer(customer);
+			return bookTicketDao.addTicket(bookTicket);
 
 		} catch (DatabaseException e) {
 			throw new BusinessLogicException(e.getMessage());
@@ -120,11 +130,17 @@ public class BookTicketServiceImpl implements BookTicketService {
 		logger.info("Entering Get Tickets by customer id function in service layer");
 		try {
 			Customer customer = customerDao.getCustomerById(id);
-			if (customer != null)
-				return bookTicketDao.getTicketByCusId(customer);
-			else
-				throw new BusinessLogicException("Tickets with customer id" + id + " not found");
+			if (customer == null)
+			{	
+				throw new BusinessLogicException("Customer data not found");
+			}
+			if(bookTicketDao.getTicketByCusId(customer).isEmpty())
+			{
 
+				throw new BusinessLogicException("Tickets with customer id" + id + " not found");
+			}
+			return bookTicketDao.getTicketByCusId(customer);
+			
 		} catch (DatabaseException e) {
 
 			logger.error("Error in getting ticket by customer id");
@@ -179,4 +195,92 @@ public class BookTicketServiceImpl implements BookTicketService {
 		}
 	}
 
-}
+	@Override
+	public String deleteBookTicket(Long id) {
+
+	
+	logger.info("Entering delete Tickets function in service layer");
+	try {
+		BookTicket bookTicket = bookTicketDao.getTicketById(id);
+		if (bookTicket == null) {
+
+			throw new BusinessLogicException("No ticket data not found for id " + id);
+		}
+
+
+		customer = customerDao.getCustomerById(bookTicket.getCustomer().getId());
+		if (customer == null) {
+			throw new BusinessLogicException("Customer data not found for id " + customer.getId());
+		}
+		bus = busDao.getBusById(bookTicket.getBus().getId());
+	
+		if (bus == null) {
+			throw new BusinessLogicException("Bus data not found for id " + bus.getId());
+		}
+		String email = customer.getEmail();
+		String name = customer.getName();
+
+		// use string format
+		String message = "Mrs./Mr. " + name + ", \n Your Booking for HMS Travels on " + bus.getDate()
+				+ "is rejected due to some unavoidable reasons"+"\n Contact admin for further details"
+				;
+
+		MailSend.sendMail(email, "Booking Details", message);
+		//to delete the passenger 
+		List<Passenger> passenger = passengerDao.getPassengerByBusIdAndCusId(bookTicket.getBus(),bookTicket.getCustomer());
+		for(int i=0;i<passenger.size();i++) {
+
+
+			logger.error("Entering updateseat status for rejecting the booking details for passenger"+passenger.get(i).getName());
+			int seatNumber = passenger.get(i).getSeatNumber();
+			Bus buses=passenger.get(i).getBus();
+			seatDao.update(seatNumber, buses);
+			
+		}
+		
+		for(int i=0;i<passenger.size();i++) {
+
+
+			logger.info("Entering deleting passenger details for booking id"+bookTicket.getId()+"for passenger"+passenger.get(i).getId());
+			long passengerId =passenger.get(i).getId();
+			passengerDao.deletePassenger(passengerId);
+			
+			
+		}
+		return bookTicketDao.deleteBooking(id);
+		
+		
+	}catch (DatabaseException e) {
+
+		logger.error("Error in delete ticket for id" + id);
+		throw new BusinessLogicException(e.getMessage());
+	}
+	}
+
+	@Override
+	public List<BookTicket> getTicketByBusId(long id) {
+
+		logger.info("Entering Get Tickets by Bus id function in service layer");
+		try {
+			Bus bus = busDao.getBusById(id);
+			logger.info(bus);
+			if (bus == null)
+			{	
+				throw new BusinessLogicException("Bus data not found");
+			}
+			if(bookTicketDao.getTicketByBusId(bus).isEmpty())
+			{
+
+				throw new BusinessLogicException("Tickets with Bus id" + id + " not found");
+			}
+			return bookTicketDao.getTicketByBusId(bus);
+			
+		} catch (DatabaseException e) {
+
+			logger.error("Error in getting ticket by customer id");
+			throw new BusinessLogicException(e.getMessage());
+		}
+	}
+	}
+	
+

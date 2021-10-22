@@ -29,14 +29,25 @@ public interface SeatService {
 	 * @return
 	 */
 	Seat getSeatByName(String seatName);
-	
+
 	/**
 	 * get all seat details
 	 * 
 	 * @param seatStatus
 	 * @return
 	 */
+	
 	List<Seat> getSeatByStatus(String seatStatus);
+	
+
+	/**
+	 * update status of seat once booked
+	 * 
+	 * @param seatName
+	 * @param busId
+	 * @return
+	 */
+	String updateStatus(int seatNumber, long busId);
 
 	/**
 	 * update seat
@@ -69,6 +80,5 @@ public interface SeatService {
 	 * @param busId
 	 * @return
 	 */
-	String updateStatus(int seatNumber, long busId);
-
+	String update(int seatNumber, long busId);
 }

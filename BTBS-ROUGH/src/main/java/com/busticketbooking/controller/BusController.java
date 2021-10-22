@@ -3,6 +3,8 @@ package com.busticketbooking.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.BusService;
 
@@ -108,7 +108,7 @@ public class BusController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<HttpResponseStatus> add(@RequestBody BusDto busDto) {
+	public ResponseEntity<HttpResponseStatus> add(@Valid @RequestBody BusDto busDto) {
 		logger.info("Entering Add Bus function");
 		try {
 			message = busService.addBus(busDto);
@@ -130,7 +130,7 @@ public class BusController {
 	 * @throws IdNotFoundException
 	 */
 	@DeleteMapping("/deletebus/{id}")
-	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> delete(@PathVariable Long id)  {
 		logger.info("Entering Delete Bus By Id function");
 		try {
 			message = busService.deleteBus(id);
@@ -171,45 +171,56 @@ public class BusController {
 	 * @param date
 	 * @return
 	 */
-	
-	  @GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}") public
-	  ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation")
-	  String fromLocation,
-	  
-	  @PathVariable("toLocation") String toLocation,
-	  
-	  @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
-	  logger.info("Entering Get Bus By route and date function"); try {
-	  System.out.println(date); List<Bus> buses =
-	  busService.getBusByFromAndToLocation(fromLocation, toLocation, date); return
-	  new ResponseEntity<HttpResponseStatus>( new
-	  HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully",
-	  buses), HttpStatus.OK);
-	  
-	  } catch (BusinessLogicException e) { return new
-	  ResponseEntity<HttpResponseStatus>( new
-	  HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()),
-	  HttpStatus.NOT_FOUND); } }
-	 
 
-	/*
-	 * @GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}") public
-	 * ResponseEntity<List<Bus>> getdetails(@PathVariable("fromLocation") String
-	 * fromLocation,
+	@GetMapping("/searchByfromTo/{fromLocation}/{toLocation}/{date}")
+	public ResponseEntity<HttpResponseStatus> getdetails(@PathVariable("fromLocation") String fromLocation,
+
+			@PathVariable("toLocation") String toLocation,
+
+			@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		logger.info("Entering Get Bus By route and date function");
+		try {
+			System.out.println(date);
+			List<Bus> buses = busService.getBusByFromAndToLocation(fromLocation, toLocation, date);
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", buses), HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
+	@GetMapping("/bustype")
+	public ResponseEntity<HttpResponseStatus> getbustype() {
+		logger.info("Entering Get all Bustypes function");
+		try {
+			List<String> busetypes = busService.getbustypes();
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.OK.value(), "Data retrieved successfully", busetypes), HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
+	/**
+	 * update bus
 	 * 
-	 * @PathVariable("toLocation") String toLocation,
-	 * 
-	 * @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date)
-	 * throws NullPointerException { System.out.println("search called...");
-	 * System.out.println(date); ResponseEntity<Bus> responseEntity = null; return
-	 * new ResponseEntity<>(busService.getBusByFromAndToLocation(fromLocation,
-	 * toLocation, date), HttpStatus.OK);
-	 * 
-	 * }
-	 * 
-	 * @ExceptionHandler(NullPointerException.class) public ResponseEntity<String>
-	 * userNotFound(NullPointerException e) { return new
-	 * ResponseEntity<>("No location found", HttpStatus.NOT_FOUND); }
+	 * @param busDto
+	 * @return
 	 */
+	@PutMapping("/timing")
+	public ResponseEntity<HttpResponseStatus> updatetimings(@RequestBody BusDto busDto) {
+		logger.info("Entering Update Bus By Id function");
+		try {
+			message = busService.updateBusTimings(busDto);
 
+			return new ResponseEntity<HttpResponseStatus>(new HttpResponseStatus(HttpStatus.OK.value(), message),
+					HttpStatus.OK);
+
+		} catch (BusinessLogicException e) {
+			return new ResponseEntity<HttpResponseStatus>(
+					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+		}
+	}
 }

@@ -103,14 +103,12 @@ public class CustomerDaoImpl implements CustomerDao {
 		logger.info("Entering Update Customer Function");
 		try {
 			Session session = sessionFactory.openSession();
-			  System.out.println(customer);
-			  Transaction transaction = session.beginTransaction();
-			  session.update(customer);
-				Long CustomerId = customer.getId();
-				transaction.commit();
-			
-		
-             
+			System.out.println(customer);
+			Transaction transaction = session.beginTransaction();
+			session.update(customer);
+			Long CustomerId = customer.getId();
+			transaction.commit();
+
 			return customer.getName() + " Updated successfully with  Id: " + CustomerId;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_UPDATE);
@@ -153,8 +151,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			Query<Customer> query = session.createQuery(hql);
 			query.setParameter("email", email);
 			Customer customer = query.getResultList().get(0);
-			System.out.println(customer);
-			return customer;
+					return customer;
 
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);
@@ -162,12 +159,16 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public Customer forgetPassword(String email) {
+	public Customer forgetPassword(Customer customer) {
 		try {
-			Customer customer = isCustomerEmailExists(email);
-
+			Session session = sessionFactory.openSession();
+			System.out.println(customer);
+			Transaction transaction = session.beginTransaction();
+			session.update(customer);
+			Long CustomerId = customer.getId();
+			transaction.commit();
 			return customer;
-
+			
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}

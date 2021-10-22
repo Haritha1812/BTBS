@@ -2,20 +2,27 @@ package com.busticketbooking.controller;
 
 import static com.busticketbooking.util.BusTicketBookingConstants.RETRIVE;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busticketbooking.dto.PassengerDto;
@@ -42,7 +49,7 @@ public class PassengerController {
 	 * @return
 	 */
 	@PostMapping()
-	public ResponseEntity<HttpResponseStatus> add(@RequestBody PassengerDto passengerDto) {
+	public ResponseEntity<HttpResponseStatus> add(@Valid @RequestBody PassengerDto passengerDto) {
 		logger.info("Entering Add Passeger function");
 
 		try {
@@ -139,5 +146,7 @@ public class PassengerController {
 					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
+
+	
 
 }

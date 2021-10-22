@@ -32,6 +32,15 @@ public interface SeatDao {
 	Seat getSeatByName(String seatName);
 
 	/**
+	 * update status
+	 * 
+	 * @param seatName
+	 * @param bus
+	 * @return
+	 */
+	String updateStatus(int seatNumber, Bus bus);
+
+	/**
 	 * get seat status by id
 	 * 
 	 * @param seatStatus
@@ -71,6 +80,7 @@ public interface SeatDao {
 	 */
 	String deleteSeatByBusId(Bus bus);
 
+
 	/**
 	 * update status
 	 * 
@@ -78,6 +88,5 @@ public interface SeatDao {
 	 * @param bus
 	 * @return
 	 */
-	String updateStatus(int seatNumber, Bus bus);
-
+	String update(int seatNumber, Bus bus);
 }

@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 @Component
 public class MailSend {
 
 	private static JavaMailSender javaMailSender;
 
 	private static final Logger logger = LogManager.getLogger(MailSend.class);
+
 	@Autowired
 	public MailSend(JavaMailSender s) {
 		this.javaMailSender = s;
@@ -28,7 +30,8 @@ public class MailSend {
 	 * send mail task using ScheduledExecutorService.submit();
 	 */
 	private static ScheduledExecutorService quickService = Executors
-			.newScheduledThreadPool(NO_OF_QUICK_SERVICE_THREADS); 
+			.newScheduledThreadPool(NO_OF_QUICK_SERVICE_THREADS);
+
 	public static void sendMail(String toReceiver, String subject, String message) {
 
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -37,7 +40,6 @@ public class MailSend {
 		msg.setSubject(subject);
 		msg.setText(message);
 
-		
 		quickService.submit(new Runnable() {
 			@Override
 			public void run() {

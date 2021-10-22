@@ -25,9 +25,8 @@ public class LoginController {
 	@Autowired
 	LoginService loginService;
 
-
 	private static final Logger logger = LogManager.getLogger(LoginController.class.getName());
-	
+
 	/**
 	 * getting customer by email and password for login function
 	 * 

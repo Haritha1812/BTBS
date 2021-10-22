@@ -19,20 +19,21 @@ public class BookTicketDto {
 
 	private long id;
 
-    @Min(value =0, message = "Bill amount should be positive")
+	@Min(value = 0, message = "Bill amount should be positive")
 	private long billAmount;
 
-	@NotNull(message="Booking Status should not be empty")
+	@NotNull(message = "Booking Status should not be empty")
 	private String bookingStatus;
 
-	@NotNull(message="Booking date should not be empty")
+	@NotNull(message = "Booking date should not be empty")
 	private Date bookingDate;
 
-    @Min(value =0, message = "Number of tickets should be positive")
+	@Min(value = 0, message = "Number of tickets should be positive")
 	private long numberOfTickets;
-	
+
 	private Bus bus;
 	private Customer customer;
+
 	public BookTicketDto(long id, long billAmount, String bookingStatus, Date bookingDate, long numberOfTickets) {
 		super();
 		this.id = id;

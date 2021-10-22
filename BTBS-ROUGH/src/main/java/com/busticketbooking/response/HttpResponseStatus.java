@@ -9,7 +9,7 @@ public class HttpResponseStatus {
 	private String message;
 	private Object data;
 
-  private  Map<String, String> errors = new HashMap<>();
+
 	public HttpResponseStatus(int statusCode, String message, Object data) {
 		this.statusCode = statusCode;
 		this.message = message;
@@ -21,10 +21,8 @@ public class HttpResponseStatus {
 		this.message = message;
 	}
 
-	public HttpResponseStatus(int statusCode, Map errors) {
-		this.statusCode = statusCode;
-		this.errors=errors;
-	}
+	
+
 	public int getStatusCode() {
 		return statusCode;
 	}

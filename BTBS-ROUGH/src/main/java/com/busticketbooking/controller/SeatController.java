@@ -2,6 +2,8 @@ package com.busticketbooking.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busticketbooking.dto.SeatDto;
 import com.busticketbooking.entity.Seat;
 import com.busticketbooking.exception.BusinessLogicException;
-import com.busticketbooking.exception.IdNotFoundException;
 import com.busticketbooking.response.HttpResponseStatus;
 import com.busticketbooking.service.SeatService;
 
@@ -43,7 +44,7 @@ public class SeatController {
 	 * @throws IdNotFoundException
 	 */
 	@GetMapping("/{seatId}")
-	public ResponseEntity<HttpResponseStatus> getid(@PathVariable Long seatId) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> getid(@PathVariable Long seatId)  {
 		logger.info("Entering Get Seats by id function");
 
 		try {
@@ -65,7 +66,7 @@ public class SeatController {
 	 * @throws IdNotFoundException
 	 */
 	@GetMapping("/seatName/{seatName}")
-	public ResponseEntity<HttpResponseStatus> getname(@PathVariable String seatName) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> getname(@PathVariable String seatName)  {
 		logger.info("Entering Get Seats by name function");
 		try {
 			Seat seat = seatService.getSeatByName(seatName);
@@ -86,7 +87,7 @@ public class SeatController {
 	 * @throws IdNotFoundException
 	 */
 	@GetMapping("/status/{seatStatus}")
-	public ResponseEntity<List<Seat>> getstatus(@PathVariable String seatStatus) throws IdNotFoundException {
+	public ResponseEntity<List<Seat>> getstatus(@PathVariable String seatStatus) {
 		logger.info("Entering Get Seats by status function");
 		return new ResponseEntity<>(seatService.getSeatByStatus(seatStatus), HttpStatus.OK);
 
@@ -100,7 +101,7 @@ public class SeatController {
 	 * @throws IdNotFoundException
 	 */
 	@GetMapping("/seats/{id}")
-	public ResponseEntity<HttpResponseStatus> getseats(@PathVariable long id) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> getseats(@PathVariable long id)  {
 
 		logger.info("Entering Get Seats function");
 
@@ -116,7 +117,7 @@ public class SeatController {
 	}
 
 	@PutMapping
-	public ResponseEntity<HttpResponseStatus> update(@RequestBody SeatDto seatDto) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> update(@RequestBody SeatDto seatDto) {
 		logger.info("Entering Update Seat by id function");
 
 		try {
@@ -133,7 +134,7 @@ public class SeatController {
 
 	@PutMapping("/status/{seatNumber}/{id}")
 	public ResponseEntity<HttpResponseStatus> update(@PathVariable int seatNumber, @PathVariable long id)
-			throws IdNotFoundException {
+			 {
 
 		logger.info("Entering Get Seats by status function");
 		try {
@@ -149,7 +150,7 @@ public class SeatController {
 	}
 
 	@PostMapping
-	public ResponseEntity<HttpResponseStatus> add(@RequestBody SeatDto seatDto) throws IdNotFoundException {
+	public ResponseEntity<HttpResponseStatus> add(@Valid @RequestBody SeatDto seatDto)  {
 		logger.info("Entering add Seats function");
 		try {
 			message = seatService.addSeat(seatDto);
@@ -162,5 +163,6 @@ public class SeatController {
 					new HttpResponseStatus(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 		}
 	}
+
 
 }

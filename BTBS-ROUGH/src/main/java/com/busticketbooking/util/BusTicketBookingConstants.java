@@ -11,5 +11,5 @@ public class BusTicketBookingConstants {
 
 	public static final String RETRIVE = "Data retrived Successfully";
 	public static final String NO_RECORDS = "No records found for given method!";
-
+	public static final String MISMATCH = "Check the input and give the value correctly";
 }

@@ -31,14 +31,13 @@ public interface BookTicketDao {
 	 */
 	List<BookTicket> getAllTickets();
 
-
 	/**
 	 * add ticket
 	 * 
 	 * @param bookTicket
 	 * @return
 	 */
-	String addTicket(BookTicket bookTicket)throws DatabaseException;
+	String addTicket(BookTicket bookTicket) throws DatabaseException;
 
 	/**
 	 * get ticket by customer id
@@ -47,7 +46,6 @@ public interface BookTicketDao {
 	 * @return
 	 */
 	List<BookTicket> getTicketByCusId(Customer customer);
-
 
 	/**
 	 * update booking status by bus,customer and booking id
@@ -58,4 +56,19 @@ public interface BookTicketDao {
 	 * @return
 	 */
 	String updateBookingStatus(long id, Bus bus, Customer customer);
+	
+	/**
+	 * to reject the booking 
+	 * @param bookTicket
+	 * @return
+	 */
+	String deleteBooking(long id);
+
+	/**
+	 * get ticket by Bus id
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	List<BookTicket> getTicketByBusId(Bus bus);
 }

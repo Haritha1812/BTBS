@@ -31,8 +31,6 @@ class BookTicketTest {
 @MockBean
 BookTicketService bookticketService;
 	
-@MockBean
-private BookTicketDao bookTicketDao;
 
 static final List<BookTicket> bookticket_data = Stream.of(new BookTicket(1,550,"Confirmed",new Date(),2), new BookTicket(1,550,"Confirmed",new Date(),2))	.collect(Collectors.toList());
 	

@@ -24,7 +24,7 @@ public class Seat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "seat_name",nullable = false)
+	@Column(name = "seat_name", nullable = false)
 	private int seatNumber;
 
 	@Column(name = "seat_status", nullable = false)
@@ -38,7 +38,5 @@ public class Seat {
 	public String toString() {
 		return "Seat [id=" + id + ", seatNumber=" + seatNumber + ", seatStatus=" + seatStatus + "]";
 	}
-
-
 
 }

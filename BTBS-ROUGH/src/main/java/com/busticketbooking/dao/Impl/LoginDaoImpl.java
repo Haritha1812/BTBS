@@ -15,7 +15,7 @@ import com.busticketbooking.entity.Customer;
 import com.busticketbooking.exception.DatabaseException;
 
 @Repository
-public class LoginDaoImpl implements LoginDao{
+public class LoginDaoImpl implements LoginDao {
 	String result = null;
 
 	private static final Logger logger = LogManager.getLogger(CustomerDaoImpl.class);

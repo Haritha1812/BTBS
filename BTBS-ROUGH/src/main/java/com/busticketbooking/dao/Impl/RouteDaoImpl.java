@@ -65,8 +65,7 @@ public class RouteDaoImpl implements RouteDao {
 		logger.info("Entering get all routes Function");
 		Session session = sessionFactory.getCurrentSession();
 
-		@SuppressWarnings("unchecked")
-		Query<Route> query = session.createQuery(" FROM com.busticketbooking.entity.Route ");
+		Query<Route> query = session.createQuery(" FROM Route order by routeName");
 		return (query.getResultList());
 	}
 

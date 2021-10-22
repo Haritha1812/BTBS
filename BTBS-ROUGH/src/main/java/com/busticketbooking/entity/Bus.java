@@ -41,7 +41,7 @@ public class Bus {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "bus_name", length = 30 ,nullable = false,unique=true)
+	@Column(name = "bus_name", length = 30, nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "bus_type", nullable = false)
@@ -71,6 +71,8 @@ public class Bus {
 	@OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Seat> seat;
+	
+
 
 	@Override
 	public String toString() {
@@ -78,9 +80,5 @@ public class Bus {
 				+ ", date=" + date + ", fare=" + fare + ", arrivalTime=" + arrivalTime + ", departureTime="
 				+ departureTime + "]";
 	}
-
-	
-
-	
 
 }

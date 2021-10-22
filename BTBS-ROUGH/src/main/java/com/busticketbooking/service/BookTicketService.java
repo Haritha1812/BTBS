@@ -30,7 +30,6 @@ public interface BookTicketService {
 	 */
 	List<BookTicket> getAllTickets();
 
-
 	/**
 	 * add ticket
 	 * 
@@ -57,4 +56,19 @@ public interface BookTicketService {
 	 */
 	List<BookTicket> getTicketByCusId(long id);
 
+	/**
+	 * deleting Booking for id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	String deleteBookTicket(Long id);
+
+	/**
+	 * get ticket by Bus id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	List<BookTicket> getTicketByBusId(long id);
 }

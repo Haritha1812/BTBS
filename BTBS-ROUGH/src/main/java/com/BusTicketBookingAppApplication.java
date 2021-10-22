@@ -10,17 +10,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class BusTicketBookingAppApplication {
+	
 	@Bean
 	public PasswordEncoder encoder() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
-	
+
 	private static final Logger logger = LogManager.getLogger(BusTicketBookingAppApplication.class.getName());
 
 	public static void main(String[] args) {
 		SpringApplication.run(BusTicketBookingAppApplication.class, args);
 		logger.info("Application Started");
 	}
-	
-	
+
 }

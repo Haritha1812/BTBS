@@ -1,5 +1,6 @@
 package com.busticketbooking.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import com.busticketbooking.dto.BusDto;
 import com.busticketbooking.entity.Bus;
 
 public interface BusService {
+	
+	List<String> bustype = new ArrayList<String>();
 	/**
 	 * get bus by id
 	 * 
@@ -71,4 +74,18 @@ public interface BusService {
 	 * @return
 	 */
 	Bus getBusByBusName(String busName);
+	
+	/**
+	 * get all bustypes
+	 * @return
+	 */
+	List<String> getbustypes();
+
+	/**
+	 * updating bus
+	 * 
+	 * @param busDto
+	 * @return
+	 */
+	String updateBusTimings(BusDto busDto);
 }

@@ -36,16 +36,15 @@ public class Passenger {
 	private int age;
 
 	@Column(name = "seat_number", nullable = false)
-	private String seatNumber;
+	private int seatNumber;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne()
 	@JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "FK_CUS_PASId"))
 	private Customer customer;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne()
 	@JoinColumn(name = "bus_id", foreignKey = @ForeignKey(name = "FK_BUS_PASId"))
 	private Bus bus;
+
 
 }

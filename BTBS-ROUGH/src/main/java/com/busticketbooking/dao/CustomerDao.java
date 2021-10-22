@@ -53,7 +53,6 @@ public interface CustomerDao {
 	 */
 	Customer isCustomerEmailExists(String email);
 
-
 	/**
 	 * get customer by id
 	 * 
@@ -76,5 +75,5 @@ public interface CustomerDao {
 	 * @param email
 	 * @return
 	 */
-	Customer forgetPassword(String email);
+	Customer forgetPassword(Customer customer);
 }

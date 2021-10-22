@@ -66,7 +66,6 @@ public class PassengerDaoImpl implements PassengerDao {
 		try {
 			Session session = sessionFactory.openSession();
 
-			@SuppressWarnings("unchecked")
 			String hql = "FROM com.busticketbooking.entity.Passenger";
 			Query<Passenger> query = session.createQuery(hql);
 
@@ -76,19 +75,23 @@ public class PassengerDaoImpl implements PassengerDao {
 		}
 	}
 
-	@Transactional
 	@Override
 	public String deletePassenger(Long id) {
 		try {
+
+			logger.info("Entering delete Passenger Function"+id);
+			
 			Session session = sessionFactory.openSession();
+			session.beginTransaction();
 			Passenger passenger;
 			passenger = session.get(Passenger.class, id);
 			if (passenger != null) {
 				session.delete(passenger);
-
-				session.flush();
+				session.getTransaction().commit();
+				//session.flush();
 				result = "Deletion is successful for id: " + id;
 			}
+			
 			return result;
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_DELETE);
@@ -101,7 +104,7 @@ public class PassengerDaoImpl implements PassengerDao {
 	public List<Passenger> getPassengerByBusIdAndCusId(Bus bus, Customer customer) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			@SuppressWarnings("unchecked")
+		
 			List<Passenger> resultList = session
 					.createQuery("select i from Passenger i where i.bus=:id AND i.customer=:customer")
 					.setParameter("id", bus).setParameter("customer", customer).getResultList();
@@ -117,10 +120,10 @@ public class PassengerDaoImpl implements PassengerDao {
 	public List<Passenger> getPassengerByCusId(Customer customer) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			@SuppressWarnings("unchecked")
+		
 			List<Passenger> resultList = session.createQuery("select i from Passenger i where i.customer=:cus")
 					.setParameter("cus", customer).getResultList();
-			System.out.println(resultList);
+		
 			return (resultList.isEmpty() ? null : resultList);
 		} catch (Exception e) {
 			throw new DatabaseException(ERROR_IN_FETCH);

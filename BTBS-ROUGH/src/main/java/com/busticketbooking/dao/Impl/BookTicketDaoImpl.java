@@ -22,6 +22,7 @@ import com.busticketbooking.dao.BookTicketDao;
 import com.busticketbooking.entity.BookTicket;
 import com.busticketbooking.entity.Bus;
 import com.busticketbooking.entity.Customer;
+import com.busticketbooking.entity.Passenger;
 import com.busticketbooking.exception.DatabaseException;
 
 @Repository
@@ -35,14 +36,14 @@ public class BookTicketDaoImpl implements BookTicketDao {
 
 	@Override
 	public BookTicket getTicketById(Long id) {
-		logger.info("Entering Get Ticket By Id Function in dao for id"+id);
+		logger.info("Entering Get Ticket By Id Function in dao for id" + id);
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
 			return session.get(BookTicket.class, id);
 		} catch (Exception e) {
-			//errorlog
-			logger.error("Error while fetching details in get ticket by id function in dao for id"+id);
+			// errorlog
+			logger.error("Error while fetching details in get ticket by id function in dao for id" + id);
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
@@ -55,7 +56,7 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			return (bookTicket != null);
 		} catch (Exception e) {
 
-			logger.error("Error while fetching details is ticket id exists function in dao for id"+id);
+			logger.error("Error while fetching details is ticket id exists function in dao for id" + id);
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
@@ -64,7 +65,7 @@ public class BookTicketDaoImpl implements BookTicketDao {
 	public List<BookTicket> getAllTickets() {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-		
+
 			Query<BookTicket> query = session.createQuery("From BookTicket");
 
 			return (query.getResultList());
@@ -74,7 +75,6 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
-
 
 	@Transactional
 	@Override
@@ -108,12 +108,11 @@ public class BookTicketDaoImpl implements BookTicketDao {
 			return (query.getResultList());
 		} catch (Exception e) {
 
-			logger.error("Error while fetching details in get ticket by customer id function in dao for id"+customer.getId());
+			logger.error("Error while fetching details in get ticket by customer id function in dao for id"
+					+ customer.getId());
 			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
-
-
 
 	@Transactional
 	@Override
@@ -140,6 +139,45 @@ public class BookTicketDaoImpl implements BookTicketDao {
 
 			logger.error("Error while updating ticket by id function in dao for id"+id);
 			throw new DatabaseException(ERROR_IN_UPDATE);
+		}
+	}
+	@Override
+	public String deleteBooking(long id) {
+	
+		try {
+			Session session = sessionFactory.openSession();
+		BookTicket bookTicket = session.get(BookTicket.class, id);
+			if (bookTicket != null) {
+
+				session.beginTransaction();
+				session.delete(bookTicket);
+				session.getTransaction().commit();
+				result = "Deletion is successful for id: " + id;
+			}
+			return result;
+		} catch (Exception e) {
+			logger.error("Error while delete ticket by id function in dao for id" + id);
+			throw new DatabaseException(ERROR_IN_DELETE);
+		}
+	
+	}
+
+	@Override
+	public List<BookTicket> getTicketByBusId(Bus bus) {
+		List<BookTicket> bookTicket = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			String hql = "select i from BookTicket i WHERE i.bus=:bus";
+
+			Query<BookTicket> query = session.createQuery(hql);
+			query.setParameter("bus", bus);
+
+			return (query.getResultList());
+		} catch (Exception e) {
+
+			logger.error("Error while fetching details in get ticket by Bus id function in dao for id"
+					+ bus.getId());
+			throw new DatabaseException(ERROR_IN_FETCH);
 		}
 	}
 

@@ -133,4 +133,19 @@ public class SeatDaoImpl implements SeatDao {
 		return result;
 
 	}
+
+	@Override
+	public String update(int seatNumber, Bus bus) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Transaction transaction = session.beginTransaction();
+		Query q = session.createQuery("update Seat set seatStatus=:status where bus=:bus AND seatNumber=:name");
+		q.setParameter("name", seatNumber);
+		q.setParameter("bus", bus);
+		q.setParameter("status", "Available");
+		int status = q.executeUpdate();
+		transaction.commit();
+		return seatNumber + " Updated successfully with bus Id: " + bus.getId();
+
+	}
 }
